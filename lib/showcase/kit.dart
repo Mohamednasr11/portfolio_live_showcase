@@ -339,6 +339,10 @@ class _CountUpState extends State<CountUp>
           '${widget.prefix}${_anim.value.toStringAsFixed(widget.decimals)}'
           '${widget.suffix}',
           style: widget.style,
+          // The animated value is a single number; without this the widest
+          // frame ("$19.99") wraps inside a narrow Flexible and the price
+          // reads as "$19.9" over "9".
+          maxLines: 1,
         ),
       );
 }

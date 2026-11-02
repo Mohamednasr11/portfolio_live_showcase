@@ -83,4 +83,34 @@ void main() {
     expect(c.playing, isTrue);
     await halt(tester, c);
   });
+
+  // Both project-switch bindings are documented in the README, and the browser
+  // harness can only prove one of them: a CDP-synthesised Shift trips a
+  // keysPressed assert and the hop is swallowed, so digits are what the
+  // screenshots were walked with. This covers the real Shift+arrow path.
+  testWidgets('shift + arrow and the digit row both switch projects',
+      (tester) async {
+    final c = await boot(tester);
+
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+    expect(HardwareKeyboard.instance.isShiftPressed, isTrue);
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.arrowRight);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.arrowRight);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+    await tester.pump(const Duration(milliseconds: 600));
+    expect(c.demo.id, c.demos[1].id);
+
+    await tester.sendKeyEvent(LogicalKeyboardKey.digit4);
+    await tester.pump(const Duration(milliseconds: 600));
+    expect(c.demo.id, c.demos[3].id);
+
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.arrowLeft);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.arrowLeft);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+    await tester.pump(const Duration(milliseconds: 600));
+    expect(c.demo.id, c.demos[2].id);
+
+    await halt(tester, c);
+  });
 }
