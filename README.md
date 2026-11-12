@@ -1,96 +1,108 @@
-# Live UX Showcase
+# Mohamed Nasr Eldeen — Flutter Developer Portfolio
 
-A presentation player for four mobile apps I built, running as one Flutter
-application. Every screen is real Flutter widgets — layouts, animations, text
-input, RTL Arabic — not screenshots or a video. It is the thing I open during a
-Flutter interview and drive with the keyboard.
+An interactive Flutter Web showcase built to present mobile product work during technical interviews. It brings four app experiences into one guided player. The screens are rendered with Flutter widgets and animations (not a slideshow of screenshots), including Arabic right-to-left interfaces and interactive states.
 
-## Run it
+**Live portfolio:** https://portfolioliveshowcase.vercel.app/  
+**Source:** https://github.com/Mohamednasr11/portfolio_live_showcase
 
-```
+## Featured projects
+
+| Project | Beats | Showcase focus |
+| --- | ---: | --- |
+| Matjarkom | 9 | Arabic RTL e-commerce, OTP journey, cart and checkout, AI-assistant interaction |
+| Build-Guard | 7 | Construction safety experience, scan flow, defect analysis, risk verdict and repair guidance |
+| Brew & Bloom | 6 | Coffee ordering, product customisation, order summary, delivery tracking and rewards |
+| TrustSafe | 6 | Enterprise document vault, access permissions, biometric unlock and security settings |
+
+The tour contains **28 guided beats** in total. Each beat demonstrates a UI state and includes technical notes for explaining implementation decisions in an interview.
+
+> **Scope note:** This repository is the interactive portfolio/showcase layer. A demonstrated screen or simulated flow should not be interpreted as proof that the corresponding production backend, payment provider, AI service, or external integration is connected in this showcase. Project notes should distinguish implemented product work from showcase-only interactions.
+
+## Run locally
+
+Requirements: Flutter SDK compatible with the Dart constraint in `pubspec.yaml`.
+
+```bash
 flutter pub get
 flutter run -d chrome
 ```
 
-Flutter 3.47.2 / Dart 3.13.2.
+Build a production web bundle:
 
-For a static build:
-
-```
+```bash
 flutter build web --release --output build/web-release
 ```
 
-## Controls
+Run static analysis and tests:
+
+```bash
+dart format --output=none --set-exit-if-changed .
+flutter analyze
+flutter test --reporter expanded
+```
+
+## Presentation controls
 
 | Key | Action |
 | --- | --- |
-| `→` / `D` | next beat |
-| `←` / `A` | previous beat |
-| `Shift` + `→` / `←` | next / previous project |
-| `Space` | play / pause the auto-advance |
-| `S` | cycle playback speed |
-| `N` | speaker notes |
-| `M` | captions |
-| `R` | restart the current project |
-| `1`–`4` | jump to a project |
+| `→` / `D` | Next beat |
+| `←` / `A` | Previous beat |
+| `Shift` + `→` / `←` | Next / previous project |
+| `Space` | Play / pause auto-advance |
+| `S` | Cycle playback speed |
+| `N` | Toggle speaker notes |
+| `M` | Toggle captions |
+| `R` | Restart current project |
+| `1`–`4` | Jump to a project |
 
-## The tour
-
-Four projects, 28 beats total. Each beat is a screen state; the player animates
-between them so the flow reads as a session, not a slide deck.
-
-| Project | Beats | What it demonstrates |
-| --- | --- | --- |
-| Matjarkom | 9 | RTL Arabic e-commerce: OTP entry, cart, checkout, an AI assistant that emits an add-to-cart intent |
-| Build-Guard | 7 | Camera viewfinder, crack detection sweep, risk gauge, repair steps |
-| Brew & Bloom | 6 | Onboarding, catalogue, product detail, order, live delivery tracking |
-| TrustSafe | 6 | Access scan, findings, verdict |
-
-The in-app speaker notes carry the honest split: the screens matching my mockups
-are the delivered work, and any screen built afterwards to close the loop says
-so on its own beat.
-
-## Layout
+## Project structure
 
 ```
 lib/
-  showcase/     player shell, tour engine, theme, device frame, shared kit
-  demos/        one file per project, each a self-contained widget tree
+  showcase/   presentation shell, controller, tour model, theme and device frame
+  demos/      self-contained Flutter widget trees for each showcased app
 assets/
-  fonts/        Syne + DM Sans + Noto Sans Arabic, renamed for CanvasKit
-  matjarkom/ buildguard/ brewbloom/   artwork cut from the mockups
-tool/           font preparation and verification
-test/           widget tests: every beat renders, gate self-check
+  fonts/      Syne, DM Sans and Noto Sans Arabic
+  matjarkom/  product artwork
+  buildguard/ construction/scan artwork
+  brewbloom/  coffee and product artwork
+test/         widget, tour engine, shell and render-gate tests
+tool/         font preparation and verification utilities
+web/          Flutter web entry point and PWA metadata
+.github/      continuous integration workflow
 ```
 
-`lib/showcase/demos.dart` is the single source of truth for the tour: beat list,
-captions, notes, stack chips. Adding a screen means adding a beat there and one
-widget in the matching demo file.
+`lib/showcase/demos.dart` is the source of truth for the project list, beat sequence, captions, speaker notes and technology labels. Add a new tour step there and implement its widget in the matching demo file.
+
+## Quality checks
+
+GitHub Actions runs the following on pushes and pull requests:
+
+1. Install Flutter dependencies.
+2. Check Dart formatting.
+3. Run `flutter analyze`.
+4. Run the widget and unit test suite.
+5. Build the Flutter Web release bundle and upload it as a workflow artifact.
+
+The CI result is the source of truth for whether a given commit passes these checks; a successful local edit or commit alone does not imply that the workflow has passed.
 
 ## Fonts
 
-CanvasKit resolves a `TextStyle.family` against the font's internal name table
-(nameID 1/16), not the family declared in `pubspec.yaml`. The downloaded Syne and
-DM Sans files did not match, so nothing rendered in the intended face until the
-name tables were rewritten and the missing weights filled in:
+CanvasKit resolves a `TextStyle.family` against the font's internal name table. The bundled font preparation scripts normalize font family names and verify the bundled faces:
 
-```
+```bash
 python tool/prepare_fonts.py
 python tool/check_fonts.py
 ```
 
-## Tests
+## Deployment
 
-```
-flutter test
-```
+The project is configured as a Flutter Web application. The live URL above is the existing showcase address. Production deployment depends on the connected hosting provider's build configuration and permissions; GitHub commits alone do not prove that the hosted site has been redeployed.
 
-The suite renders every beat twice: standalone at the 262×518 content box the
-phone frame leaves, and again inside the full shell at capture size. It fails on
-any uncaught exception — which is how a `RenderFlex` overflow surfaces — and on a
-`Text` that has lost its `Material` ancestor, because that one inherits the
-engine's underlined fallback style and reads as a rendering bug in every
-screenshot. It is what caught the price row that clipped `$19.99` to `$9`. The
-`PageController` assertion — `position` read while a beat cross-fade attaches two
-scroll views — is the one thing a widget test cannot see, since a controller gets
-exactly one position there; that one only shows up in the browser walk.
+Suggested Vercel build configuration:
+
+- **Install command:** `flutter pub get` (after installing/configuring the Flutter SDK in the build environment)
+- **Build command:** `flutter build web --release`
+- **Output directory:** `build/web`
+
+Use a Flutter-capable Vercel build environment or deploy the generated `build/web` directory from a CI workflow. Do not configure Vercel to serve the repository root as a static site.
