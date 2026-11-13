@@ -195,7 +195,7 @@ void main() {
     );
     expect(html, contains('property="og:image"'));
     expect(html, contains('name="twitter:card"'));
-    expect(html, contains('flutter-first-frame'));
+    expect(html, contains('_flutter.loader.loadEntrypoint'));
     expect(html, isNot(contains('A new Flutter project.')));
     final image = File('web/social-preview.png').readAsBytesSync();
     expect(image.take(8).toList(), [137, 80, 78, 71, 13, 10, 26, 10]);

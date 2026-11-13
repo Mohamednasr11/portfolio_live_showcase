@@ -13,7 +13,7 @@ import sys
 from fontTools.ttLib import TTFont
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-ALLOWED = {'Syne', 'DM Sans', 'Noto Sans Arabic'}
+ALLOWED = {'Syne', 'DM Sans', 'Cairo'}
 
 
 def declared_fonts():
@@ -89,4 +89,5 @@ def main():
     print('OK %d faces, families %s' % (faces, sorted(seen)))
 
 
-main()
+if __name__ == '__main__':
+    main()

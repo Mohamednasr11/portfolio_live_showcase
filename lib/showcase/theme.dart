@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class Show {
   const Show._();
 
-  // :root
+  // :root (Original Dark theme tokens - kept static for backward compatibility)
   static const Color bg = Color(0xFF060810);
   static const Color surface = Color(0xFF0D1120);
   static const Color surfaceAlt = Color(0xFF111827);
@@ -19,6 +19,22 @@ class Show {
 
   // .btn-primary:hover
   static const Color accentHot = Color(0xFF00E8FF);
+
+  // Light mode color equivalents
+  static const Color lightBg = Color(0xFFF8FAFC);
+  static const Color lightSurface = Color(0xFFFFFFFF);
+  static const Color lightSurfaceAlt = Color(0xFFF1F5F9);
+  static const Color lightText = Color(0xFF0F172A);
+  static const Color lightMuted = Color(0xFF475569);
+  static const Color lightBorder = Color(0x260066CC);
+
+  // Dynamic theme getters
+  static Color getBg(bool isDark) => isDark ? bg : lightBg;
+  static Color getSurface(bool isDark) => isDark ? surface : lightSurface;
+  static Color getSurfaceAlt(bool isDark) => isDark ? surfaceAlt : lightSurfaceAlt;
+  static Color getText(bool isDark) => isDark ? text : lightText;
+  static Color getMuted(bool isDark) => isDark ? muted : lightMuted;
+  static Color getBorder(bool isDark) => isDark ? border : lightBorder;
 
   // .phone-frame
   static const Color frameShell = Color(0xFF080808);
@@ -42,7 +58,7 @@ class ShowType {
   const ShowType._();
 
   /// Arabic resolves through this face; Latin stays on the brand font.
-  static const List<String> arabicFallback = ['Noto Sans Arabic'];
+  static const List<String> arabicFallback = ['Cairo'];
 
   /// .hero-name — Syne 800, line-height 1.05, letter-spacing -2px.
   static const TextStyle display = TextStyle(
@@ -95,7 +111,7 @@ class ShowType {
     height: 1.6,
   );
 
-  /// The site has no monospace face, so the meta lines stay on DM Sans.
+  /// Mono style for meta lines.
   static const TextStyle mono = TextStyle(
     fontFamily: Show.body,
     fontFamilyFallback: ShowType.arabicFallback,

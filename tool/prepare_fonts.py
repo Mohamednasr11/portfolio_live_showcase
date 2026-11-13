@@ -27,7 +27,7 @@ UA = 'Mozilla/5.0'
 FAMILIES = {
     'Syne': [400, 500, 600, 700, 800],
     'DM Sans': [300, 400, 500, 600, 700, 800],
-    'Noto Sans Arabic': [400, 500, 600, 700, 800],
+    'Cairo': [400, 500, 600, 700, 800],
 }
 
 WEIGHT_NAME = {
@@ -98,4 +98,5 @@ def main():
                 t['OS/2'].usWeightClass))
 
 
-main()
+if __name__ == '__main__':
+    main()
