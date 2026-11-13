@@ -122,6 +122,8 @@ class _PresentationShellState extends State<PresentationShell> {
         child: Column(
           children: [
             const _TopBar(),
+            // Without the rail, the strip is the only touch path between projects.
+            if (!wide) const _ProjectStrip(),
             Expanded(
               child: Stack(
                 children: [
@@ -130,7 +132,7 @@ class _PresentationShellState extends State<PresentationShell> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       if (wide) const _DemoRail(),
-                      const Expanded(child: _Stage()),
+                      Expanded(child: _Stage(wide: wide)),
                       if (c.showNotes && wide) const _NotesPanel(),
                     ],
                   ),
@@ -217,20 +219,29 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.watchController;
+    final narrow = MediaQuery.sizeOf(context).width < 720;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+      padding: EdgeInsets.symmetric(
+        horizontal: narrow ? 10 : 30,
+        vertical: narrow ? 8 : 16,
+      ),
       decoration: BoxDecoration(
         color: Show.bg.withValues(alpha: .7),
         border: const Border(bottom: BorderSide(color: Show.border)),
       ),
       child: Row(
         children: [
+          _BackToPortfolio(compact: narrow),
+          SizedBox(width: narrow ? 6 : 16),
           // .nav-logo — "MN." with the accent dot.
           const Text.rich(
             TextSpan(
               children: [
                 TextSpan(text: 'MN'),
-                TextSpan(text: '.', style: TextStyle(color: Show.accent)),
+                TextSpan(
+                  text: '.',
+                  style: TextStyle(color: Show.accent),
+                ),
               ],
             ),
             style: TextStyle(
@@ -242,53 +253,185 @@ class _TopBar extends StatelessWidget {
               letterSpacing: -.5,
             ),
           ),
-          const SizedBox(width: 28),
-          const Text(
-            'LIVE UX SHOWCASE',
-            style: TextStyle(
-              fontFamily: Show.body,
-              fontFamilyFallback: ShowType.arabicFallback,
-              color: Show.muted,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              letterSpacing: .24,
+          if (!narrow) ...[
+            const SizedBox(width: 28),
+            const Text(
+              'LIVE UX SHOWCASE',
+              style: TextStyle(
+                fontFamily: Show.body,
+                fontFamilyFallback: ShowType.arabicFallback,
+                color: Show.muted,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                letterSpacing: .24,
+              ),
             ),
-          ),
-          const Spacer(),
+          ],
+          const SizedBox(width: 12),
           // .hero-tag — the pulsing pill that names the project on stage.
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            decoration: BoxDecoration(
-              color: Show.accent.withValues(alpha: .08),
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Show.accent.withValues(alpha: .2)),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 6,
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: Show.accent3,
-                    shape: BoxShape.circle,
-                  ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: narrow ? 12 : 16,
+                  vertical: 6,
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  '${c.demo.name.toUpperCase()} · ${c.demo.category.toUpperCase()}',
-                  style: const TextStyle(
-                    fontFamily: Show.body,
-                    fontFamilyFallback: ShowType.arabicFallback,
-                    color: Show.accent,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: .65,
-                  ),
+                decoration: BoxDecoration(
+                  color: Show.accent.withValues(alpha: .08),
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(color: Show.accent.withValues(alpha: .2)),
                 ),
-              ],
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: const BoxDecoration(
+                        color: Show.accent3,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        narrow
+                            ? c.demo.name.toUpperCase()
+                            : '${c.demo.name.toUpperCase()} · ${c.demo.category.toUpperCase()}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontFamily: Show.body,
+                          fontFamilyFallback: ShowType.arabicFallback,
+                          color: Show.accent,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: .65,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BackToPortfolio extends StatelessWidget {
+  const _BackToPortfolio({required this.compact});
+
+  final bool compact;
+
+  void _leave(BuildContext context) {
+    final nav = Navigator.of(context);
+    if (nav.canPop()) {
+      nav.pop();
+    } else {
+      nav.pushReplacementNamed('/');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: 'Back to portfolio',
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(50),
+          onTap: () => _leave(context),
+          child: Container(
+            height: 36,
+            padding: EdgeInsets.symmetric(horizontal: compact ? 8 : 14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(color: const Color(0x1FFFFFFF)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.arrow_back_rounded,
+                  size: 18,
+                  color: Show.text,
+                ),
+                if (!compact) ...[
+                  const SizedBox(width: 6),
+                  Text(
+                    'Portfolio',
+                    style: ShowType.body.copyWith(
+                      color: Show.text,
+                      fontWeight: FontWeight.w600,
+                      height: 1,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Touch-sized project switcher for layouts that have no side rail.
+class _ProjectStrip extends StatelessWidget {
+  const _ProjectStrip();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.watchController;
+    return Container(
+      height: 52,
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Show.border)),
+      ),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+        itemCount: c.demos.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        itemBuilder: (context, i) {
+          final spec = c.demos[i];
+          final selected = i == c.demoIndex;
+          return Material(
+            color: selected ? spec.accent.withValues(alpha: .18) : Show.surface,
+            borderRadius: BorderRadius.circular(50),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(50),
+              onTap: () => c.goToDemo(i),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(
+                    color: selected
+                        ? spec.accent.withValues(alpha: .6)
+                        : const Color(0x14FFFFFF),
+                  ),
+                ),
+                child: Text(
+                  spec.name,
+                  style: TextStyle(
+                    fontFamily: Show.display,
+                    fontFamilyFallback: ShowType.arabicFallback,
+                    color: selected ? Show.text : Show.muted,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -341,19 +484,19 @@ class _SectionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        children: [
-          Container(width: 24, height: 1, color: Show.accent),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              text.toUpperCase(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: ShowType.label,
-            ),
-          ),
-        ],
-      );
+    children: [
+      Container(width: 24, height: 1, color: Show.accent),
+      const SizedBox(width: 8),
+      Flexible(
+        child: Text(
+          text.toUpperCase(),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: ShowType.label,
+        ),
+      ),
+    ],
+  );
 }
 
 class _RailTile extends StatelessWidget {
@@ -426,8 +569,9 @@ class _RailTile extends StatelessWidget {
                           value: selected ? progress : 0,
                           minHeight: 3,
                           backgroundColor: Show.muted.withValues(alpha: .16),
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(spec.accent),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            spec.accent,
+                          ),
                         ),
                       ),
                     ],
@@ -443,7 +587,9 @@ class _RailTile extends StatelessWidget {
 }
 
 class _Stage extends StatelessWidget {
-  const _Stage();
+  const _Stage({required this.wide});
+
+  final bool wide;
 
   @override
   Widget build(BuildContext context) {
@@ -453,26 +599,58 @@ class _Stage extends StatelessWidget {
         // Grow with the stage but never below the width the demo screens are
         // designed for; below that the stage scrolls instead of clipping.
         final byHeight = (box.maxHeight - 194) / 2.09 + 18;
-        final deviceWidth =
-            math.min(byHeight, box.maxWidth - 56).clamp(320.0, 360.0);
+        final deviceWidth = math
+            .min(byHeight, box.maxWidth - 56)
+            .clamp(320.0, 360.0);
+        final frameHeight = (deviceWidth - 18) * 2.09 + 20;
+        // Phones get the whole device in view by scaling the frame, never by
+        // shrinking the layout width the demos were built against.
+        final scale = wide
+            ? 1.0
+            : ((box.maxHeight - 32) / frameHeight).clamp(.7, 1.0);
+        final panelWidth = math.min(deviceWidth + 70, box.maxWidth - 24);
+        final device = DeviceFrame(
+          width: deviceWidth,
+          child: c.demo.builder(context, c.stepIndex),
+        );
 
         return SingleChildScrollView(
+          padding: EdgeInsets.symmetric(vertical: wide ? 0 : 16),
           child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: box.maxHeight),
+            constraints: BoxConstraints(
+              minHeight: wide ? box.maxHeight : box.maxHeight - 32,
+            ),
             child: Center(
               child: Column(
                 children: [
-                  DeviceFrame(
-                    width: deviceWidth,
-                    child: c.demo.builder(context, c.stepIndex),
-                  ),
+                  if (wide)
+                    device
+                  else
+                    SizedBox(
+                      width: deviceWidth * scale,
+                      height: frameHeight * scale,
+                      child: FittedBox(child: device),
+                    ),
                   SizedBox(height: deviceWidth * 0.10),
                   if (c.showAnnotations)
                     _Annotation(
                       label: c.step.label,
                       note: c.step.annotation,
                       accent: c.demo.accent,
-                      width: deviceWidth + 70,
+                      width: panelWidth,
+                    ),
+                  _SimulationNotice(width: panelWidth),
+                  if (!wide && c.showNotes)
+                    Container(
+                      width: panelWidth,
+                      margin: const EdgeInsets.only(top: 12, bottom: 8),
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: Show.surface,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Show.border),
+                      ),
+                      child: const _NotesContent(),
                     ),
                 ],
               ),
@@ -480,6 +658,41 @@ class _Stage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _SimulationNotice extends StatelessWidget {
+  const _SimulationNotice({required this.width});
+
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.fromLTRB(4, 10, 4, 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 2),
+            child: Icon(
+              Icons.info_outline_rounded,
+              size: 14,
+              color: Show.muted,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'Interactive Flutter re-creation of the app’s screens. Data, '
+              'network calls and device features are simulated.',
+              style: ShowType.body.copyWith(fontSize: 12, height: 1.45),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -530,8 +743,6 @@ class _NotesPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.watchController;
-    final step = c.step;
     return Container(
       width: 352,
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 18),
@@ -539,106 +750,112 @@ class _NotesPanel extends StatelessWidget {
         color: Show.surface,
         border: Border(left: BorderSide(color: Show.border)),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      child: const SingleChildScrollView(child: _NotesContent()),
+    );
+  }
+}
+
+class _NotesContent extends StatelessWidget {
+  const _NotesContent();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.watchController;
+    final step = c.step;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const _SectionLabel(text: 'Project'),
+        const SizedBox(height: 10),
+        Text(
+          c.demo.headline,
+          textDirection: TextDirection.rtl,
+          style: const TextStyle(
+            fontFamily: Show.display,
+            fontFamilyFallback: ShowType.arabicFallback,
+            color: Show.text,
+            fontSize: 17,
+            height: 1.45,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(c.demo.subtitle, style: ShowType.body.copyWith(fontSize: 13)),
+        const SizedBox(height: 24),
+        const _SectionLabel(text: 'What it proves'),
+        const SizedBox(height: 10),
+        Text(
+          step.techNote,
+          style: const TextStyle(
+            fontFamily: Show.body,
+            fontFamilyFallback: ShowType.arabicFallback,
+            color: Show.text,
+            fontSize: 15,
+            height: 1.5,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 24),
+        const _SectionLabel(text: 'Say this'),
+        const SizedBox(height: 10),
+        Text(
+          step.speakerNote,
+          style: ShowType.body.copyWith(color: Show.muted),
+        ),
+        const SizedBox(height: 24),
+        const _SectionLabel(text: 'Stack'),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
           children: [
-            const _SectionLabel(text: 'Project'),
-            const SizedBox(height: 10),
-            Text(
-              c.demo.headline,
-              textDirection: TextDirection.rtl,
-              style: const TextStyle(
-                fontFamily: Show.display,
-                fontFamilyFallback: ShowType.arabicFallback,
-                color: Show.text,
-                fontSize: 17,
-                height: 1.45,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              c.demo.subtitle,
-              style: ShowType.body.copyWith(fontSize: 13),
-            ),
-            const SizedBox(height: 24),
-            const _SectionLabel(text: 'What it proves'),
-            const SizedBox(height: 10),
-            Text(
-              step.techNote,
-              style: const TextStyle(
-                fontFamily: Show.body,
-                fontFamilyFallback: ShowType.arabicFallback,
-                color: Show.text,
-                fontSize: 15,
-                height: 1.5,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 24),
-            const _SectionLabel(text: 'Say this'),
-            const SizedBox(height: 10),
-            Text(
-              step.speakerNote,
-              style: ShowType.body.copyWith(color: Show.muted),
-            ),
-            const SizedBox(height: 24),
-            const _SectionLabel(text: 'Stack'),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              children: [
-                for (var i = 0; i < c.demo.stack.length; i++)
-                  _TagChip(
-                    text: c.demo.stack[i],
-                    tint: _tagTints[i % _tagTints.length],
-                  ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            const _SectionLabel(text: 'Flow'),
-            const SizedBox(height: 12),
-            for (var i = 0; i < c.demo.steps.length; i++)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 7),
-                child: Row(
-                  children: [
-                    Icon(
-                      i == c.stepIndex
-                          ? Icons.play_arrow_rounded
-                          : i < c.stepIndex
-                              ? Icons.check_rounded
-                              : Icons.circle_outlined,
-                      size: 14,
-                      color: i == c.stepIndex
-                          ? Show.accent
-                          : i < c.stepIndex
-                              ? Show.accent3
-                              : Show.muted.withValues(alpha: .5),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        c.demo.steps[i].label,
-                        style: TextStyle(
-                          fontFamily: Show.body,
-                          fontFamilyFallback: ShowType.arabicFallback,
-                          fontSize: 12.5,
-                          color: i == c.stepIndex ? Show.text : Show.muted,
-                          fontWeight: i == c.stepIndex
-                              ? FontWeight.w700
-                              : FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            for (var i = 0; i < c.demo.stack.length; i++)
+              _TagChip(
+                text: c.demo.stack[i],
+                tint: _tagTints[i % _tagTints.length],
               ),
           ],
         ),
-      ),
+        const SizedBox(height: 24),
+        const _SectionLabel(text: 'Flow'),
+        const SizedBox(height: 12),
+        for (var i = 0; i < c.demo.steps.length; i++)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 7),
+            child: Row(
+              children: [
+                Icon(
+                  i == c.stepIndex
+                      ? Icons.play_arrow_rounded
+                      : i < c.stepIndex
+                      ? Icons.check_rounded
+                      : Icons.circle_outlined,
+                  size: 14,
+                  color: i == c.stepIndex
+                      ? Show.accent
+                      : i < c.stepIndex
+                      ? Show.accent3
+                      : Show.muted.withValues(alpha: .5),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    c.demo.steps[i].label,
+                    style: TextStyle(
+                      fontFamily: Show.body,
+                      fontFamilyFallback: ShowType.arabicFallback,
+                      fontSize: 12.5,
+                      color: i == c.stepIndex ? Show.text : Show.muted,
+                      fontWeight: i == c.stepIndex
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 
@@ -659,23 +876,23 @@ class _TagChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-        decoration: BoxDecoration(
-          color: tint.withValues(alpha: .1),
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Text(
-          text.toUpperCase(),
-          style: TextStyle(
-            fontFamily: Show.body,
-            fontFamilyFallback: ShowType.arabicFallback,
-            color: tint,
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            letterSpacing: .44,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+    decoration: BoxDecoration(
+      color: tint.withValues(alpha: .1),
+      borderRadius: BorderRadius.circular(50),
+    ),
+    child: Text(
+      text.toUpperCase(),
+      style: TextStyle(
+        fontFamily: Show.body,
+        fontFamilyFallback: ShowType.arabicFallback,
+        color: tint,
+        fontSize: 11,
+        fontWeight: FontWeight.w600,
+        letterSpacing: .44,
+      ),
+    ),
+  );
 }
 
 class _Hud extends StatelessWidget {
@@ -686,84 +903,128 @@ class _Hud extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = controller;
+    final width = MediaQuery.sizeOf(context).width;
+    final compact = width < 760;
+
+    final transport = <Widget>[
+      _HudButton(
+        icon: c.playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
+        primary: true,
+        onTap: c.togglePlay,
+        tooltip: 'Play / pause  (Space)',
+      ),
+      const SizedBox(width: 8),
+      _HudButton(
+        icon: Icons.skip_previous_rounded,
+        onTap: c.prev,
+        tooltip: 'Previous beat  (←)',
+      ),
+      _HudButton(
+        icon: Icons.skip_next_rounded,
+        onTap: c.next,
+        tooltip: 'Next beat  (→)',
+      ),
+      _HudButton(
+        icon: Icons.restart_alt_rounded,
+        onTap: c.restart,
+        tooltip: 'Restart  (R)',
+      ),
+    ];
+    final speed = _ChipLabel(
+      label: '${c.speed}x',
+      onTap: c.cycleSpeed,
+      tooltip: 'Playback speed  (S)',
+    );
+    final notes = _ChipLabel(
+      label: c.showNotes ? 'Notes' : 'Notes off',
+      onTap: c.toggleNotes,
+      tooltip: 'Speaker notes  (N)',
+    );
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      padding: EdgeInsets.symmetric(
+        horizontal: compact ? 12 : 24,
+        vertical: compact ? 8 : 14,
+      ),
       decoration: BoxDecoration(
         color: Show.bg.withValues(alpha: .9),
         border: const Border(top: BorderSide(color: Show.border)),
       ),
-      child: Row(
-        children: [
-          _HudButton(
-            icon: c.playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
-            primary: true,
-            onTap: c.togglePlay,
-            tooltip: 'Play / pause  (Space)',
-          ),
-          const SizedBox(width: 8),
-          _HudButton(
-              icon: Icons.skip_previous_rounded,
-              onTap: c.prev,
-              tooltip: 'Previous beat  (←)'),
-          _HudButton(
-              icon: Icons.skip_next_rounded,
-              onTap: c.next,
-              tooltip: 'Next beat  (→)'),
-          _HudButton(
-              icon: Icons.restart_alt_rounded,
-              onTap: c.restart,
-              tooltip: 'Restart  (R)'),
-          const SizedBox(width: 14),
-          _ChipLabel(
-            label: '${c.speed}x',
-            onTap: c.cycleSpeed,
-            tooltip: 'Playback speed  (S)',
-          ),
-          _ChipLabel(
-            label: c.showNotes ? 'Notes' : 'Notes off',
-            onTap: c.toggleNotes,
-            tooltip: 'Speaker notes  (N)',
-          ),
-          _ChipLabel(
-            label: c.showAnnotations ? 'Captions' : 'Captions off',
-            onTap: c.toggleAnnotations,
-            tooltip: 'On-stage captions  (M)',
-          ),
-          const Spacer(),
-          Expanded(
-            child: LayoutBuilder(
-              builder: (context, box) {
-                final n = c.demo.steps.length;
-                return Row(
-                  children: [
-                    for (var i = 0; i < n; i++)
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
-                          child: GestureDetector(
-                            onTap: () => c.goToDemo(c.demoIndex, step: i),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 300),
-                              height: i == c.stepIndex ? 7 : 4,
-                              decoration: BoxDecoration(
-                                color: i <= c.stepIndex
-                                    ? Show.accent
-                                    : Show.muted.withValues(alpha: .22),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+      child: SafeArea(
+        top: false,
+        child: compact
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _BeatTrack(controller: c),
+                  const SizedBox(height: 6),
+                  Row(children: [...transport, const Spacer(), speed, notes]),
+                ],
+              )
+            : Row(
+                children: [
+                  ...transport,
+                  const SizedBox(width: 14),
+                  speed,
+                  notes,
+                  _ChipLabel(
+                    label: c.showAnnotations ? 'Captions' : 'Captions off',
+                    onTap: c.toggleAnnotations,
+                    tooltip: 'On-stage captions  (M)',
+                  ),
+                  const SizedBox(width: 24),
+                  Expanded(child: _BeatTrack(controller: c)),
+                  if (width >= 1400) ...[
+                    const SizedBox(width: 14),
+                    const _KeyHints(),
                   ],
-                );
-              },
+                ],
+              ),
+      ),
+    );
+  }
+}
+
+class _BeatTrack extends StatelessWidget {
+  const _BeatTrack({required this.controller});
+
+  final PresentationController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = controller;
+    final n = c.demo.steps.length;
+    return Row(
+      children: [
+        for (var i = 0; i < n; i++)
+          Expanded(
+            child: Semantics(
+              button: true,
+              label: 'Beat ${i + 1}: ${c.demo.steps[i].label}',
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => c.goToDemo(c.demoIndex, step: i),
+                child: Padding(
+                  // The bar is 4px; the padding is the finger-sized target.
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 2,
+                    vertical: 8,
+                  ),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: i == c.stepIndex ? 7 : 4,
+                    decoration: BoxDecoration(
+                      color: i <= c.stepIndex
+                          ? Show.accent
+                          : Show.muted.withValues(alpha: .22),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-          const SizedBox(width: 14),
-          const _KeyHints(),
-        ],
-      ),
+      ],
     );
   }
 }
@@ -896,8 +1157,8 @@ class _ControllerScope extends InheritedWidget {
   /// [BuildContext.watchController] — including `const` ones — rebuild.
   final int tick;
 
-  static _ControllerScope of(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<_ControllerScope>()!;
+  static _ControllerScope of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ControllerScope>()!;
 
   @override
   bool updateShouldNotify(_ControllerScope oldWidget) =>
