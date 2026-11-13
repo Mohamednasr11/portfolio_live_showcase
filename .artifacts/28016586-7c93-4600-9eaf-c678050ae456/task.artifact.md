@@ -1,0 +1,5 @@
+- `[x]` Create implementation plan and obtain user approval for Hero UI redesign and Arabic font upgrade
+- `[x]` Upgrade Arabic font to Cairo via `prepare_fonts.py` and update `pubspec.yaml`
+- `[x]` Update `theme.dart` with new Arabic font fallback (`Cairo`) and display typography fixes
+- `[x]` Redesign `_Hero` section in `portfolio_page.dart` to fix avatar overlap, title wrapping, and phone frame placement
+- `[x]` Verify with `tool/check_fonts.py`, `flutter analyze`, and `flutter test`

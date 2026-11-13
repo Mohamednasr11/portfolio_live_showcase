@@ -63,6 +63,7 @@ flutter:
     - assets/matjarkom/
     - assets/buildguard/
     - assets/brewbloom/
+    - assets/ME/
 
   # Syne + DM Sans, the two faces the owner's own portfolio site loads, plus
   # Noto Sans Arabic for the Arabic UI text (the site is English-only; the
@@ -97,17 +98,17 @@ flutter:
           weight: 700
         - asset: assets/fonts/DMSans-ExtraBold.ttf
           weight: 800
-    - family: Noto Sans Arabic
+    - family: Cairo
       fonts:
-        - asset: assets/fonts/NotoSansArabic-Regular.ttf
+        - asset: assets/fonts/Cairo-Regular.ttf
           weight: 400
-        - asset: assets/fonts/NotoSansArabic-Medium.ttf
+        - asset: assets/fonts/Cairo-Medium.ttf
           weight: 500
-        - asset: assets/fonts/NotoSansArabic-SemiBold.ttf
+        - asset: assets/fonts/Cairo-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/NotoSansArabic-Bold.ttf
+        - asset: assets/fonts/Cairo-Bold.ttf
           weight: 700
-        - asset: assets/fonts/NotoSansArabic-ExtraBold.ttf
+        - asset: assets/fonts/Cairo-ExtraBold.ttf
           weight: 800
   # To add assets to your application, add an assets section, like this:
   # assets:

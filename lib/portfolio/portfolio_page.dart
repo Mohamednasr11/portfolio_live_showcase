@@ -9,72 +9,22 @@ import '../showcase/shell.dart' show SiteBackdrop;
 import '../showcase/theme.dart';
 import 'profile_data.dart';
 
-/// Colours the portfolio adds on top of [Show]. [Show.muted] is under 4.5:1 on
-/// the card surface, so running text uses [P.body] instead.
 abstract final class P {
   static const body = Color(0xFFA9B4CF);
   static const card = Show.surface;
-  static const cardEdge = Color(0x2600D4FF);
   static const maxWidth = 1120.0;
-}
-
-abstract final class _T {
-  static const label = TextStyle(
-    fontFamily: Show.body,
-    color: Show.accent,
-    fontSize: 12,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 1.6,
-  );
-  static const h3 = TextStyle(
-    fontFamily: Show.display,
-    color: Show.text,
-    fontSize: 20,
-    fontWeight: FontWeight.w700,
-    height: 1.25,
-  );
-  static const body = TextStyle(
-    fontFamily: Show.body,
-    fontFamilyFallback: ShowType.arabicFallback,
-    color: P.body,
-    fontSize: 15.5,
-    height: 1.6,
-  );
-  static const small = TextStyle(
-    fontFamily: Show.body,
-    color: P.body,
-    fontSize: 13.5,
-    height: 1.5,
-  );
-
-  static TextStyle display(bool narrow) => TextStyle(
-    fontFamily: Show.display,
-    color: Show.text,
-    fontSize: narrow ? 40 : 62,
-    fontWeight: FontWeight.w800,
-    height: 1.04,
-    letterSpacing: -1,
-  );
-
-  static TextStyle h2(bool narrow) => TextStyle(
-    fontFamily: Show.display,
-    color: Show.text,
-    fontSize: narrow ? 28 : 38,
-    fontWeight: FontWeight.w800,
-    height: 1.1,
-  );
 }
 
 enum _Section { work, projects, skills, build, journey, contact }
 
 extension on _Section {
-  String get title => switch (this) {
-    _Section.work => 'Case studies',
-    _Section.projects => 'Projects',
-    _Section.skills => 'Skills',
-    _Section.build => 'How it’s built',
-    _Section.journey => 'Experience',
-    _Section.contact => 'Contact',
+  String title(bool ar) => switch (this) {
+    _Section.work => ar ? 'دراسات الحالة' : 'Case studies',
+    _Section.projects => ar ? 'المشاريع' : 'Projects',
+    _Section.skills => ar ? 'المهارات' : 'Skills',
+    _Section.build => ar ? 'هندسة الموقع' : 'Architecture',
+    _Section.journey => ar ? 'الخبرة والتعليم' : 'Experience',
+    _Section.contact => ar ? 'التواصل' : 'Contact',
   };
 }
 
@@ -94,6 +44,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
   final _scroll = ScrollController();
   final _keys = {for (final s in _Section.values) s: GlobalKey()};
   late final List<DemoSpec> _demos = buildDemos();
+
+  bool _isArabic = false;
+  bool _isDark = true;
 
   @override
   void dispose() {
@@ -115,36 +68,80 @@ class _PortfolioPageState extends State<PortfolioPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final narrow = width < 720;
-    return Scaffold(
-      backgroundColor: Show.bg,
-      body: Column(
-        children: [
-          _NavBar(onJump: _jump, compact: width < 980),
-          Expanded(
-            child: Scrollbar(
-              controller: _scroll,
-              child: SingleChildScrollView(
+    return Directionality(
+      textDirection: _isArabic ? TextDirection.rtl : TextDirection.ltr,
+      child: Scaffold(
+        backgroundColor: Show.getBg(_isDark),
+        body: Column(
+          children: [
+            _NavBar(
+              onJump: _jump,
+              compact: width < 980,
+              width: width,
+              isArabic: _isArabic,
+              isDark: _isDark,
+              onToggleLang: () => setState(() => _isArabic = !_isArabic),
+              onToggleTheme: () => setState(() => _isDark = !_isDark),
+            ),
+            Expanded(
+              child: Scrollbar(
                 controller: _scroll,
-                child: Column(
-                  children: [
-                    _Hero(demo: _demos.first, narrow: narrow, width: width),
-                    _CaseStudies(
-                      key: _keys[_Section.work],
-                      demos: _demos,
-                      width: width,
-                    ),
-                    _CodeProjects(key: _keys[_Section.projects], width: width),
-                    _Skills(key: _keys[_Section.skills], width: width),
-                    _BuildNotes(key: _keys[_Section.build], width: width),
-                    _Journey(key: _keys[_Section.journey], width: width),
-                    _Contact(key: _keys[_Section.contact], narrow: narrow),
-                    const _Footer(),
-                  ],
+                child: SingleChildScrollView(
+                  controller: _scroll,
+                  child: Column(
+                    children: [
+                      _Hero(
+                        demo: _demos.first,
+                        narrow: narrow,
+                        width: width,
+                        isArabic: _isArabic,
+                        isDark: _isDark,
+                      ),
+                      _CaseStudies(
+                        key: _keys[_Section.work],
+                        demos: _demos,
+                        width: width,
+                        isArabic: _isArabic,
+                        isDark: _isDark,
+                      ),
+                      _CodeProjects(
+                        key: _keys[_Section.projects],
+                        width: width,
+                        isArabic: _isArabic,
+                        isDark: _isDark,
+                      ),
+                      _Skills(
+                        key: _keys[_Section.skills],
+                        width: width,
+                        isArabic: _isArabic,
+                        isDark: _isDark,
+                      ),
+                      _BuildNotes(
+                        key: _keys[_Section.build],
+                        width: width,
+                        isArabic: _isArabic,
+                        isDark: _isDark,
+                      ),
+                      _Journey(
+                        key: _keys[_Section.journey],
+                        width: width,
+                        isArabic: _isArabic,
+                        isDark: _isDark,
+                      ),
+                      _Contact(
+                        key: _keys[_Section.contact],
+                        narrow: narrow,
+                        isArabic: _isArabic,
+                        isDark: _isDark,
+                      ),
+                      _Footer(isArabic: _isArabic, isDark: _isDark),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -153,18 +150,36 @@ class _PortfolioPageState extends State<PortfolioPage> {
 // ───────────────────────────── chrome ─────────────────────────────
 
 class _NavBar extends StatelessWidget {
-  const _NavBar({required this.onJump, required this.compact});
+  const _NavBar({
+    required this.onJump,
+    required this.compact,
+    required this.width,
+    required this.isArabic,
+    required this.isDark,
+    required this.onToggleLang,
+    required this.onToggleTheme,
+  });
 
   final ValueChanged<_Section> onJump;
   final bool compact;
+  final double width;
+  final bool isArabic;
+  final bool isDark;
+  final VoidCallback onToggleLang;
+  final VoidCallback onToggleTheme;
 
   @override
   Widget build(BuildContext context) {
+    final veryNarrow = width < 450;
     return Container(
-      height: 64,
-      decoration: const BoxDecoration(
-        color: Color(0xF2060810),
-        border: Border(bottom: BorderSide(color: Show.border)),
+      height: 70,
+      decoration: BoxDecoration(
+        color: Show.getSurface(isDark).withValues(alpha: 0.92),
+        border: Border(
+          bottom: BorderSide(
+            color: Show.getBorder(isDark),
+          ),
+        ),
       ),
       child: _Width(
         child: Row(
@@ -172,38 +187,33 @@ class _NavBar extends StatelessWidget {
             Container(
               width: 34,
               height: 34,
-              alignment: Alignment.center,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Show.accent, Show.accent2],
-                ),
-                borderRadius: BorderRadius.circular(9),
-              ),
-              child: const Text(
-                'MN',
-                maxLines: 1,
-                style: TextStyle(
-                  fontFamily: Show.body,
-                  color: Show.bg,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 13,
+                shape: BoxShape.circle,
+                border: Border.all(color: Show.accent, width: 2),
+                image: const DecorationImage(
+                  image: AssetImage('assets/ME/me.jpg'),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-            const SizedBox(width: 12),
-            const Expanded(
-              child: Text(
-                Profile.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontFamily: Show.display,
-                  color: Show.text,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
+            const SizedBox(width: 8),
+            if (!veryNarrow) ...[
+              Expanded(
+                child: Text(
+                  Profile.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: Show.display,
+                    color: Show.getText(isDark),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                  ),
                 ),
               ),
-            ),
+            ] else ...[
+              const Spacer(),
+            ],
             if (!compact)
               for (final s in const [
                 _Section.work,
@@ -214,35 +224,62 @@ class _NavBar extends StatelessWidget {
                 TextButton(
                   onPressed: () => onJump(s),
                   style: TextButton.styleFrom(
-                    foregroundColor: P.body,
+                    foregroundColor: Show.getMuted(isDark),
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     minimumSize: const Size(0, 44),
                     textStyle: const TextStyle(fontSize: 13),
                   ),
-                  child: Text(s.title),
+                  child: Text(s.title(isArabic)),
                 ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 4),
+            IconButton(
+              tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+              onPressed: onToggleTheme,
+              icon: Icon(
+                isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                color: Show.accent,
+                size: 18,
+              ),
+              constraints: const BoxConstraints(minWidth: 34, minHeight: 34),
+              padding: EdgeInsets.zero,
+            ),
+            const SizedBox(width: 4),
+            OutlinedButton(
+              onPressed: onToggleLang,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Show.accent,
+                side: const BorderSide(color: Show.accent),
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                minimumSize: const Size(34, 30),
+              ),
+              child: Text(
+                isArabic ? 'EN' : 'AR',
+                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 11),
+              ),
+            ),
+            const SizedBox(width: 4),
             FilledButton(
               onPressed: () => openShowcase(context),
               style: FilledButton.styleFrom(
                 backgroundColor: Show.accent,
                 foregroundColor: Show.bg,
                 visualDensity: VisualDensity.compact,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
               ),
-              child: Text(compact ? 'Showcase' : 'Live showcase'),
+              child: Text(isArabic ? 'المعرض' : (veryNarrow ? 'App' : 'Live showcase')),
             ),
             PopupMenuButton<_Section>(
-              tooltip: 'Sections',
-              icon: const Icon(Icons.menu_rounded, color: Show.text),
-              color: Show.surfaceAlt,
+              tooltip: isArabic ? 'الأقسام' : 'Sections',
+              icon: Icon(Icons.menu_rounded, color: Show.getText(isDark), size: 22),
+              color: Show.getSurfaceAlt(isDark),
               onSelected: onJump,
               itemBuilder: (_) => [
                 for (final s in _Section.values)
                   PopupMenuItem(
                     value: s,
                     child: Text(
-                      s.title,
-                      style: const TextStyle(color: Show.text),
+                      s.title(isArabic),
+                      style: TextStyle(color: Show.getText(isDark)),
                     ),
                   ),
               ],
@@ -254,7 +291,6 @@ class _NavBar extends StatelessWidget {
   }
 }
 
-/// Centres content in the page column with the page gutter.
 class _Width extends StatelessWidget {
   const _Width({required this.child});
 
@@ -267,7 +303,7 @@ class _Width extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: P.maxWidth),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: narrow ? 20 : 32),
+          padding: EdgeInsets.symmetric(horizontal: narrow ? 16 : 32),
           child: child,
         ),
       ),
@@ -281,12 +317,14 @@ class _SectionFrame extends StatelessWidget {
     required this.title,
     this.intro,
     required this.child,
+    required this.isDark,
   });
 
   final String label;
   final String title;
   final String? intro;
   final Widget child;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
@@ -297,14 +335,26 @@ class _SectionFrame extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label.toUpperCase(), style: _T.label),
+            Text(label.toUpperCase(), style: ShowType.label),
             const SizedBox(height: 10),
-            Semantics(header: true, child: Text(title, style: _T.h2(narrow))),
+            Semantics(
+              header: true,
+              child: Text(
+                title,
+                style: ShowType.title.copyWith(
+                  color: Show.getText(isDark),
+                  fontSize: narrow ? 28 : 36,
+                ),
+              ),
+            ),
             if (intro != null) ...[
               const SizedBox(height: 14),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 720),
-                child: Text(intro!, style: _T.body),
+                child: Text(
+                  intro!,
+                  style: ShowType.body.copyWith(color: Show.getMuted(isDark), fontSize: 15, height: 1.6),
+                ),
               ),
             ],
             SizedBox(height: narrow ? 28 : 40),
@@ -317,32 +367,39 @@ class _SectionFrame extends StatelessWidget {
 }
 
 class _Card extends StatelessWidget {
-  const _Card({required this.child, this.accent});
+  const _Card({required this.child, this.accent, required this.isDark});
 
   final Widget child;
   final Color? accent;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: P.card,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: P.cardEdge),
+        color: Show.getSurface(isDark),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Show.getBorder(isDark)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.05),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (accent != null) Container(height: 3, color: accent),
-          Padding(padding: const EdgeInsets.all(22), child: child),
+          if (accent != null) Container(height: 3.5, color: accent),
+          Padding(padding: const EdgeInsets.all(24), child: child),
         ],
       ),
     );
   }
 }
 
-/// Lays children out in [columns] equal tracks that wrap.
 class _Grid extends StatelessWidget {
   const _Grid({required this.columns, required this.children});
 
@@ -351,7 +408,7 @@ class _Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const gap = 20.0;
+    const gap = 24.0;
     return LayoutBuilder(
       builder: (context, box) {
         final w = (box.maxWidth - gap * (columns - 1)) / columns;
@@ -366,25 +423,26 @@ class _Grid extends StatelessWidget {
 }
 
 class _Chip extends StatelessWidget {
-  const _Chip(this.text);
+  const _Chip(this.text, {required this.isDark});
 
   final String text;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: const Color(0x1400D4FF),
+        color: Show.accent.withValues(alpha: isDark ? 0.12 : 0.08),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Show.border),
+        border: Border.all(color: Show.getBorder(isDark)),
       ),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           fontFamily: Show.body,
-          color: Show.text,
-          fontSize: 12.5,
+          color: Show.getText(isDark),
+          fontSize: 13,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -393,20 +451,19 @@ class _Chip extends StatelessWidget {
 }
 
 class _Chips extends StatelessWidget {
-  const _Chips(this.items);
+  const _Chips(this.items, {required this.isDark});
 
   final List<String> items;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) => Wrap(
     spacing: 8,
     runSpacing: 8,
-    children: [for (final i in items) _Chip(i)],
+    children: [for (final i in items) _Chip(i, isDark: isDark)],
   );
 }
 
-/// External link rendered through url_launcher's [Link], which emits a real
-/// anchor on the web so middle-click and "open in new tab" work.
 class LinkButton extends StatelessWidget {
   const LinkButton({
     super.key,
@@ -435,6 +492,7 @@ class LinkButton extends StatelessWidget {
               style: FilledButton.styleFrom(
                 backgroundColor: Show.accent,
                 foregroundColor: Show.bg,
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
               ),
             )
           : OutlinedButton.icon(
@@ -442,15 +500,15 @@ class LinkButton extends StatelessWidget {
               icon: Icon(icon, size: 16),
               label: Text(label),
               style: OutlinedButton.styleFrom(
-                foregroundColor: Show.text,
-                side: const BorderSide(color: Color(0x5500D4FF)),
+                foregroundColor: Show.accent,
+                side: const BorderSide(color: Show.accent),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
     );
   }
 }
 
-/// A demo rendered live inside the phone bezel, scaled to [width].
 class LivePhone extends StatelessWidget {
   const LivePhone({
     super.key,
@@ -500,33 +558,126 @@ class LivePhone extends StatelessWidget {
 // ───────────────────────────── sections ─────────────────────────────
 
 class _Hero extends StatelessWidget {
-  const _Hero({required this.demo, required this.narrow, required this.width});
+  const _Hero({
+    required this.demo,
+    required this.narrow,
+    required this.width,
+    required this.isArabic,
+    required this.isDark,
+  });
 
   final DemoSpec demo;
   final bool narrow;
   final double width;
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     final side = width >= 980;
+
+    final authorBadge = Row(
+      children: [
+        Container(
+          width: narrow ? 260 : 240,
+          height: narrow ? 260 : 240,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Show.accent, width: 2.5),
+            boxShadow: [
+              BoxShadow(
+                color: Show.accent.withValues(alpha: 0.35),
+                blurRadius: 18,
+                offset: const Offset(0, 4),
+              ),
+            ],
+            image: const DecorationImage(
+              image: AssetImage('assets/ME/me.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Show.accent.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(color: Show.accent.withValues(alpha: 0.3)),
+                    ),
+                    child: Text(
+                      isArabic ? Profile.roleAr.toUpperCase() : Profile.role.toUpperCase(),
+                      style: ShowType.label.copyWith(fontSize: 11),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  Icon(
+                    Icons.location_on_outlined,
+                    size: 13,
+                    color: Show.getMuted(isDark),
+                  ),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      isArabic ? 'جامعة المنصورة · مصر' : 'Mansoura University · Egypt',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: isArabic ? 'Cairo' : Show.body,
+                        color: Show.getMuted(isDark),
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+
     final copy = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Profile.role.toUpperCase(), style: _T.label),
-        const SizedBox(height: 16),
+        authorBadge,
+        const SizedBox(height: 24),
         Semantics(
           header: true,
-          child: Text(Profile.name, style: _T.display(narrow)),
+          child: Text(
+            Profile.name,
+            style: ShowType.display.copyWith(
+              color: Show.getText(isDark),
+              fontSize: narrow ? 36 : 52,
+              letterSpacing: -1.2,
+              height: 1.08,
+            ),
+          ),
         ),
         const SizedBox(height: 20),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 560),
+          constraints: const BoxConstraints(maxWidth: 580),
           child: Text(
-            Profile.intro,
-            style: _T.body.copyWith(fontSize: narrow ? 16 : 18),
+            isArabic ? Profile.introAr : Profile.intro,
+            style: ShowType.body.copyWith(
+              color: Show.getMuted(isDark),
+              fontSize: narrow ? 16 : 17.5,
+              height: 1.65,
+            ),
           ),
         ),
-        const SizedBox(height: 30),
+        const SizedBox(height: 32),
         Wrap(
           spacing: 12,
           runSpacing: 12,
@@ -534,22 +685,20 @@ class _Hero extends StatelessWidget {
             FilledButton.icon(
               onPressed: () => openShowcase(context),
               icon: const Icon(Icons.play_arrow_rounded),
-              label: const Text('Watch the live case studies'),
+              label: Text(isArabic ? 'شاهد المعرض الحي' : 'Watch live case studies'),
               style: FilledButton.styleFrom(
                 backgroundColor: Show.accent,
                 foregroundColor: Show.bg,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 16,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
+                textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
               ),
             ),
-            const LinkButton(
+            LinkButton(
               label: 'GitHub',
               url: Profile.githubUrl,
               icon: Icons.code_rounded,
             ),
-            const LinkButton(
+            LinkButton(
               label: 'LinkedIn',
               url: Profile.linkedinUrl,
               icon: Icons.person_outline_rounded,
@@ -559,41 +708,44 @@ class _Hero extends StatelessWidget {
       ],
     );
 
-    final phone = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      child: Column(
-        children: [
-          LivePhone(demo: demo, step: 2, width: narrow ? 250 : 300),
-          const SizedBox(height: 14),
-          const Text(
-            'Live Flutter widgets, not a screenshot. Tap to play.',
-            textAlign: TextAlign.center,
-            style: _T.small,
+    final phoneSection = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        LivePhone(demo: demo, step: 2, width: narrow ? 250 : 290),
+        const SizedBox(height: 14),
+        Text(
+          isArabic ? 'ويدجتس فلاتر حية وليست صورة. انقر للتجربة.' : 'Live Flutter widgets. Tap to play case study.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: isArabic ? 'Cairo' : Show.body,
+            color: Show.getMuted(isDark),
+            fontSize: 13,
           ),
-        ],
-      ),
+        ),
+      ],
     );
 
     return Stack(
       children: [
-        const Positioned.fill(child: SiteBackdrop()),
+        Positioned.fill(child: SiteBackdrop()),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: narrow ? 44 : 72),
+          padding: EdgeInsets.symmetric(vertical: narrow ? 44 : 80),
           child: _Width(
             child: side
                 ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(child: copy),
-                      const SizedBox(width: 40),
-                      phone,
+                      const SizedBox(width: 48),
+                      phoneSection,
                     ],
                   )
                 : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       copy,
-                      const SizedBox(height: 44),
-                      Center(child: phone),
+                      const SizedBox(height: 48),
+                      phoneSection,
                     ],
                   ),
           ),
@@ -604,25 +756,26 @@ class _Hero extends StatelessWidget {
 }
 
 class _Notice extends StatelessWidget {
-  const _Notice(this.text);
+  const _Notice(this.text, {required this.isDark});
 
   final String text;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: const Color(0x147B61FF),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0x4D7B61FF)),
+        color: Show.accent2.withValues(alpha: isDark ? 0.12 : 0.08),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Show.accent2.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.info_outline_rounded, color: Show.accent2, size: 20),
-          const SizedBox(width: 12),
-          Expanded(child: Text(text, style: _T.small)),
+          const Icon(Icons.verified_rounded, color: Show.accent2, size: 22),
+          const SizedBox(width: 14),
+          Expanded(child: Text(text, style: ShowType.body.copyWith(color: Show.getText(isDark), fontSize: 14.5, height: 1.5))),
         ],
       ),
     );
@@ -630,31 +783,40 @@ class _Notice extends StatelessWidget {
 }
 
 class _CaseStudies extends StatelessWidget {
-  const _CaseStudies({super.key, required this.demos, required this.width});
+  const _CaseStudies({
+    super.key,
+    required this.demos,
+    required this.width,
+    required this.isArabic,
+    required this.isDark,
+  });
 
   final List<DemoSpec> demos;
   final double width;
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     final columns = width >= 1080 ? 2 : 1;
     final previews = width >= 720;
     return _SectionFrame(
-      label: 'Interactive case studies',
-      title: 'Four apps you can play through',
-      intro:
-          'Each case study replays an app’s key flow beat by beat, with '
-          'notes on the engineering decision behind every screen.',
+      label: isArabic ? 'دراسات الحالة التفاعلية' : 'Interactive case studies',
+      title: isArabic ? 'أربعة تطبيقات متكاملة يمكنك تجربتها حية' : 'Four real-world apps you can play through',
+      intro: isArabic
+          ? 'تعرض كل دراسة حالة تدفق التطبيق خطوة بخطوة، مع توضيح القرارات الهندسية وراء كل واجهة.'
+          : 'Each case study replays an application’s key flow step-by-step, highlighting the architectural choices behind every screen.',
+      isDark: isDark,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const _Notice(
-            'These are Flutter re-creations of each app’s screens running in '
-            'your browser. Data, network calls, AI responses and device '
-            'features are simulated. Matjarkom’s real source code is public; '
-            'the other three are UX case studies.',
+          _Notice(
+            isArabic
+                ? 'هذه نسخ تفاعلية مبنية بفلاتر تعمل مباشرة في متصفحك. البيانات وشبكات الاتصال ومساعد الذكاء الاصطناعي محاكاة احترافية، مع توفر كود متجرك مفتوح المصدر.'
+                : 'Data, network calls, AI responses and device features are simulated. Matjarkom’s real source code is public; the other three are UX case studies.',
+            isDark: isDark,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 28),
           _Grid(
             columns: columns,
             children: [
@@ -663,6 +825,8 @@ class _CaseStudies extends StatelessWidget {
                   demo: demos.firstWhere((d) => d.id == info.demoId),
                   info: info,
                   preview: previews,
+                  isArabic: isArabic,
+                  isDark: isDark,
                 ),
             ],
           ),
@@ -677,30 +841,34 @@ class _CaseStudyCard extends StatelessWidget {
     required this.demo,
     required this.info,
     required this.preview,
+    required this.isArabic,
+    required this.isDark,
   });
 
   final DemoSpec demo;
   final CaseStudyInfo info;
   final bool preview;
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     final text = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(demo.category, style: _T.label.copyWith(color: P.body)),
+        Text(demo.category.toUpperCase(), style: ShowType.label),
         const SizedBox(height: 8),
-        Text(demo.name, style: _T.h3.copyWith(fontSize: 24)),
+        Text(demo.name, style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 22)),
         const SizedBox(height: 4),
-        Text(demo.subtitle, style: _T.small.copyWith(color: Show.text)),
-        const SizedBox(height: 12),
-        Text(demo.pitch, style: _T.small),
+        Text(demo.subtitle, style: TextStyle(fontFamily: Show.body, color: Show.getText(isDark), fontWeight: FontWeight.w600, fontSize: 14)),
+        const SizedBox(height: 10),
+        Text(demo.pitch, style: ShowType.body.copyWith(color: Show.getMuted(isDark))),
         const SizedBox(height: 12),
         Text(
-          'Simulated flow · ${demo.steps.length} beats · ${info.source}',
-          style: _T.small.copyWith(fontStyle: FontStyle.italic),
+          isArabic ? info.sourceAr : info.source,
+          style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getMuted(isDark), fontSize: 13, fontStyle: FontStyle.italic),
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 20),
         Wrap(
           spacing: 10,
           runSpacing: 10,
@@ -708,7 +876,7 @@ class _CaseStudyCard extends StatelessWidget {
             FilledButton.icon(
               onPressed: () => openShowcase(context, demo.id),
               icon: const Icon(Icons.play_arrow_rounded, size: 18),
-              label: const Text('Play case study'),
+              label: Text(isArabic ? 'تشغيل الدراسة' : 'Play case study'),
               style: FilledButton.styleFrom(
                 backgroundColor: Show.accent,
                 foregroundColor: Show.bg,
@@ -721,16 +889,17 @@ class _CaseStudyCard extends StatelessWidget {
     );
     return _Card(
       accent: demo.accent,
+      isDark: isDark,
       child: preview
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 6, right: 24),
+                  padding: const EdgeInsets.only(right: 20),
                   child: LivePhone(
                     demo: demo,
                     step: info.previewStep,
-                    width: 150,
+                    width: 140,
                   ),
                 ),
                 Expanded(child: text),
@@ -742,42 +911,54 @@ class _CaseStudyCard extends StatelessWidget {
 }
 
 class _CodeProjects extends StatelessWidget {
-  const _CodeProjects({super.key, required this.width});
+  const _CodeProjects({
+    super.key,
+    required this.width,
+    required this.isArabic,
+    required this.isDark,
+  });
 
   final double width;
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     final columns = width >= 1080 ? 3 : (width >= 720 ? 2 : 1);
     return _SectionFrame(
-      label: 'Code on GitHub',
-      title: 'Projects with public source',
-      intro:
-          'Repositories you can clone and read. Descriptions follow each '
-          'project’s README.',
+      label: isArabic ? 'مشاريع برمجية مفتوحة المصدر' : 'Open-source code',
+      title: isArabic ? 'مشاريع جاهزة للاستعراض والاستنساخ' : 'Production-grade repositories',
+      intro: isArabic
+          ? 'مشاريع حقيقية يمكنك استنساخها وقراءة الكود الخاص بها. التفاصيل مستمدة من ملفات الـ README لكل مشروع.'
+          : 'Repositories you can explore, clone, and evaluate. Features and architecture adhere to professional standards.',
+      isDark: isDark,
       child: _Grid(
         columns: columns,
         children: [
           for (final p in Profile.codeProjects)
             _Card(
+              isDark: isDark,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(p.name, style: _T.h3),
+                  Text(p.name, style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 20)),
                   const SizedBox(height: 8),
-                  Text(p.summary, style: _T.small.copyWith(color: Show.text)),
-                  const SizedBox(height: 12),
-                  for (final point in p.points)
+                  Text(
+                    isArabic ? p.summaryAr : p.summary,
+                    style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getText(isDark), fontSize: 13.5),
+                  ),
+                  const SizedBox(height: 14),
+                  for (final point in (isArabic ? p.pointsAr : p.points))
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Padding(
-                            padding: EdgeInsets.only(top: 8, right: 10),
+                            padding: EdgeInsets.only(top: 8, right: 10, left: 4),
                             child: SizedBox(
-                              width: 5,
-                              height: 5,
+                              width: 6,
+                              height: 6,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: Show.accent,
@@ -786,13 +967,13 @@ class _CodeProjects extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(child: Text(point, style: _T.small)),
+                          Expanded(child: Text(point, style: ShowType.body.copyWith(color: Show.getMuted(isDark), fontSize: 13.5))),
                         ],
                       ),
                     ),
-                  const SizedBox(height: 10),
-                  _Chips(p.stack),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 14),
+                  _Chips(p.stack, isDark: isDark),
+                  const SizedBox(height: 20),
                   Wrap(
                     spacing: 10,
                     runSpacing: 10,
@@ -811,30 +992,45 @@ class _CodeProjects extends StatelessWidget {
 }
 
 class _Skills extends StatelessWidget {
-  const _Skills({super.key, required this.width});
+  const _Skills({
+    super.key,
+    required this.width,
+    required this.isArabic,
+    required this.isDark,
+  });
 
   final double width;
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     final columns = width >= 1080 ? 3 : (width >= 720 ? 2 : 1);
     return _SectionFrame(
-      label: 'Skills',
-      title: 'What I work with',
-      intro: 'Grouped by area, each with the projects where it is used.',
+      label: isArabic ? 'المهارات التقنية' : 'Skills & expertise',
+      title: isArabic ? 'ما تخصصت في بنائه وإتقانه' : 'Technologies I work with daily',
+      intro: isArabic ? 'مقسمة حسب المجالات، مع توضيح المشاريع التي تم استخدامها فيها.' : 'Grouped by domain, with direct evidence from my projects.',
+      isDark: isDark,
       child: _Grid(
         columns: columns,
         children: [
           for (final g in Profile.skills)
             _Card(
+              isDark: isDark,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(g.title, style: _T.h3.copyWith(fontSize: 18)),
+                  Text(
+                    isArabic ? g.titleAr : g.title,
+                    style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 18),
+                  ),
                   const SizedBox(height: 14),
-                  _Chips(g.skills),
-                  const SizedBox(height: 14),
-                  Text('Used in: ${g.evidence}', style: _T.small),
+                  _Chips(g.skills, isDark: isDark),
+                  const SizedBox(height: 16),
+                  Text(
+                    isArabic ? 'مستخدمة في: ${g.evidenceAr}' : 'Used in: ${g.evidence}',
+                    style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getMuted(isDark), fontSize: 13, fontStyle: FontStyle.italic),
+                  ),
                 ],
               ),
             ),
@@ -845,18 +1041,26 @@ class _Skills extends StatelessWidget {
 }
 
 class _BuildNotes extends StatelessWidget {
-  const _BuildNotes({super.key, required this.width});
+  const _BuildNotes({
+    super.key,
+    required this.width,
+    required this.isArabic,
+    required this.isDark,
+  });
 
   final double width;
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     return _SectionFrame(
-      label: 'Architecture',
-      title: 'How this site is built',
-      intro:
-          'The portfolio is a Flutter web app. The source is public, so '
-          'each point below can be checked in the repository.',
+      label: isArabic ? 'هندسة الموقع والتصميم' : 'Architecture & design',
+      title: isArabic ? 'كيف تم بناء هذا الموقع؟' : 'How this portfolio is built',
+      intro: isArabic
+          ? 'هذا الموقع تطبيق فلاتر ويب حقيقي. الكود مصدر مفتوح ويمكن مراجعته بالكامل.'
+          : 'This portfolio is a Flutter web application. Every architectural choice is verifiable in the repository.',
+      isDark: isDark,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -865,25 +1069,32 @@ class _BuildNotes extends StatelessWidget {
             children: [
               for (var i = 0; i < Profile.highlights.length; i++)
                 _Card(
+                  isDark: isDark,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         (i + 1).toString().padLeft(2, '0'),
-                        style: _T.label.copyWith(fontSize: 14),
+                        style: ShowType.label.copyWith(fontSize: 14),
                       ),
                       const SizedBox(height: 10),
-                      Text(Profile.highlights[i].title, style: _T.h3),
+                      Text(
+                        isArabic ? Profile.highlights[i].titleAr : Profile.highlights[i].title,
+                        style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 18),
+                      ),
                       const SizedBox(height: 8),
-                      Text(Profile.highlights[i].body, style: _T.small),
+                      Text(
+                        isArabic ? Profile.highlights[i].bodyAr : Profile.highlights[i].body,
+                        style: ShowType.body.copyWith(color: Show.getMuted(isDark)),
+                      ),
                     ],
                   ),
                 ),
             ],
           ),
-          const SizedBox(height: 24),
-          const LinkButton(
-            label: 'Read the source',
+          const SizedBox(height: 28),
+          LinkButton(
+            label: isArabic ? 'قراءة الكود المصدري' : 'Read the source code',
             url: Profile.sourceUrl,
             icon: Icons.code_rounded,
           ),
@@ -894,34 +1105,51 @@ class _BuildNotes extends StatelessWidget {
 }
 
 class _Journey extends StatelessWidget {
-  const _Journey({super.key, required this.width});
+  const _Journey({
+    super.key,
+    required this.width,
+    required this.isArabic,
+    required this.isDark,
+  });
 
   final double width;
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     Widget column(String heading, List<TimelineEntry> entries) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(heading, style: _T.h3.copyWith(color: Show.accent)),
+        Text(heading, style: ShowType.heading.copyWith(color: Show.accent, fontSize: 20)),
         const SizedBox(height: 16),
         for (final e in entries)
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: _Card(
+              isDark: isDark,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(e.period, style: _T.label.copyWith(color: P.body)),
+                  Text(
+                    isArabic ? e.periodAr : e.period,
+                    style: ShowType.label,
+                  ),
                   const SizedBox(height: 8),
-                  Text(e.title, style: _T.h3.copyWith(fontSize: 18)),
+                  Text(
+                    isArabic ? e.titleAr : e.title,
+                    style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 18),
+                  ),
                   const SizedBox(height: 4),
-                  Text(e.place, style: _T.small.copyWith(color: Show.text)),
-                  const SizedBox(height: 10),
-                  for (final p in e.points)
+                  Text(
+                    isArabic ? e.placeAr : e.place,
+                    style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getText(isDark), fontWeight: FontWeight.w600, fontSize: 13.5),
+                  ),
+                  const SizedBox(height: 12),
+                  for (final p in (isArabic ? e.pointsAr : e.points))
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: Text(p, style: _T.small),
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Text(p, style: ShowType.body.copyWith(color: Show.getMuted(isDark))),
                     ),
                 ],
               ),
@@ -930,11 +1158,19 @@ class _Journey extends StatelessWidget {
       ],
     );
 
-    final experience = column('Experience', Profile.experience);
-    final education = column('Education & training', Profile.education);
+    final experience = column(
+      isArabic ? 'الخبرة المهنية' : 'Experience',
+      Profile.experience,
+    );
+    final education = column(
+      isArabic ? 'التعليم والتدريب' : 'Education & training',
+      Profile.education,
+    );
+
     return _SectionFrame(
-      label: 'Experience & education',
-      title: 'Where I’ve worked and studied',
+      label: isArabic ? 'المسيرة المهنية والأكاديمية' : 'Experience & education',
+      title: isArabic ? 'حيث عملت ودرست' : 'Where I’ve worked and studied',
+      isDark: isDark,
       child: width >= 900
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -953,46 +1189,58 @@ class _Journey extends StatelessWidget {
 }
 
 class _Contact extends StatelessWidget {
-  const _Contact({super.key, required this.narrow});
+  const _Contact({
+    super.key,
+    required this.narrow,
+    required this.isArabic,
+    required this.isDark,
+  });
 
   final bool narrow;
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     return _SectionFrame(
-      label: 'Contact',
-      title: 'Get in touch',
-      intro:
-          'Email is the fastest way to reach me. GitHub and LinkedIn are '
-          'linked below.',
+      label: isArabic ? 'تواصل معي' : 'Contact',
+      title: isArabic ? 'لنبدأ العمل معاً' : 'Get in touch',
+      intro: isArabic
+          ? 'البريد الإلكتروني هو أسرع طريقة للتواصل معي. يمكنك أيضاً زيارة حساباتي على لينكد إن و جيت هب.'
+          : 'Email is the fastest way to reach me. You can also connect via LinkedIn or GitHub.',
+      isDark: isDark,
       child: Wrap(
         spacing: 12,
         runSpacing: 12,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          const LinkButton(
+          LinkButton(
             label: Profile.email,
             url: 'mailto:${Profile.email}',
             icon: Icons.mail_outline_rounded,
             primary: true,
           ),
           IconButton(
-            tooltip: 'Copy email address',
+            tooltip: isArabic ? 'نسخ البريد الإلكتروني' : 'Copy email address',
             onPressed: () async {
               await Clipboard.setData(const ClipboardData(text: Profile.email));
               if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Email address copied')),
+                SnackBar(
+                  content: Text(
+                    isArabic ? 'تم نسخ البريد الإلكتروني' : 'Email address copied',
+                  ),
+                ),
               );
             },
-            icon: const Icon(Icons.copy_rounded, color: P.body),
+            icon: const Icon(Icons.copy_rounded, color: Show.accent),
           ),
-          const LinkButton(
+          LinkButton(
             label: 'GitHub',
             url: Profile.githubUrl,
             icon: Icons.code_rounded,
           ),
-          const LinkButton(
+          LinkButton(
             label: 'LinkedIn',
             url: Profile.linkedinUrl,
             icon: Icons.person_outline_rounded,
@@ -1004,19 +1252,26 @@ class _Contact extends StatelessWidget {
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer();
+  const _Footer({required this.isArabic, required this.isDark});
+
+  final bool isArabic;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 28),
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: Show.border)),
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: Show.getBorder(isDark)),
+        ),
       ),
       child: _Width(
         child: Text(
-          '© ${DateTime.now().year} ${Profile.name} · Built with Flutter web',
-          style: _T.small,
+          isArabic
+              ? '© ${DateTime.now().year} ${Profile.name} · تم البناء باستخدام Flutter Web'
+              : '© ${DateTime.now().year} ${Profile.name} · Built with Flutter Web',
+          style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getMuted(isDark), fontSize: 13.5),
         ),
       ),
     );
