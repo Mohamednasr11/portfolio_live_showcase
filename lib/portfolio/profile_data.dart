@@ -42,7 +42,13 @@ class CaseStudyInfo {
 }
 
 class SkillGroup {
-  const SkillGroup(this.title, this.titleAr, this.skills, this.evidence, this.evidenceAr);
+  const SkillGroup(
+    this.title,
+    this.titleAr,
+    this.skills,
+    this.evidence,
+    this.evidenceAr,
+  );
 
   final String title;
   final String titleAr;
@@ -86,13 +92,13 @@ abstract final class Profile {
   static const name = 'Mohamed Nasr Eldeen';
   static const role = ' Flutter Developer';
   static const roleAr = 'مطور فلاتر ';
-  
+
   static const intro =
       'Passionate Flutter Developer and Computer Science undergraduate at '
       'Mansoura University. Crafting exceptional, high-performance mobile applications '
       'with BLoC/Cubit state management, Clean Architecture, robust local/cloud data '
       'integration, and meticulous UI/UX precision.';
-  
+
   static const introAr =
       'مطور تطبيقات فلاتر شغوف وطالب علوم حاسب بجامعة المنصورة. متخصص في بناء تطبيقات موبايل '
       'عالية الأداء مع إدارة الحالة باستخدام BLoC/Cubit والهندسة النظيفة (Clean Architecture)، '
@@ -123,7 +129,8 @@ abstract final class Profile {
     CaseStudyInfo(
       demoId: 'build_guard',
       previewStep: 0,
-      source: 'UX case study for smart engineering inspection and crack detection.',
+      source:
+          'UX case study for smart engineering inspection and crack detection.',
       sourceAr: 'دراسة حالة لتطبيق الفحص الهندسي الذكي والكشف عن الشقوق.',
     ),
     CaseStudyInfo(
@@ -164,7 +171,8 @@ abstract final class Profile {
     CodeProject(
       name: 'Fitness Tracker',
       summary: 'Offline-first professional workout logger with interactive progress charts.',
-      summaryAr: 'تطبيق تمارين رياضية متقدم يعمل بدون انترنت مع رسوم بيانية تفاعلية.',
+      summaryAr:
+          'تطبيق تمارين رياضية متقدم يعمل بدون انترنت مع رسوم بيانية تفاعلية.',
       points: [
         'Clean Architecture + MVVM pattern ensuring separation of concerns.',
         'Robust SQLite relational data persistence without backend dependency.',
@@ -207,7 +215,8 @@ abstract final class Profile {
     CodeProject(
       name: 'Smart Route Finder',
       summary: 'University AI pathfinding project comparing heuristic search algorithms.',
-      summaryAr: 'مشروع خوارزميات ذكاء اصطناعي جامعي لمقارنة خوارزميات البحث الذكي.',
+      summaryAr:
+          'مشروع خوارزميات ذكاء اصطناعي جامعي لمقارنة خوارزميات البحث الذكي.',
       points: [
         'A* utility-based algorithm benchmarked against Greedy Best-First search.',
         'Manhattan distance heuristics with step-by-step visual animation.',
@@ -229,7 +238,8 @@ abstract final class Profile {
     CodeProject(
       name: 'Portfolio Showcase',
       summary: 'Interactive web showcase featuring live Flutter widgets instead of static images.',
-      summaryAr: 'معرض أعمال تفاعلي يعرض ويدجتس فلاتر حية بدلاً من الصور الثابتة.',
+      summaryAr:
+          'معرض أعمال تفاعلي يعرض ويدجتس فلاتر حية بدلاً من الصور الثابتة.',
       points: [
         'Custom presentation engine with a scriptable, testable timeline.',
         'RTL Arabic support and dynamic theme adaptation.',
@@ -256,28 +266,53 @@ abstract final class Profile {
     SkillGroup(
       'State & Architecture',
       'إدارة الحالة والهندسة',
-      ['BLoC', 'Cubit', 'HydratedCubit', 'Clean Architecture', 'MVVM', 'get_it'],
+      [
+        'BLoC',
+        'Cubit',
+        'HydratedCubit',
+        'Clean Architecture',
+        'MVVM',
+        'get_it',
+      ],
       'Matjarkom, Fitness Tracker, Meals App',
       'متجرك، متتبع اللياقة، تطبيق الوجبات',
     ),
     SkillGroup(
       'Data & Cloud',
       'البيانات والسحاب',
-      ['Firebase Auth/Firestore', 'SQLite / sqflite', 'SharedPreferences', 'n8n AI Agents', 'OpenStreetMap'],
+      [
+        'Firebase Auth/Firestore',
+        'SQLite / sqflite',
+        'SharedPreferences',
+        'n8n AI Agents',
+        'OpenStreetMap',
+      ],
       'Matjarkom, Fitness Tracker',
       'متجرك، متتبع اللياقة',
     ),
     SkillGroup(
       'Navigation & UI',
       'التنقل واجهات المستخدم',
-      ['GoRouter', 'Named Routes', 'fl_chart', 'Custom Painters', 'RTL / Arabic Typography'],
+      [
+        'GoRouter',
+        'Named Routes',
+        'fl_chart',
+        'Custom Painters',
+        'RTL / Arabic Typography',
+      ],
       'Meals App, Fitness Tracker, Portfolio',
       'تطبيق الوجبات، متتبع اللياقة، معرض الأعمال',
     ),
     SkillGroup(
       'Testing & DevOps',
       'الاختبار والنشر',
-      ['flutter_test', 'bloc_test', 'mocktail', 'Git & GitHub', 'Vercel Deployment'],
+      [
+        'flutter_test',
+        'bloc_test',
+        'mocktail',
+        'Git & GitHub',
+        'Vercel Deployment',
+      ],
       'Fitness Tracker, Portfolio',
       'متتبع اللياقة، معرض الأعمال',
     ),
@@ -358,8 +393,12 @@ abstract final class Profile {
       placeAr: 'معهد تكنولوجيا المعلومات (ITI)',
       period: 'Final Project: Matjarkom',
       periodAr: 'المشروع النهائي: متجرك',
-      points: ['Successfully architected and developed the Matjarkom e-commerce platform.'],
-      pointsAr: ['تصميم وتطوير منصة التجارة الإلكترونية "متجرك" كمشروع تخرج احترافي.'],
+      points: [
+        'Successfully architected and developed the Matjarkom e-commerce platform.',
+      ],
+      pointsAr: [
+        'تصميم وتطوير منصة التجارة الإلكترونية "متجرك" كمشروع تخرج احترافي.',
+      ],
     ),
     TimelineEntry(
       title: 'Digital Marketing Summer Training',
@@ -368,8 +407,12 @@ abstract final class Profile {
       placeAr: 'هيئة تنمية صناعة تكنولوجيا المعلومات / المعهد القومي للاتصالات',
       period: 'Jun – Jul 2025',
       periodAr: 'يونيو – يوليو 2025',
-      points: ['Completed 120 intensive hours covering technical marketing and freelance fundamentals.'],
-      pointsAr: ['إتمام 120 ساعة تدريبية مكثفة تشمل التسويق التقني وأساسيات العمل الحر.'],
+      points: [
+        'Completed 120 intensive hours covering technical marketing and freelance fundamentals.',
+      ],
+      pointsAr: [
+        'إتمام 120 ساعة تدريبية مكثفة تشمل التسويق التقني وأساسيات العمل الحر.',
+      ],
     ),
   ];
 }

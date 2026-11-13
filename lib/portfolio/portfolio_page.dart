@@ -175,11 +175,7 @@ class _NavBar extends StatelessWidget {
       height: 70,
       decoration: BoxDecoration(
         color: Show.getSurface(isDark).withValues(alpha: 0.92),
-        border: Border(
-          bottom: BorderSide(
-            color: Show.getBorder(isDark),
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Show.getBorder(isDark))),
       ),
       child: _Width(
         child: Row(
@@ -254,7 +250,10 @@ class _NavBar extends StatelessWidget {
               ),
               child: Text(
                 isArabic ? 'EN' : 'AR',
-                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 11),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 11,
+                ),
               ),
             ),
             const SizedBox(width: 4),
@@ -266,11 +265,17 @@ class _NavBar extends StatelessWidget {
                 visualDensity: VisualDensity.compact,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
               ),
-              child: Text(isArabic ? 'المعرض' : (veryNarrow ? 'App' : 'Live showcase')),
+              child: Text(
+                isArabic ? 'المعرض' : (veryNarrow ? 'App' : 'Live showcase'),
+              ),
             ),
             PopupMenuButton<_Section>(
               tooltip: isArabic ? 'الأقسام' : 'Sections',
-              icon: Icon(Icons.menu_rounded, color: Show.getText(isDark), size: 22),
+              icon: Icon(
+                Icons.menu_rounded,
+                color: Show.getText(isDark),
+                size: 22,
+              ),
               color: Show.getSurfaceAlt(isDark),
               onSelected: onJump,
               itemBuilder: (_) => [
@@ -353,7 +358,11 @@ class _SectionFrame extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 720),
                 child: Text(
                   intro!,
-                  style: ShowType.body.copyWith(color: Show.getMuted(isDark), fontSize: 15, height: 1.6),
+                  style: ShowType.body.copyWith(
+                    color: Show.getMuted(isDark),
+                    fontSize: 15,
+                    height: 1.6,
+                  ),
                 ),
               ),
             ],
@@ -492,7 +501,10 @@ class LinkButton extends StatelessWidget {
               style: FilledButton.styleFrom(
                 backgroundColor: Show.accent,
                 foregroundColor: Show.bg,
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 12,
+                ),
               ),
             )
           : OutlinedButton.icon(
@@ -502,7 +514,10 @@ class LinkButton extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 foregroundColor: Show.accent,
                 side: const BorderSide(color: Show.accent),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
               ),
             ),
     );
@@ -605,14 +620,21 @@ class _Hero extends StatelessWidget {
               Wrap(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Show.accent.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(999),
-                      border: Border.all(color: Show.accent.withValues(alpha: 0.3)),
+                      border: Border.all(
+                        color: Show.accent.withValues(alpha: 0.3),
+                      ),
                     ),
                     child: Text(
-                      isArabic ? Profile.roleAr.toUpperCase() : Profile.role.toUpperCase(),
+                      isArabic
+                          ? Profile.roleAr.toUpperCase()
+                          : Profile.role.toUpperCase(),
                       style: ShowType.label.copyWith(fontSize: 11),
                     ),
                   ),
@@ -629,7 +651,9 @@ class _Hero extends StatelessWidget {
                   const SizedBox(width: 4),
                   Expanded(
                     child: Text(
-                      isArabic ? 'جامعة المنصورة · مصر' : 'Mansoura University · Egypt',
+                      isArabic
+                          ? 'جامعة المنصورة · مصر'
+                          : 'Mansoura University · Egypt',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -685,12 +709,20 @@ class _Hero extends StatelessWidget {
             FilledButton.icon(
               onPressed: () => openShowcase(context),
               icon: const Icon(Icons.play_arrow_rounded),
-              label: Text(isArabic ? 'شاهد المعرض الحي' : 'Watch live case studies'),
+              label: Text(
+                isArabic ? 'شاهد المعرض الحي' : 'Watch live case studies',
+              ),
               style: FilledButton.styleFrom(
                 backgroundColor: Show.accent,
                 foregroundColor: Show.bg,
-                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
-                textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 16,
+                ),
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
               ),
             ),
             LinkButton(
@@ -714,7 +746,9 @@ class _Hero extends StatelessWidget {
         LivePhone(demo: demo, step: 2, width: narrow ? 250 : 290),
         const SizedBox(height: 14),
         Text(
-          isArabic ? 'ويدجتس فلاتر حية وليست صورة. انقر للتجربة.' : 'Live Flutter widgets. Tap to play case study.',
+          isArabic
+              ? 'ويدجتس فلاتر حية وليست صورة. انقر للتجربة.'
+              : 'Live Flutter widgets. Tap to play case study.',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: isArabic ? 'Cairo' : Show.body,
@@ -742,11 +776,7 @@ class _Hero extends StatelessWidget {
                   )
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      copy,
-                      const SizedBox(height: 48),
-                      phoneSection,
-                    ],
+                    children: [copy, const SizedBox(height: 48), phoneSection],
                   ),
           ),
         ),
@@ -775,7 +805,16 @@ class _Notice extends StatelessWidget {
         children: [
           const Icon(Icons.verified_rounded, color: Show.accent2, size: 22),
           const SizedBox(width: 14),
-          Expanded(child: Text(text, style: ShowType.body.copyWith(color: Show.getText(isDark), fontSize: 14.5, height: 1.5))),
+          Expanded(
+            child: Text(
+              text,
+              style: ShowType.body.copyWith(
+                color: Show.getText(isDark),
+                fontSize: 14.5,
+                height: 1.5,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -802,7 +841,9 @@ class _CaseStudies extends StatelessWidget {
     final previews = width >= 720;
     return _SectionFrame(
       label: isArabic ? 'دراسات الحالة التفاعلية' : 'Interactive case studies',
-      title: isArabic ? 'أربعة تطبيقات متكاملة يمكنك تجربتها حية' : 'Four real-world apps you can play through',
+      title: isArabic
+          ? 'أربعة تطبيقات متكاملة يمكنك تجربتها حية'
+          : 'Four real-world apps you can play through',
       intro: isArabic
           ? 'تعرض كل دراسة حالة تدفق التطبيق خطوة بخطوة، مع توضيح القرارات الهندسية وراء كل واجهة.'
           : 'Each case study replays an application’s key flow step-by-step, highlighting the architectural choices behind every screen.',
@@ -858,15 +899,37 @@ class _CaseStudyCard extends StatelessWidget {
       children: [
         Text(demo.category.toUpperCase(), style: ShowType.label),
         const SizedBox(height: 8),
-        Text(demo.name, style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 22)),
+        Text(
+          demo.name,
+          style: ShowType.heading.copyWith(
+            color: Show.getText(isDark),
+            fontSize: 22,
+          ),
+        ),
         const SizedBox(height: 4),
-        Text(demo.subtitle, style: TextStyle(fontFamily: Show.body, color: Show.getText(isDark), fontWeight: FontWeight.w600, fontSize: 14)),
+        Text(
+          demo.subtitle,
+          style: TextStyle(
+            fontFamily: Show.body,
+            color: Show.getText(isDark),
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
+        ),
         const SizedBox(height: 10),
-        Text(demo.pitch, style: ShowType.body.copyWith(color: Show.getMuted(isDark))),
+        Text(
+          demo.pitch,
+          style: ShowType.body.copyWith(color: Show.getMuted(isDark)),
+        ),
         const SizedBox(height: 12),
         Text(
           isArabic ? info.sourceAr : info.source,
-          style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getMuted(isDark), fontSize: 13, fontStyle: FontStyle.italic),
+          style: TextStyle(
+            fontFamily: isArabic ? 'Cairo' : Show.body,
+            color: Show.getMuted(isDark),
+            fontSize: 13,
+            fontStyle: FontStyle.italic,
+          ),
         ),
         const SizedBox(height: 20),
         Wrap(
@@ -927,7 +990,9 @@ class _CodeProjects extends StatelessWidget {
     final columns = width >= 1080 ? 3 : (width >= 720 ? 2 : 1);
     return _SectionFrame(
       label: isArabic ? 'مشاريع برمجية مفتوحة المصدر' : 'Open-source code',
-      title: isArabic ? 'مشاريع جاهزة للاستعراض والاستنساخ' : 'Production-grade repositories',
+      title: isArabic
+          ? 'مشاريع جاهزة للاستعراض والاستنساخ'
+          : 'Production-grade repositories',
       intro: isArabic
           ? 'مشاريع حقيقية يمكنك استنساخها وقراءة الكود الخاص بها. التفاصيل مستمدة من ملفات الـ README لكل مشروع.'
           : 'Repositories you can explore, clone, and evaluate. Features and architecture adhere to professional standards.',
@@ -941,11 +1006,21 @@ class _CodeProjects extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(p.name, style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 20)),
+                  Text(
+                    p.name,
+                    style: ShowType.heading.copyWith(
+                      color: Show.getText(isDark),
+                      fontSize: 20,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     isArabic ? p.summaryAr : p.summary,
-                    style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getText(isDark), fontSize: 13.5),
+                    style: TextStyle(
+                      fontFamily: isArabic ? 'Cairo' : Show.body,
+                      color: Show.getText(isDark),
+                      fontSize: 13.5,
+                    ),
                   ),
                   const SizedBox(height: 14),
                   for (final point in (isArabic ? p.pointsAr : p.points))
@@ -955,7 +1030,11 @@ class _CodeProjects extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Padding(
-                            padding: EdgeInsets.only(top: 8, right: 10, left: 4),
+                            padding: EdgeInsets.only(
+                              top: 8,
+                              right: 10,
+                              left: 4,
+                            ),
                             child: SizedBox(
                               width: 6,
                               height: 6,
@@ -967,7 +1046,15 @@ class _CodeProjects extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(child: Text(point, style: ShowType.body.copyWith(color: Show.getMuted(isDark), fontSize: 13.5))),
+                          Expanded(
+                            child: Text(
+                              point,
+                              style: ShowType.body.copyWith(
+                                color: Show.getMuted(isDark),
+                                fontSize: 13.5,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -1008,8 +1095,12 @@ class _Skills extends StatelessWidget {
     final columns = width >= 1080 ? 3 : (width >= 720 ? 2 : 1);
     return _SectionFrame(
       label: isArabic ? 'المهارات التقنية' : 'Skills & expertise',
-      title: isArabic ? 'ما تخصصت في بنائه وإتقانه' : 'Technologies I work with daily',
-      intro: isArabic ? 'مقسمة حسب المجالات، مع توضيح المشاريع التي تم استخدامها فيها.' : 'Grouped by domain, with direct evidence from my projects.',
+      title: isArabic
+          ? 'ما تخصصت في بنائه وإتقانه'
+          : 'Technologies I work with daily',
+      intro: isArabic
+          ? 'مقسمة حسب المجالات، مع توضيح المشاريع التي تم استخدامها فيها.'
+          : 'Grouped by domain, with direct evidence from my projects.',
       isDark: isDark,
       child: _Grid(
         columns: columns,
@@ -1022,14 +1113,24 @@ class _Skills extends StatelessWidget {
                 children: [
                   Text(
                     isArabic ? g.titleAr : g.title,
-                    style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 18),
+                    style: ShowType.heading.copyWith(
+                      color: Show.getText(isDark),
+                      fontSize: 18,
+                    ),
                   ),
                   const SizedBox(height: 14),
                   _Chips(g.skills, isDark: isDark),
                   const SizedBox(height: 16),
                   Text(
-                    isArabic ? 'مستخدمة في: ${g.evidenceAr}' : 'Used in: ${g.evidence}',
-                    style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getMuted(isDark), fontSize: 13, fontStyle: FontStyle.italic),
+                    isArabic
+                        ? 'مستخدمة في: ${g.evidenceAr}'
+                        : 'Used in: ${g.evidence}',
+                    style: TextStyle(
+                      fontFamily: isArabic ? 'Cairo' : Show.body,
+                      color: Show.getMuted(isDark),
+                      fontSize: 13,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ],
               ),
@@ -1056,7 +1157,9 @@ class _BuildNotes extends StatelessWidget {
   Widget build(BuildContext context) {
     return _SectionFrame(
       label: isArabic ? 'هندسة الموقع والتصميم' : 'Architecture & design',
-      title: isArabic ? 'كيف تم بناء هذا الموقع؟' : 'How this portfolio is built',
+      title: isArabic
+          ? 'كيف تم بناء هذا الموقع؟'
+          : 'How this portfolio is built',
       intro: isArabic
           ? 'هذا الموقع تطبيق فلاتر ويب حقيقي. الكود مصدر مفتوح ويمكن مراجعته بالكامل.'
           : 'This portfolio is a Flutter web application. Every architectural choice is verifiable in the repository.',
@@ -1079,13 +1182,22 @@ class _BuildNotes extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        isArabic ? Profile.highlights[i].titleAr : Profile.highlights[i].title,
-                        style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 18),
+                        isArabic
+                            ? Profile.highlights[i].titleAr
+                            : Profile.highlights[i].title,
+                        style: ShowType.heading.copyWith(
+                          color: Show.getText(isDark),
+                          fontSize: 18,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        isArabic ? Profile.highlights[i].bodyAr : Profile.highlights[i].body,
-                        style: ShowType.body.copyWith(color: Show.getMuted(isDark)),
+                        isArabic
+                            ? Profile.highlights[i].bodyAr
+                            : Profile.highlights[i].body,
+                        style: ShowType.body.copyWith(
+                          color: Show.getMuted(isDark),
+                        ),
                       ),
                     ],
                   ),
@@ -1121,7 +1233,10 @@ class _Journey extends StatelessWidget {
     Widget column(String heading, List<TimelineEntry> entries) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(heading, style: ShowType.heading.copyWith(color: Show.accent, fontSize: 20)),
+        Text(
+          heading,
+          style: ShowType.heading.copyWith(color: Show.accent, fontSize: 20),
+        ),
         const SizedBox(height: 16),
         for (final e in entries)
           Padding(
@@ -1131,25 +1246,35 @@ class _Journey extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    isArabic ? e.periodAr : e.period,
-                    style: ShowType.label,
-                  ),
+                  Text(isArabic ? e.periodAr : e.period, style: ShowType.label),
                   const SizedBox(height: 8),
                   Text(
                     isArabic ? e.titleAr : e.title,
-                    style: ShowType.heading.copyWith(color: Show.getText(isDark), fontSize: 18),
+                    style: ShowType.heading.copyWith(
+                      color: Show.getText(isDark),
+                      fontSize: 18,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     isArabic ? e.placeAr : e.place,
-                    style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getText(isDark), fontWeight: FontWeight.w600, fontSize: 13.5),
+                    style: TextStyle(
+                      fontFamily: isArabic ? 'Cairo' : Show.body,
+                      color: Show.getText(isDark),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13.5,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   for (final p in (isArabic ? e.pointsAr : e.points))
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6),
-                      child: Text(p, style: ShowType.body.copyWith(color: Show.getMuted(isDark))),
+                      child: Text(
+                        p,
+                        style: ShowType.body.copyWith(
+                          color: Show.getMuted(isDark),
+                        ),
+                      ),
                     ),
                 ],
               ),
@@ -1168,7 +1293,9 @@ class _Journey extends StatelessWidget {
     );
 
     return _SectionFrame(
-      label: isArabic ? 'المسيرة المهنية والأكاديمية' : 'Experience & education',
+      label: isArabic
+          ? 'المسيرة المهنية والأكاديمية'
+          : 'Experience & education',
       title: isArabic ? 'حيث عملت ودرست' : 'Where I’ve worked and studied',
       isDark: isDark,
       child: width >= 900
@@ -1228,7 +1355,9 @@ class _Contact extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    isArabic ? 'تم نسخ البريد الإلكتروني' : 'Email address copied',
+                    isArabic
+                        ? 'تم نسخ البريد الإلكتروني'
+                        : 'Email address copied',
                   ),
                 ),
               );
@@ -1262,16 +1391,18 @@ class _Footer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 32),
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: Show.getBorder(isDark)),
-        ),
+        border: Border(top: BorderSide(color: Show.getBorder(isDark))),
       ),
       child: _Width(
         child: Text(
           isArabic
               ? '© ${DateTime.now().year} ${Profile.name} · تم البناء باستخدام Flutter Web'
               : '© ${DateTime.now().year} ${Profile.name} · Built with Flutter Web',
-          style: TextStyle(fontFamily: isArabic ? 'Cairo' : Show.body, color: Show.getMuted(isDark), fontSize: 13.5),
+          style: TextStyle(
+            fontFamily: isArabic ? 'Cairo' : Show.body,
+            color: Show.getMuted(isDark),
+            fontSize: 13.5,
+          ),
         ),
       ),
     );
