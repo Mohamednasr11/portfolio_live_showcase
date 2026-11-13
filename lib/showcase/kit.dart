@@ -8,10 +8,6 @@ import 'theme.dart';
 
 export 'device_frame.dart'
     show DeviceScreenTone, DeviceToneScope, LiveScreenStack;
-
-/// Primitives shared by the four live demos. They exist so each demo file reads
-/// like a product screen rather than a wall of BoxDecoration.
-
 class AppScreen extends StatelessWidget {
   const AppScreen({
     super.key,
@@ -49,10 +45,6 @@ class AppScreen extends StatelessWidget {
     );
   }
 }
-
-/// A screen body that scrolls when the content is taller than the device, with
-/// an optional pinned footer (tab bar, pay button). Keeps a beat's framing
-/// honest: nothing is ever clipped, but nothing floats off-screen either.
 class ScreenBody extends StatelessWidget {
   const ScreenBody({
     super.key,

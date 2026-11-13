@@ -49,3 +49,6 @@ app.*.map.json
 
 # Local comparison sheets generated outside the app
 /visualization_output/
+
+.vercel
+.env*
