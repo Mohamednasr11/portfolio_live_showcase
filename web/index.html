@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -18,21 +18,46 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#060810">
+  <meta name="description" content="Mohamed Nasr Eldeen — Flutter developer. Explore public-source projects, architecture highlights and interactive Flutter UX case studies.">
+  <link rel="canonical" href="https://portfolioliveshowcase.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mohamed Nasr Eldeen · Flutter Developer">
+  <meta property="og:description" content="Public-source Flutter projects and live widget case studies. BLoC, Clean Architecture, SQLite and Firebase.">
+  <meta property="og:url" content="https://portfolioliveshowcase.vercel.app/">
+  <meta property="og:image" content="https://portfolioliveshowcase.vercel.app/social-preview.png">
+  <meta property="og:image:alt" content="Mohamed Nasr Eldeen's portfolio with a live Flutter phone preview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mohamed Nasr Eldeen · Flutter Developer">
+  <meta name="twitter:description" content="Public-source Flutter projects and interactive UX case studies.">
+  <meta name="twitter:image" content="https://portfolioliveshowcase.vercel.app/social-preview.png">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="portfolio_live_showcase">
+  <meta name="apple-mobile-web-app-title" content="MN Portfolio">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>portfolio_live_showcase</title>
+  <title>Mohamed Nasr Eldeen · Flutter Developer</title>
   <link rel="manifest" href="manifest.json">
 </head>
-<body>
+<body style="margin:0;background:#060810;color:#f0f4ff">
+  <main id="loading" style="max-width:800px;margin:10vh auto;padding:24px;font:16px/1.6 system-ui">
+    <h1>Mohamed Nasr Eldeen · Flutter Developer</h1>
+    <p>Public-source Flutter projects and interactive UX case studies.</p>
+    <p>Preparing the live portfolio…</p>
+    <noscript>This interactive portfolio needs JavaScript. You can still browse the source projects below.</noscript>
+    <a style="color:#00d4ff" href="https://github.com/Mohamednasr11">GitHub</a>
+    · <a style="color:#00d4ff" href="https://github.com/Mo-Nasr-Eldeen/ITI-Final-Project">Matjarkom source</a>
+    · <a style="color:#00d4ff" href="https://github.com/Mohamednasr11/code_alpha_fitness_tracker_app">Fitness Tracker source</a>
+  </main>
+  <script>
+    window.addEventListener('flutter-first-frame', () => document.getElementById('loading')?.remove(), {once:true});
+  </script>
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader

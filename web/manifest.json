@@ -1,11 +1,11 @@
 {
-    "name": "portfolio_live_showcase",
-    "short_name": "portfolio_live_showcase",
+    "name": "Mohamed Nasr Eldeen · Flutter Developer",
+    "short_name": "MN Portfolio",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#060810",
+    "theme_color": "#060810",
+    "description": "Flutter projects and interactive case studies by Mohamed Nasr Eldeen.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
