@@ -31,16 +31,92 @@
 
   <title>Mohamed Nasr Eldeen · Flutter Developer</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      margin: 0;
+      background: #060810;
+      color: #f0f4ff;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px;
+    }
+    .spinner-container {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      margin-bottom: 24px;
+    }
+    .spinner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3.5px solid rgba(0, 212, 255, 0.15);
+      border-top-color: #00D4FF;
+      border-right-color: #7B61FF;
+      animation: spin 0.85s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    }
+    .logo-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: 800;
+      font-size: 16px;
+      color: #00D4FF;
+      letter-spacing: 1px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      color: #f0f4ff;
+    }
+    p {
+      font-size: 14px;
+      color: #8b9bb4;
+      margin: 0 0 16px 0;
+    }
+    .links {
+      font-size: 13px;
+      color: #6b7a9f;
+      margin-top: 16px;
+    }
+    .links a {
+      color: #00d4ff;
+      text-decoration: none;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
-<body style="margin:0;background:#060810;color:#f0f4ff">
-  <main id="loading" style="max-width:800px;margin:10vh auto;padding:24px;font:16px/1.6 system-ui">
+<body>
+  <main id="loading">
+    <div class="spinner-container">
+      <div class="spinner"></div>
+      <div class="logo-badge">MN</div>
+    </div>
     <h1>Mohamed Nasr Eldeen · Flutter Developer</h1>
-    <p>Public-source Flutter projects and interactive UX case studies.</p>
-    <p>Preparing the live portfolio…</p>
+    <p>Loading interactive Flutter portfolio…</p>
     <noscript>This interactive portfolio needs JavaScript. You can still browse the source projects below.</noscript>
-    <a style="color:#00d4ff" href="https://github.com/Mohamednasr11">GitHub</a>
-    · <a style="color:#00d4ff" href="https://github.com/Mo-Nasr-Eldeen/ITI-Final-Project">Matjarkom source</a>
-    · <a style="color:#00d4ff" href="https://github.com/Mohamednasr11/code_alpha_fitness_tracker_app">Fitness Tracker source</a>
+    <div class="links">
+      <a href="https://github.com/Mohamednasr11">GitHub</a>
+      · <a href="https://github.com/Mo-Nasr-Eldeen/ITI-Final-Project">Matjarkom source</a>
+      · <a href="https://github.com/Mohamednasr11/code_alpha_fitness_tracker_app">Fitness Tracker source</a>
+    </div>
   </main>
   <script src="flutter.js" defer></script>
   <script>
