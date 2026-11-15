@@ -433,8 +433,8 @@ class _SwitchDemoPlusState extends State<SwitchDemoPlus> {
                               _active
                                   ? (isAr ? 'اضغط للتراجع' : 'Tap to undo')
                                   : (isAr
-                                      ? 'اضغط للتجربة'
-                                      : 'Tap to try animation'),
+                                        ? 'اضغط للتجربة'
+                                        : 'Tap to try animation'),
                               style: const TextStyle(
                                 color: AppColors.muted,
                                 fontSize: 10,

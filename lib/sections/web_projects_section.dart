@@ -55,10 +55,7 @@ class _WebProjectCard extends StatefulWidget {
   final Project project;
   final VoidCallback onOpen;
 
-  const _WebProjectCard({
-    required this.project,
-    required this.onOpen,
-  });
+  const _WebProjectCard({required this.project, required this.onOpen});
 
   @override
   State<_WebProjectCard> createState() => _WebProjectCardState();
@@ -177,8 +174,9 @@ class _WebProjectCardState extends State<_WebProjectCard> {
                     runSpacing: 10,
                     children: [
                       PrimaryButton(
-                        label:
-                            isAr ? 'عرض دراسة المشروع' : 'View Web Case Study',
+                        label: isAr
+                            ? 'عرض دراسة المشروع'
+                            : 'View Web Case Study',
                         icon: Icons.launch_rounded,
                         onPressed: widget.onOpen,
                       ),

@@ -37,9 +37,7 @@ class _GoldieDeviceMockupState extends State<GoldieDeviceMockup> {
   @override
   Widget build(BuildContext context) {
     final frameBorderRadius = BorderRadius.circular(widget.borderRadius);
-    final screenBorderRadius = BorderRadius.circular(
-      widget.borderRadius - 6.0,
-    );
+    final screenBorderRadius = BorderRadius.circular(widget.borderRadius - 6.0);
 
     Widget content = AnimatedContainer(
       duration: const Duration(milliseconds: 300),

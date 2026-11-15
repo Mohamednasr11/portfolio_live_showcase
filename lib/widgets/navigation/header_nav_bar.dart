@@ -19,11 +19,7 @@ class HeaderNavBar extends StatelessWidget {
     this.isScrolled = false,
   });
 
-  static const _navKeys = [
-    'Projects',
-    'Skills',
-    'Contact',
-  ];
+  static const _navKeys = ['Projects', 'Skills', 'Contact'];
 
   static final Map<String, String> _navLabelsAr = {
     'Projects': 'مشاريع فلاتر',
