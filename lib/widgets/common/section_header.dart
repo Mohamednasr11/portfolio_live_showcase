@@ -25,7 +25,7 @@ class SectionWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaxWidthContainer(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(28, 94, 28, 100),
+        padding: const EdgeInsets.fromLTRB(24, 70, 24, 80),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,12 +46,16 @@ class SectionWrapper extends StatelessWidget {
                   color: AppColors.withAlphaOpacity(AppColors.muted, 0.5),
                 ),
                 const SizedBox(width: 10),
-                Text(
-                  eyebrow,
-                  style: const TextStyle(
-                    color: AppColors.muted,
-                    fontSize: 10,
-                    letterSpacing: 1.3,
+                Expanded(
+                  child: Text(
+                    eyebrow,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 10,
+                      letterSpacing: 1.3,
+                    ),
                   ),
                 ),
               ],
@@ -72,10 +76,10 @@ class SectionWrapper extends StatelessWidget {
                   ),
                   style: const TextStyle(
                     color: AppColors.paper,
-                    fontSize: 47,
-                    height: 1.02,
+                    fontSize: 42,
+                    height: 1.05,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: -2.2,
+                    letterSpacing: -1.8,
                   ),
                 );
                 final intro = Text(

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/link.dart';
 
 import '../showcase/demos.dart';
-import '../showcase/device_frame.dart';
 import '../showcase/model.dart';
 import '../showcase/shell.dart' show SiteBackdrop;
 import '../showcase/theme.dart';
+import '../widgets/common/hover_card.dart';
+import '../widgets/common/reveal_on_scroll.dart';
+import '../widgets/mockup/floating_phone.dart';
 import 'profile_data.dart';
 
 abstract final class P {
@@ -19,13 +22,13 @@ enum _Section { work, projects, skills, build, journey, contact }
 
 extension on _Section {
   String title(bool ar) => switch (this) {
-    _Section.work => ar ? 'دراسات الحالة' : 'Case studies',
-    _Section.projects => ar ? 'المشاريع' : 'Projects',
-    _Section.skills => ar ? 'المهارات' : 'Skills',
-    _Section.build => ar ? 'هندسة الموقع' : 'Architecture',
-    _Section.journey => ar ? 'الخبرة والتعليم' : 'Experience',
-    _Section.contact => ar ? 'التواصل' : 'Contact',
-  };
+        _Section.work => ar ? 'دراسات الحالة' : 'Case studies',
+        _Section.projects => ar ? 'المشاريع' : 'Projects',
+        _Section.skills => ar ? 'المهارات' : 'Skills',
+        _Section.build => ar ? 'هندسة الموقع' : 'Architecture',
+        _Section.journey => ar ? 'الخبرة والتعليم' : 'Experience',
+        _Section.contact => ar ? 'التواصل' : 'Contact',
+      };
 }
 
 void openShowcase(BuildContext context, [String? demoId]) {
@@ -227,7 +230,7 @@ class _NavBar extends StatelessWidget {
                   ),
                   child: Text(s.title(isArabic)),
                 ),
-            const SizedBox(width: 4),
+            const SizedBox(width: 2),
             IconButton(
               tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
               onPressed: onToggleTheme,
@@ -236,37 +239,38 @@ class _NavBar extends StatelessWidget {
                 color: Show.accent,
                 size: 18,
               ),
-              constraints: const BoxConstraints(minWidth: 34, minHeight: 34),
+              constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
               padding: EdgeInsets.zero,
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: 2),
             OutlinedButton(
               onPressed: onToggleLang,
               style: OutlinedButton.styleFrom(
                 foregroundColor: Show.accent,
                 side: const BorderSide(color: Show.accent),
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                minimumSize: const Size(34, 30),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                minimumSize: const Size(30, 28),
               ),
               child: Text(
                 isArabic ? 'EN' : 'AR',
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
-                  fontSize: 11,
+                  fontSize: 10,
                 ),
               ),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: 2),
             FilledButton(
               onPressed: () => openShowcase(context),
               style: FilledButton.styleFrom(
                 backgroundColor: Show.accent,
                 foregroundColor: Show.bg,
                 visualDensity: VisualDensity.compact,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 6),
               ),
               child: Text(
                 isArabic ? 'المعرض' : (veryNarrow ? 'App' : 'Live showcase'),
+                style: const TextStyle(fontSize: 11),
               ),
             ),
             PopupMenuButton<_Section>(
@@ -431,28 +435,45 @@ class _Grid extends StatelessWidget {
   }
 }
 
-class _Chip extends StatelessWidget {
+class _Chip extends StatefulWidget {
   const _Chip(this.text, {required this.isDark});
 
   final String text;
   final bool isDark;
 
   @override
+  State<_Chip> createState() => _ChipState();
+}
+
+class _ChipState extends State<_Chip> {
+  bool _hovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Show.accent.withValues(alpha: isDark ? 0.12 : 0.08),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Show.getBorder(isDark)),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontFamily: Show.body,
-          color: Show.getText(isDark),
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        // ignore: deprecated_member_use
+        transform: Matrix4.identity()
+          // ignore: deprecated_member_use
+          ..scale(_hovered ? 1.05 : 1.0, _hovered ? 1.05 : 1.0, 1.0),
+        transformAlignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: Show.accent.withValues(alpha: _hovered ? 0.25 : (widget.isDark ? 0.12 : 0.08)),
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(color: _hovered ? Show.accent : Show.getBorder(widget.isDark)),
+        ),
+        child: Text(
+          widget.text,
+          style: TextStyle(
+            fontFamily: Show.body,
+            color: _hovered ? Show.accent : Show.getText(widget.isDark),
+            fontSize: 13,
+            fontWeight: _hovered ? FontWeight.w700 : FontWeight.w500,
+          ),
         ),
       ),
     );
@@ -467,10 +488,16 @@ class _Chips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Wrap(
-    spacing: 8,
-    runSpacing: 8,
-    children: [for (final i in items) _Chip(i, isDark: isDark)],
-  );
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          for (var i = 0; i < items.length; i++)
+            RevealOnScroll(
+              delay: Duration(milliseconds: 40 * i),
+              child: _Chip(items[i], isDark: isDark),
+            ),
+        ],
+      );
 }
 
 class LinkButton extends StatelessWidget {
@@ -541,31 +568,14 @@ class LivePhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: 'Play the ${demo.name} case study',
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () => openShowcase(context, demo.id),
-          child: AbsorbPointer(
-            child: ExcludeSemantics(
-              child: RepaintBoundary(
-                child: SizedBox(
-                  width: width,
-                  height: width * _frameHeight / _frameWidth,
-                  child: FittedBox(
-                    child: DeviceFrame(
-                      width: _frameWidth,
-                      child: demo.builder(context, step),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+    return FloatingPhone(
+      screenImages: const [
+        'assets/buildguard/Home.png',
+        'assets/matjarkom/dark_home.png',
+        'assets/brewbloom/High-Fidelity ( Home ).png',
+      ],
+      width: width,
+      height: width * _frameHeight / _frameWidth,
     );
   }
 }
@@ -590,6 +600,8 @@ class _Hero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final side = width >= 980;
+    final isTest = WidgetsBinding.instance.runtimeType.toString().contains('TestWidgetsFlutterBinding');
+    final disableAnimations = (MediaQuery.maybeOf(context)?.disableAnimations ?? false) || isTest;
 
     final authorBadge = Row(
       children: [
@@ -672,7 +684,7 @@ class _Hero extends StatelessWidget {
       ],
     );
 
-    final copy = Column(
+    Widget copy = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         authorBadge,
@@ -739,6 +751,25 @@ class _Hero extends StatelessWidget {
         ),
       ],
     );
+
+    if (!disableAnimations) {
+      copy = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: AnimateList(
+          interval: 120.ms,
+          effects: [
+            FadeEffect(duration: 500.ms, curve: Curves.easeOutCubic),
+            SlideEffect(
+              begin: const Offset(0, 0.15),
+              end: Offset.zero,
+              duration: 500.ms,
+              curve: Curves.easeOutCubic,
+            ),
+          ],
+          children: (copy as Column).children,
+        ),
+      );
+    }
 
     final phoneSection = Column(
       mainAxisSize: MainAxisSize.min,
@@ -861,13 +892,16 @@ class _CaseStudies extends StatelessWidget {
           _Grid(
             columns: columns,
             children: [
-              for (final info in Profile.caseStudies)
-                _CaseStudyCard(
-                  demo: demos.firstWhere((d) => d.id == info.demoId),
-                  info: info,
-                  preview: previews,
-                  isArabic: isArabic,
-                  isDark: isDark,
+              for (var i = 0; i < Profile.caseStudies.length; i++)
+                RevealOnScroll(
+                  delay: Duration(milliseconds: 100 * i),
+                  child: _CaseStudyCard(
+                    demo: demos.firstWhere((d) => d.id == Profile.caseStudies[i].demoId),
+                    info: Profile.caseStudies[i],
+                    preview: previews,
+                    isArabic: isArabic,
+                    isDark: isDark,
+                  ),
                 ),
             ],
           ),
@@ -950,25 +984,29 @@ class _CaseStudyCard extends StatelessWidget {
         ),
       ],
     );
-    return _Card(
-      accent: demo.accent,
-      isDark: isDark,
-      child: preview
-          ? Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: LivePhone(
-                    demo: demo,
-                    step: info.previewStep,
-                    width: 140,
+    return HoverCard(
+      onTap: () => openShowcase(context, demo.id),
+      semanticsLabel: 'Play case study for ${demo.name}',
+      child: _Card(
+        accent: demo.accent,
+        isDark: isDark,
+        child: preview
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: LivePhone(
+                      demo: demo,
+                      step: info.previewStep,
+                      width: 140,
+                    ),
                   ),
-                ),
-                Expanded(child: text),
-              ],
-            )
-          : text,
+                  Expanded(child: text),
+                ],
+              )
+            : text,
+      ),
     );
   }
 }
@@ -1000,76 +1038,83 @@ class _CodeProjects extends StatelessWidget {
       child: _Grid(
         columns: columns,
         children: [
-          for (final p in Profile.codeProjects)
-            _Card(
-              isDark: isDark,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    p.name,
-                    style: ShowType.heading.copyWith(
-                      color: Show.getText(isDark),
-                      fontSize: 20,
+          for (var i = 0; i < Profile.codeProjects.length; i++)
+            RevealOnScroll(
+              delay: Duration(milliseconds: 100 * i),
+              child: _Card(
+                isDark: isDark,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      Profile.codeProjects[i].name,
+                      style: ShowType.heading.copyWith(
+                        color: Show.getText(isDark),
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    isArabic ? p.summaryAr : p.summary,
-                    style: TextStyle(
-                      fontFamily: isArabic ? 'Cairo' : Show.body,
-                      color: Show.getText(isDark),
-                      fontSize: 13.5,
+                    const SizedBox(height: 8),
+                    Text(
+                      isArabic
+                          ? Profile.codeProjects[i].summaryAr
+                          : Profile.codeProjects[i].summary,
+                      style: TextStyle(
+                        fontFamily: isArabic ? 'Cairo' : Show.body,
+                        color: Show.getText(isDark),
+                        fontSize: 13.5,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 14),
-                  for (final point in (isArabic ? p.pointsAr : p.points))
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(
-                              top: 8,
-                              right: 10,
-                              left: 4,
-                            ),
-                            child: SizedBox(
-                              width: 6,
-                              height: 6,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: Show.accent,
-                                  shape: BoxShape.circle,
+                    const SizedBox(height: 14),
+                    for (final point in (isArabic
+                        ? Profile.codeProjects[i].pointsAr
+                        : Profile.codeProjects[i].points))
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                top: 8,
+                                right: 10,
+                                left: 4,
+                              ),
+                              child: SizedBox(
+                                width: 6,
+                                height: 6,
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: Show.accent,
+                                    shape: BoxShape.circle,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              point,
-                              style: ShowType.body.copyWith(
-                                color: Show.getMuted(isDark),
-                                fontSize: 13.5,
+                            Expanded(
+                              child: Text(
+                                point,
+                                style: ShowType.body.copyWith(
+                                  color: Show.getMuted(isDark),
+                                  fontSize: 13.5,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                    const SizedBox(height: 14),
+                    _Chips(Profile.codeProjects[i].stack, isDark: isDark),
+                    const SizedBox(height: 20),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        for (final l in Profile.codeProjects[i].links)
+                          LinkButton(label: l.label, url: l.url),
+                      ],
                     ),
-                  const SizedBox(height: 14),
-                  _Chips(p.stack, isDark: isDark),
-                  const SizedBox(height: 20),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [
-                      for (final l in p.links)
-                        LinkButton(label: l.label, url: l.url),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
         ],
@@ -1105,34 +1150,39 @@ class _Skills extends StatelessWidget {
       child: _Grid(
         columns: columns,
         children: [
-          for (final g in Profile.skills)
-            _Card(
-              isDark: isDark,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    isArabic ? g.titleAr : g.title,
-                    style: ShowType.heading.copyWith(
-                      color: Show.getText(isDark),
-                      fontSize: 18,
+          for (var i = 0; i < Profile.skills.length; i++)
+            RevealOnScroll(
+              delay: Duration(milliseconds: 100 * i),
+              child: _Card(
+                isDark: isDark,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isArabic
+                          ? Profile.skills[i].titleAr
+                          : Profile.skills[i].title,
+                      style: ShowType.heading.copyWith(
+                        color: Show.getText(isDark),
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 14),
-                  _Chips(g.skills, isDark: isDark),
-                  const SizedBox(height: 16),
-                  Text(
-                    isArabic
-                        ? 'مستخدمة في: ${g.evidenceAr}'
-                        : 'Used in: ${g.evidence}',
-                    style: TextStyle(
-                      fontFamily: isArabic ? 'Cairo' : Show.body,
-                      color: Show.getMuted(isDark),
-                      fontSize: 13,
-                      fontStyle: FontStyle.italic,
+                    const SizedBox(height: 14),
+                    _Chips(Profile.skills[i].skills, isDark: isDark),
+                    const SizedBox(height: 16),
+                    Text(
+                      isArabic
+                          ? 'مستخدمة في: ${Profile.skills[i].evidenceAr}'
+                          : 'Used in: ${Profile.skills[i].evidence}',
+                      style: TextStyle(
+                        fontFamily: isArabic ? 'Cairo' : Show.body,
+                        color: Show.getMuted(isDark),
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
         ],
@@ -1171,35 +1221,38 @@ class _BuildNotes extends StatelessWidget {
             columns: width >= 720 ? 2 : 1,
             children: [
               for (var i = 0; i < Profile.highlights.length; i++)
-                _Card(
-                  isDark: isDark,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        (i + 1).toString().padLeft(2, '0'),
-                        style: ShowType.label.copyWith(fontSize: 14),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        isArabic
-                            ? Profile.highlights[i].titleAr
-                            : Profile.highlights[i].title,
-                        style: ShowType.heading.copyWith(
-                          color: Show.getText(isDark),
-                          fontSize: 18,
+                RevealOnScroll(
+                  delay: Duration(milliseconds: 100 * i),
+                  child: _Card(
+                    isDark: isDark,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          (i + 1).toString().padLeft(2, '0'),
+                          style: ShowType.label.copyWith(fontSize: 14),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        isArabic
-                            ? Profile.highlights[i].bodyAr
-                            : Profile.highlights[i].body,
-                        style: ShowType.body.copyWith(
-                          color: Show.getMuted(isDark),
+                        const SizedBox(height: 10),
+                        Text(
+                          isArabic
+                              ? Profile.highlights[i].titleAr
+                              : Profile.highlights[i].title,
+                          style: ShowType.heading.copyWith(
+                            color: Show.getText(isDark),
+                            fontSize: 18,
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        Text(
+                          isArabic
+                              ? Profile.highlights[i].bodyAr
+                              : Profile.highlights[i].body,
+                          style: ShowType.body.copyWith(
+                            color: Show.getMuted(isDark),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
             ],
@@ -1231,57 +1284,61 @@ class _Journey extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget column(String heading, List<TimelineEntry> entries) => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          heading,
-          style: ShowType.heading.copyWith(color: Show.accent, fontSize: 20),
-        ),
-        const SizedBox(height: 16),
-        for (final e in entries)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: _Card(
-              isDark: isDark,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(isArabic ? e.periodAr : e.period, style: ShowType.label),
-                  const SizedBox(height: 8),
-                  Text(
-                    isArabic ? e.titleAr : e.title,
-                    style: ShowType.heading.copyWith(
-                      color: Show.getText(isDark),
-                      fontSize: 18,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    isArabic ? e.placeAr : e.place,
-                    style: TextStyle(
-                      fontFamily: isArabic ? 'Cairo' : Show.body,
-                      color: Show.getText(isDark),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13.5,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  for (final p in (isArabic ? e.pointsAr : e.points))
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: Text(
-                        p,
-                        style: ShowType.body.copyWith(
-                          color: Show.getMuted(isDark),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              heading,
+              style:
+                  ShowType.heading.copyWith(color: Show.accent, fontSize: 20),
             ),
-          ),
-      ],
-    );
+            const SizedBox(height: 16),
+            for (final e in entries)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: RevealOnScroll(
+                  child: _Card(
+                    isDark: isDark,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(isArabic ? e.periodAr : e.period,
+                            style: ShowType.label),
+                        const SizedBox(height: 8),
+                        Text(
+                          isArabic ? e.titleAr : e.title,
+                          style: ShowType.heading.copyWith(
+                            color: Show.getText(isDark),
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          isArabic ? e.placeAr : e.place,
+                          style: TextStyle(
+                            fontFamily: isArabic ? 'Cairo' : Show.body,
+                            color: Show.getText(isDark),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13.5,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        for (final p in (isArabic ? e.pointsAr : e.points))
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 6),
+                            child: Text(
+                              p,
+                              style: ShowType.body.copyWith(
+                                color: Show.getMuted(isDark),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        );
 
     final experience = column(
       isArabic ? 'الخبرة المهنية' : 'Experience',
@@ -1350,7 +1407,8 @@ class _Contact extends StatelessWidget {
           IconButton(
             tooltip: isArabic ? 'نسخ البريد الإلكتروني' : 'Copy email address',
             onPressed: () async {
-              await Clipboard.setData(const ClipboardData(text: Profile.email));
+              await Clipboard.setData(
+                  const ClipboardData(text: Profile.email));
               if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

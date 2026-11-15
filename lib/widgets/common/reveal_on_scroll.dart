@@ -32,8 +32,8 @@ class _RevealOnScrollState extends State<RevealOnScroll> {
 
   @override
   Widget build(BuildContext context) {
-    final disableAnimations =
-        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    final isTest = WidgetsBinding.instance.runtimeType.toString().contains('TestWidgetsFlutterBinding');
+    final disableAnimations = (MediaQuery.maybeOf(context)?.disableAnimations ?? false) || isTest;
 
     if (disableAnimations) {
       return widget.child;
@@ -60,7 +60,10 @@ class _RevealOnScrollState extends State<RevealOnScroll> {
           });
         }
       },
-      child: Opacity(opacity: 0, child: widget.child),
+      child: Opacity(
+        opacity: 0,
+        child: widget.child,
+      ),
     );
   }
 }

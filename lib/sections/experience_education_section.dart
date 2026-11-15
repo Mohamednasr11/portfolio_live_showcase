@@ -130,7 +130,10 @@ class _TimelineCardState extends State<_TimelineCard> {
             final mainContent = Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  spacing: 10,
+                  runSpacing: 8,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -150,7 +153,6 @@ class _TimelineCardState extends State<_TimelineCard> {
                         ),
                       ),
                     ),
-                    const Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,

@@ -413,33 +413,35 @@ class _SwitchDemoPlusState extends State<SwitchDemoPlus> {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            _active
-                                ? (isAr ? 'تم الحفظ' : 'Saved')
-                                : (isAr ? 'حفظ العنصر' : 'Save Item'),
-                            style: const TextStyle(
-                              color: AppColors.paper,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              _active
+                                  ? (isAr ? 'تم الحفظ' : 'Saved')
+                                  : (isAr ? 'حفظ العنصر' : 'Save Item'),
+                              style: const TextStyle(
+                                color: AppColors.paper,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            _active
-                                ? (isAr ? 'اضغط للتراجع' : 'Tap to undo')
-                                : (isAr
+                            const SizedBox(height: 2),
+                            Text(
+                              _active
+                                  ? (isAr ? 'اضغط للتراجع' : 'Tap to undo')
+                                  : (isAr
                                       ? 'اضغط للتجربة'
                                       : 'Tap to try animation'),
-                            style: const TextStyle(
-                              color: AppColors.muted,
-                              fontSize: 10,
+                              style: const TextStyle(
+                                color: AppColors.muted,
+                                fontSize: 10,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

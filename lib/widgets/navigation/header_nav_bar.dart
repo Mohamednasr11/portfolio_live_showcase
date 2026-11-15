@@ -19,7 +19,11 @@ class HeaderNavBar extends StatelessWidget {
     this.isScrolled = false,
   });
 
-  static const _navKeys = ['Projects', 'Skills', 'Contact'];
+  static const _navKeys = [
+    'Projects',
+    'Skills',
+    'Contact',
+  ];
 
   static final Map<String, String> _navLabelsAr = {
     'Projects': 'مشاريع فلاتر',
@@ -71,12 +75,14 @@ class HeaderNavBar extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 1200),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 14,
+                  horizontal: 16,
+                  vertical: 12,
                 ),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    final isCompact = constraints.maxWidth < 760;
+                    final isCompact = constraints.maxWidth < 820;
+                    final isVeryCompact = constraints.maxWidth < 480;
+
                     return Row(
                       children: [
                         Semantics(
@@ -103,18 +109,19 @@ class HeaderNavBar extends StatelessWidget {
                               ),
                             );
                           }),
-                          const SizedBox(width: 14),
+                          const SizedBox(width: 12),
                         ],
 
                         // Live Showcase / Download CV Button
-                        AppButton(
-                          label: isAr ? 'تحميل CV' : 'Live showcase',
-                          icon: Icons.play_circle_outline_rounded,
-                          style: AppButtonStyle.primary,
-                          onPressed: () => UrlLauncherUtils.downloadCV(),
-                          tooltip: 'Download PDF CV / Live Showcase',
-                        ),
-                        const SizedBox(width: 10),
+                        if (!isVeryCompact)
+                          AppButton(
+                            label: isAr ? 'تحميل CV' : 'Live showcase',
+                            icon: Icons.play_circle_outline_rounded,
+                            style: AppButtonStyle.primary,
+                            onPressed: () => UrlLauncherUtils.downloadCV(),
+                            tooltip: 'Download PDF CV / Live Showcase',
+                          ),
+                        if (!isVeryCompact) const SizedBox(width: 8),
 
                         // Language Toggle Button
                         Semantics(
@@ -125,8 +132,8 @@ class HeaderNavBar extends StatelessWidget {
                           child: OutlinedButton.icon(
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 8,
+                                horizontal: 8,
+                                vertical: 6,
                               ),
                               side: const BorderSide(
                                 color: AppColors.accent,
@@ -142,7 +149,7 @@ class HeaderNavBar extends StatelessWidget {
                             icon: const Icon(
                               Icons.language_rounded,
                               color: AppColors.accent,
-                              size: 15,
+                              size: 14,
                             ),
                             label: Text(
                               isAr ? 'EN' : 'العربية',
@@ -156,7 +163,7 @@ class HeaderNavBar extends StatelessWidget {
                         ),
 
                         if (isCompact) ...[
-                          const SizedBox(width: 8),
+                          const SizedBox(width: 6),
                           Semantics(
                             label: isAr
                                 ? 'فتح القائمة الرئيسية'
