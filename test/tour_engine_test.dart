@@ -30,27 +30,27 @@ PresentationController _controller(_ScriptedClock clock) =>
     PresentationController(demos: buildDemos(), timerFactory: clock.schedule);
 
 DemoSpec _stub({int beats = 3}) => DemoSpec(
-      id: 'stub',
-      name: 'Stub',
-      category: 'TEST',
-      role: 'TEST',
-      accent: Colors.black,
-      surface: Colors.black,
-      stack: const [],
-      pitch: '',
-      steps: [
-        for (var i = 0; i < beats; i++)
-          DemoStep(
-            screen: 's$i',
-            label: 'beat $i',
-            annotation: '',
-            techNote: '',
-            speakerNote: '',
-            hold: const Duration(milliseconds: 100),
-          ),
-      ],
-      builder: (context, step) => const SizedBox.shrink(),
-    );
+  id: 'stub',
+  name: 'Stub',
+  category: 'TEST',
+  role: 'TEST',
+  accent: Colors.black,
+  surface: Colors.black,
+  stack: const [],
+  pitch: '',
+  steps: [
+    for (var i = 0; i < beats; i++)
+      DemoStep(
+        screen: 's$i',
+        label: 'beat $i',
+        annotation: '',
+        techNote: '',
+        speakerNote: '',
+        hold: const Duration(milliseconds: 100),
+      ),
+  ],
+  builder: (context, step) => const SizedBox.shrink(),
+);
 
 void main() {
   group('tour engine', () {
@@ -66,7 +66,9 @@ void main() {
     });
 
     test('next() walks beats then rolls into the following demo', () {
-      final c = PresentationController(demos: [_stub(beats: 2), _stub(beats: 3)]);
+      final c = PresentationController(
+        demos: [_stub(beats: 2), _stub(beats: 3)],
+      );
       expect(c.demoIndex, 0);
       c.next();
       expect(c.stepIndex, 1);
@@ -130,41 +132,43 @@ void main() {
   // prints the offending widget's file:line for it instead of a merged summary.
   for (final demo in buildDemos()) {
     for (var step = 0; step < demo.steps.length; step++) {
-      testWidgets('${demo.name} beat $step (${demo.steps[step].label}) renders',
-          (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              body: Center(
-                child: DeviceFrame(
-                  width: 320,
-                  child: Builder(
-                    builder: (context) => demo.builder(context, step),
+      testWidgets(
+        '${demo.name} beat $step (${demo.steps[step].label}) renders',
+        (tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+                body: Center(
+                  child: DeviceFrame(
+                    width: 320,
+                    child: Builder(
+                      builder: (context) => demo.builder(context, step),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        );
-        // Run far enough for every animation on the beat to settle.
-        for (final d in const [
-          Duration(milliseconds: 400),
-          Duration(seconds: 2),
-          Duration(seconds: 4),
-        ]) {
-          await tester.pump(d);
-        }
-        // Dispose first so no periodic timer outlives the test.
-        await tester.pumpWidget(const SizedBox.shrink());
-        await tester.pump(const Duration(seconds: 12));
+          );
+          // Run far enough for every animation on the beat to settle.
+          for (final d in const [
+            Duration(milliseconds: 400),
+            Duration(seconds: 2),
+            Duration(seconds: 4),
+          ]) {
+            await tester.pump(d);
+          }
+          // Dispose first so no periodic timer outlives the test.
+          await tester.pumpWidget(const SizedBox.shrink());
+          await tester.pump(const Duration(seconds: 12));
 
-        expect(
-          tester.takeException(),
-          isNull,
-          reason: '${demo.name} beat $step (${demo.steps[step].label})',
-        );
-      });
+          expect(
+            tester.takeException(),
+            isNull,
+            reason: '${demo.name} beat $step (${demo.steps[step].label})',
+          );
+        },
+      );
     }
   }
 }

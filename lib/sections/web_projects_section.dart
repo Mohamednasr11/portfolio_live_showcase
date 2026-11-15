@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../core/utils/url_launcher_utils.dart';
@@ -54,10 +55,7 @@ class _WebProjectCard extends StatefulWidget {
   final Project project;
   final VoidCallback onOpen;
 
-  const _WebProjectCard({
-    required this.project,
-    required this.onOpen,
-  });
+  const _WebProjectCard({required this.project, required this.onOpen});
 
   @override
   State<_WebProjectCard> createState() => _WebProjectCardState();
@@ -109,13 +107,18 @@ class _WebProjectCardState extends State<_WebProjectCard> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.cyan,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          isAr ? 'مشروع ويب (Web Project)' : 'WEB DEVELOPMENT PROJECT',
+                          isAr
+                              ? 'مشروع ويب (Web Project)'
+                              : 'WEB DEVELOPMENT PROJECT',
                           style: const TextStyle(
                             color: AppColors.ink,
                             fontSize: 10,
@@ -169,7 +172,9 @@ class _WebProjectCardState extends State<_WebProjectCard> {
                     runSpacing: 10,
                     children: [
                       PrimaryButton(
-                        label: isAr ? 'عرض دراسة المشروع' : 'View Web Case Study',
+                        label: isAr
+                            ? 'عرض دراسة المشروع'
+                            : 'View Web Case Study',
                         icon: Icons.launch_rounded,
                         onPressed: widget.onOpen,
                       ),
@@ -177,7 +182,8 @@ class _WebProjectCardState extends State<_WebProjectCard> {
                         QuietButton(
                           label: 'GitHub Repository',
                           icon: Icons.code_rounded,
-                          onPressed: () => UrlLauncherUtils.launchURL(project.githubUrl!),
+                          onPressed: () =>
+                              UrlLauncherUtils.launchURL(project.githubUrl!),
                         ),
                     ],
                   ),

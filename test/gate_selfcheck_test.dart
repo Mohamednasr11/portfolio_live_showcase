@@ -15,9 +15,7 @@ void main() {
               // A Row lays its children out on an unbounded main axis, so a
               // fixed 1200px child genuinely escapes the 320px parent. A
               // stretch Column would clamp it and overflow nothing.
-              child: Row(
-                children: const [SizedBox(width: 1200, height: 8)],
-              ),
+              child: Row(children: const [SizedBox(width: 1200, height: 8)]),
             ),
           ),
         ),
@@ -25,8 +23,11 @@ void main() {
     );
     await tester.pump();
 
-    expect(tester.takeException(), isNotNull,
-        reason: 'overflow must surface as a test exception');
+    expect(
+      tester.takeException(),
+      isNotNull,
+      reason: 'overflow must surface as a test exception',
+    );
   });
 
   testWidgets('the gate sees a deliberate vertical overflow', (tester) async {
@@ -37,9 +38,7 @@ void main() {
           body: Center(
             child: SizedBox(
               height: 200,
-              child: Column(
-                children: const [SizedBox(height: 900, width: 40)],
-              ),
+              child: Column(children: const [SizedBox(height: 900, width: 40)]),
             ),
           ),
         ),

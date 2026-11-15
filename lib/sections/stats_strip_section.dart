@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../widgets/common/max_width_container.dart';
@@ -20,7 +21,9 @@ class StatsStripSection extends StatelessWidget {
           ),
           _StripMetric(
             value: 'Clean Architecture',
-            label: isAr ? 'هيكلة كود نظيفة وقابلة للتوسع' : 'MODULAR CODEBASE PATTERN',
+            label: isAr
+                ? 'هيكلة كود نظيفة وقابلة للتوسع'
+                : 'MODULAR CODEBASE PATTERN',
           ),
           _StripMetric(
             value: 'iOS & Android',

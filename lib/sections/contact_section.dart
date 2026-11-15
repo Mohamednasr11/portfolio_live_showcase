@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../core/utils/url_launcher_utils.dart';
@@ -42,7 +43,9 @@ class ContactSection extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    isAr ? 'هل لديك فكرة أو فرصة عمل؟' : 'LOOKING FOR A FLUTTER DEVELOPER?',
+                    isAr
+                        ? 'هل لديك فكرة أو فرصة عمل؟'
+                        : 'LOOKING FOR A FLUTTER DEVELOPER?',
                     style: const TextStyle(
                       color: AppColors.lime,
                       fontSize: 11,
@@ -80,7 +83,10 @@ class ContactSection extends StatelessWidget {
                         ? 'متاح للفرص الوظيفية كـ Junior Flutter Developer، ومشاريع الجوال الحرة والتعاقدية.'
                         : 'Available for Junior Flutter Developer roles, internships, and high-impact remote mobile projects.',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: Color(0xFFB4C9BC), fontSize: 13),
+                    style: const TextStyle(
+                      color: Color(0xFFB4C9BC),
+                      fontSize: 13,
+                    ),
                   ),
                   const SizedBox(height: 28),
                   Wrap(
@@ -91,12 +97,14 @@ class ContactSection extends StatelessWidget {
                       PrimaryButton(
                         label: PortfolioData.email,
                         icon: Icons.mail_outline_rounded,
-                        onPressed: () => UrlLauncherUtils.openEmail(PortfolioData.email),
+                        onPressed: () =>
+                            UrlLauncherUtils.openEmail(PortfolioData.email),
                       ),
                       QuietButton(
                         label: 'WhatsApp Chat',
                         icon: Icons.chat_bubble_outline_rounded,
-                        onPressed: () => UrlLauncherUtils.openWhatsApp(PortfolioData.phone),
+                        onPressed: () =>
+                            UrlLauncherUtils.openWhatsApp(PortfolioData.phone),
                       ),
                       QuietButton(
                         label: isAr ? 'تحميل السيرة الذاتية' : 'Download CV',

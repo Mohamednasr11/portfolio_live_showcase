@@ -10,7 +10,7 @@ import 'model.dart';
 /// to any beat and the live UI is always consistent with the notes panel.
 class PresentationController extends ChangeNotifier {
   PresentationController({required this.demos, TimerFactory? timerFactory})
-      : _timerFactory = timerFactory ?? _wallClock {
+    : _timerFactory = timerFactory ?? _wallClock {
     _schedule();
   }
 
@@ -138,9 +138,8 @@ class PresentationController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Duration get remainingHold => Duration(
-        milliseconds: (step.hold.inMilliseconds / _speed).round(),
-      );
+  Duration get remainingHold =>
+      Duration(milliseconds: (step.hold.inMilliseconds / _speed).round());
 
   void _schedule() {
     _cancel();

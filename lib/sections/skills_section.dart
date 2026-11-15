@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../data/portfolio_data.dart';
+import '../widgets/common/reveal_on_scroll.dart';
 import '../widgets/common/section_header.dart';
 
 class SkillsSection extends StatelessWidget {
@@ -31,7 +33,7 @@ class SkillsSection extends StatelessWidget {
         final categories = PortfolioData.skillCategories;
 
         return SectionWrapper(
-          number: '04',
+          number: '02',
           eyebrow: isAr ? 'الخبرات والمهارات التقنية' : 'TECHNICAL EXPERTISE',
           title: isAr ? 'المهارات' : 'Engineering',
           accent: isAr ? 'والتقنيات المتبعة.' : 'Stack & Tools.',
@@ -47,17 +49,23 @@ class SkillsSection extends StatelessWidget {
               return Wrap(
                 spacing: gap,
                 runSpacing: gap,
-                children: categories.map((cat) {
+                children: categories.asMap().entries.map((entry) {
+                  final catIndex = entry.key;
+                  final cat = entry.value;
+
                   final title = isAr ? cat['titleAr'] : cat['titleEn'];
                   final iconName = cat['icon'] as String;
                   final skills = cat['skills'] as List<String>;
 
-                  return SizedBox(
-                    width: width,
-                    child: _SkillCategoryCard(
-                      title: title,
-                      icon: _getCategoryIcon(iconName),
-                      skills: skills,
+                  return RevealOnScroll(
+                    delay: Duration(milliseconds: 100 * catIndex),
+                    child: SizedBox(
+                      width: width,
+                      child: _SkillCategoryCard(
+                        title: title,
+                        icon: _getCategoryIcon(iconName),
+                        skills: skills,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -101,14 +109,14 @@ class _SkillCategoryCardState extends State<_SkillCategoryCard> {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: _hovered
-                ? AppColors.lime
-                : AppColors.withAlphaOpacity(AppColors.lime, 0.2),
+                ? AppColors.accent
+                : AppColors.withAlphaOpacity(AppColors.accent, 0.2),
             width: 1.2,
           ),
           boxShadow: [
             BoxShadow(
               color: _hovered
-                  ? AppColors.withAlphaOpacity(AppColors.lime, 0.08)
+                  ? AppColors.withAlphaOpacity(AppColors.accent, 0.1)
                   : Colors.transparent,
               blurRadius: 20,
               offset: const Offset(0, 6),
@@ -123,18 +131,19 @@ class _SkillCategoryCardState extends State<_SkillCategoryCard> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF132F3D),
+                    color: const Color(0xFF0F172A),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColors.lime, width: 0.8),
+                    border: Border.all(color: AppColors.accent, width: 0.8),
                   ),
-                  child: Icon(widget.icon, color: AppColors.lime, size: 20),
+                  child: Icon(widget.icon, color: AppColors.accent, size: 20),
                 ),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(
                     widget.title,
                     style: const TextStyle(
-                      color: AppColors.paper,
+                      fontFamily: 'Syne',
+                      color: AppColors.textPrimary,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
@@ -146,7 +155,15 @@ class _SkillCategoryCardState extends State<_SkillCategoryCard> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: widget.skills.map((skill) => _SkillChip(skill: skill)).toList(),
+              children: widget.skills.asMap().entries.map((entry) {
+                final chipIndex = entry.key;
+                final skill = entry.value;
+
+                return RevealOnScroll(
+                  delay: Duration(milliseconds: 50 * chipIndex),
+                  child: _HoverSkillChip(skill: skill),
+                );
+              }).toList(),
             ),
           ],
         ),
@@ -155,41 +172,63 @@ class _SkillCategoryCardState extends State<_SkillCategoryCard> {
   }
 }
 
-class _SkillChip extends StatelessWidget {
+class _HoverSkillChip extends StatefulWidget {
   final String skill;
 
-  const _SkillChip({required this.skill});
+  const _HoverSkillChip({required this.skill});
+
+  @override
+  State<_HoverSkillChip> createState() => _HoverSkillChipState();
+}
+
+class _HoverSkillChipState extends State<_HoverSkillChip> {
+  bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-      decoration: BoxDecoration(
-        color: const Color(0xFF091924),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 5,
-            height: 5,
-            decoration: const BoxDecoration(
-              color: AppColors.lime,
-              shape: BoxShape.circle,
-            ),
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        // ignore: deprecated_member_use
+        transform: Matrix4.identity()
+          // ignore: deprecated_member_use
+          ..scale(_hovered ? 1.05 : 1.0, _hovered ? 1.05 : 1.0, 1.0),
+        transformAlignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        decoration: BoxDecoration(
+          color: _hovered
+              ? AppColors.withAlphaOpacity(AppColors.accent, 0.15)
+              : const Color(0xFF0D1322),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: _hovered ? AppColors.accent : AppColors.border,
+            width: 1.0,
           ),
-          const SizedBox(width: 8),
-          Text(
-            skill,
-            style: const TextStyle(
-              color: AppColors.paper,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 5,
+              height: 5,
+              decoration: const BoxDecoration(
+                color: AppColors.accent,
+                shape: BoxShape.circle,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: 8),
+            Text(
+              widget.skill,
+              style: TextStyle(
+                color: _hovered ? AppColors.accent : AppColors.textPrimary,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

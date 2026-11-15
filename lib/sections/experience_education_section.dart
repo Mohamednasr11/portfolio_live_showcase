@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../data/portfolio_data.dart';
@@ -32,7 +33,9 @@ class ExperienceEducationSection extends StatelessWidget {
           color: const Color(0xFF091924),
           child: SectionWrapper(
             number: '05',
-            eyebrow: isAr ? 'التعليم والتدريب التقني' : 'ACADEMIC & PROFESSIONAL TRAINING',
+            eyebrow: isAr
+                ? 'التعليم والتدريب التقني'
+                : 'ACADEMIC & PROFESSIONAL TRAINING',
             title: isAr ? 'التعليم' : 'Education',
             accent: isAr ? 'والتدريب المعتمد.' : '& Specialized Training.',
             description: isAr
@@ -43,7 +46,9 @@ class ExperienceEducationSection extends StatelessWidget {
                 final type = isAr ? item['typeAr'] : item['typeEn'];
                 final title = isAr ? item['titleAr'] : item['titleEn'];
                 final subtitle = isAr ? item['subtitleAr'] : item['subtitleEn'];
-                final description = isAr ? item['descriptionAr'] : item['descriptionEn'];
+                final description = isAr
+                    ? item['descriptionAr']
+                    : item['descriptionEn'];
                 final period = item['period'] as String;
                 final iconName = item['icon'] as String;
 
@@ -128,7 +133,10 @@ class _TimelineCardState extends State<_TimelineCard> {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.lime,
                         borderRadius: BorderRadius.circular(20),
@@ -144,7 +152,10 @@ class _TimelineCardState extends State<_TimelineCard> {
                     ),
                     const Spacer(),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF132F3D),
                         borderRadius: BorderRadius.circular(20),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/constants/app_colors.dart';
 import '../../core/localization/language_controller.dart';
 import '../../core/utils/url_launcher_utils.dart';
@@ -41,15 +42,21 @@ class FooterNavBar extends StatelessWidget {
                         ),
                         _FooterLink(
                           'WhatsApp',
-                          () => UrlLauncherUtils.openWhatsApp(PortfolioData.phone),
+                          () => UrlLauncherUtils.openWhatsApp(
+                            PortfolioData.phone,
+                          ),
                         ),
                         _FooterLink(
                           'GitHub',
-                          () => UrlLauncherUtils.launchURL(PortfolioData.githubUrl),
+                          () => UrlLauncherUtils.launchURL(
+                            PortfolioData.githubUrl,
+                          ),
                         ),
                         _FooterLink(
                           'LinkedIn',
-                          () => UrlLauncherUtils.launchURL(PortfolioData.linkedinUrl),
+                          () => UrlLauncherUtils.launchURL(
+                            PortfolioData.linkedinUrl,
+                          ),
                         ),
                         _FooterLink(
                           isAr ? 'تحميل السيرة الذاتية' : 'Download CV',
@@ -61,7 +68,10 @@ class FooterNavBar extends StatelessWidget {
                       isAr
                           ? '© 2026 · محمد نصر الدين — مطور فلاتر'
                           : '© 2026 · Mohamed Nasr Eldeen — Flutter Developer',
-                      style: const TextStyle(color: AppColors.muted, fontSize: 11),
+                      style: const TextStyle(
+                        color: AppColors.muted,
+                        fontSize: 11,
+                      ),
                     ),
                   ],
                 ),
@@ -87,7 +97,11 @@ class _FooterLink extends StatelessWidget {
       borderRadius: BorderRadius.circular(4),
       child: Text(
         label,
-        style: const TextStyle(color: AppColors.muted, fontSize: 11, fontWeight: FontWeight.w600),
+        style: const TextStyle(
+          color: AppColors.muted,
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

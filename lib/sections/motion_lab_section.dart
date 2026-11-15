@@ -1,5 +1,7 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../widgets/common/section_header.dart';
@@ -38,15 +40,21 @@ class MotionLabSection extends StatelessWidget {
                     width: width,
                     child: _MotionCard(
                       title: isAr ? 'مؤشر النبض التفاعلي' : 'Soft Pulse Glow',
-                      subtitle: isAr ? 'مؤشر حالة حي بهالة شعاعية' : 'Living status indicator with radial glow',
+                      subtitle: isAr
+                          ? 'مؤشر حالة حي بهالة شعاعية'
+                          : 'Living status indicator with radial glow',
                       demo: const PulseDemoPlus(),
                     ),
                   ),
                   SizedBox(
                     width: width,
                     child: _MotionCard(
-                      title: isAr ? 'مؤشر التحميل المداري' : 'Orbit Ring Loader',
-                      subtitle: isAr ? 'محاكاة انتظار بمدارات متعددة' : 'Multi-orbit physics waiting state',
+                      title: isAr
+                          ? 'مؤشر التحميل المداري'
+                          : 'Orbit Ring Loader',
+                      subtitle: isAr
+                          ? 'محاكاة انتظار بمدارات متعددة'
+                          : 'Multi-orbit physics waiting state',
                       demo: const OrbitDemoPlus(),
                     ),
                   ),
@@ -54,7 +62,9 @@ class MotionLabSection extends StatelessWidget {
                     width: width,
                     child: _MotionCard(
                       title: isAr ? 'زر تحول الحالة' : 'State Morph Switch',
-                      subtitle: isAr ? 'اضغط لتجربة التغير في اللون والحجم' : 'Tap to trigger interactive scale & color morphing',
+                      subtitle: isAr
+                          ? 'اضغط لتجربة التغير في اللون والحجم'
+                          : 'Tap to trigger interactive scale & color morphing',
                       demo: const SwitchDemoPlus(),
                     ),
                   ),
@@ -165,7 +175,10 @@ class _PulseDemoPlusState extends State<PulseDemoPlus>
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: AppColors.withAlphaOpacity(AppColors.lime, 0.4 * (1 - val)),
+                        color: AppColors.withAlphaOpacity(
+                          AppColors.lime,
+                          0.4 * (1 - val),
+                        ),
                         width: 2,
                       ),
                     ),
@@ -181,7 +194,10 @@ class _PulseDemoPlusState extends State<PulseDemoPlus>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.withAlphaOpacity(AppColors.lime, 0.3 + val * 0.4),
+                          color: AppColors.withAlphaOpacity(
+                            AppColors.lime,
+                            0.3 + val * 0.4,
+                          ),
                           blurRadius: 24 + val * 24,
                           spreadRadius: 6,
                         ),
@@ -350,7 +366,9 @@ class _SwitchDemoPlusState extends State<SwitchDemoPlus> {
                 width: 200,
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: _active ? const Color(0xFF193F37) : AppColors.panelLight,
+                  color: _active
+                      ? const Color(0xFF193F37)
+                      : AppColors.panelLight,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: _active
@@ -381,11 +399,15 @@ class _SwitchDemoPlusState extends State<SwitchDemoPlus> {
                         width: 38,
                         height: 38,
                         decoration: BoxDecoration(
-                          color: _active ? AppColors.lime : const Color(0xFF34505A),
+                          color: _active
+                              ? AppColors.lime
+                              : const Color(0xFF34505A),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
-                          _active ? Icons.check_rounded : Icons.touch_app_rounded,
+                          _active
+                              ? Icons.check_rounded
+                              : Icons.touch_app_rounded,
                           color: _active ? AppColors.ink : AppColors.paper,
                           size: 20,
                         ),
@@ -409,7 +431,9 @@ class _SwitchDemoPlusState extends State<SwitchDemoPlus> {
                           Text(
                             _active
                                 ? (isAr ? 'اضغط للتراجع' : 'Tap to undo')
-                                : (isAr ? 'اضغط للتجربة' : 'Tap to try animation'),
+                                : (isAr
+                                      ? 'اضغط للتجربة'
+                                      : 'Tap to try animation'),
                             style: const TextStyle(
                               color: AppColors.muted,
                               fontSize: 10,

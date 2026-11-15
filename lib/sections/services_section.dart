@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../widgets/common/section_header.dart';
@@ -19,28 +20,30 @@ class ServicesSection extends StatelessWidget {
             isAr ? 'تطوير تطبيقات الجوال' : 'Flutter Mobile Development',
             isAr
                 ? 'تطوير تطبيقات جوال جاهزة للإنتاج لـ iOS وAndroid بكود نظيف وقابل للصيانة.'
-                : 'Production-ready iOS & Android mobile apps engineered with Flutter and Dart.'
+                : 'Production-ready iOS & Android mobile apps engineered with Flutter and Dart.',
           ),
           (
             Icons.layers_outlined,
-            isAr ? 'تطبيق المعمارية النظيفة' : 'Clean Architecture Implementation',
+            isAr
+                ? 'تطبيق المعمارية النظيفة'
+                : 'Clean Architecture Implementation',
             isAr
                 ? 'فصل طبقات الكود (Domain/Data/Presentation) لإدارة المستندات والبيانات بسهولة.'
-                : 'Separating Domain, Data, and Presentation layers for highly testable code bases.'
+                : 'Separating Domain, Data, and Presentation layers for highly testable code bases.',
           ),
           (
             Icons.cloud_outlined,
             isAr ? 'ربط Firebase وواجهات REST' : 'Firebase & API Integrations',
             isAr
                 ? 'مصادقة المستخدمين، مزامنة البيانات السحابية، تنبيهات FCM، والاتصال بـ Dio REST APIs.'
-                : 'Authentication, Firestore database, FCM push notifications, and Dio REST API clients.'
+                : 'Authentication, Firestore database, FCM push notifications, and Dio REST API clients.',
           ),
           (
             Icons.auto_awesome_rounded,
             isAr ? 'تجهيز وإشراف النشر' : 'App Store Release & Testing',
             isAr
                 ? 'اختبار واجهات المستخدم، معالجة الأخطاء، وإعداد التطبيقات للنشر على App Store وPlay Store.'
-                : 'UI testing, performance optimization, and store submission readiness.'
+                : 'UI testing, performance optimization, and store submission readiness.',
           ),
         ];
 

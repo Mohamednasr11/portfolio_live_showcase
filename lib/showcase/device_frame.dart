@@ -255,17 +255,12 @@ enum DeviceScreenTone { light, dark }
 
 /// Demos wrap themselves in this so the fake status bar can pick a legible tint.
 class DeviceToneScope extends InheritedWidget {
-  const DeviceToneScope({
-    super.key,
-    required this.tone,
-    required super.child,
-  });
+  const DeviceToneScope({super.key, required this.tone, required super.child});
 
   final DeviceScreenTone tone;
 
-  static DeviceScreenTone? maybeOf(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<DeviceToneScope>()
-      ?.tone;
+  static DeviceScreenTone? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<DeviceToneScope>()?.tone;
 
   @override
   bool updateShouldNotify(DeviceToneScope oldWidget) => tone != oldWidget.tone;
@@ -291,10 +286,7 @@ class LiveScreenStack extends StatelessWidget {
       layoutBuilder: (current, previous) => Stack(
         fit: StackFit.expand,
         alignment: Alignment.center,
-        children: [
-          ...previous.whereType<Widget>(),
-          ?current,
-        ],
+        children: [...previous.whereType<Widget>(), ?current],
       ),
       transitionBuilder: (child, animation) {
         final incoming = animation;

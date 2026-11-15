@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../core/utils/url_launcher_utils.dart';
@@ -32,7 +33,9 @@ class AboutSection extends StatelessWidget {
                 final narrow = constraints.maxWidth < 820;
 
                 final bioWidget = SizedBox(
-                  width: narrow ? constraints.maxWidth : constraints.maxWidth * 0.48,
+                  width: narrow
+                      ? constraints.maxWidth
+                      : constraints.maxWidth * 0.48,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -65,10 +68,13 @@ class AboutSection extends StatelessWidget {
                           PrimaryButton(
                             label: isAr ? 'تواصل معي مباشرة' : 'Get in Touch',
                             icon: Icons.mail_outline_rounded,
-                            onPressed: () => UrlLauncherUtils.openEmail(PortfolioData.email),
+                            onPressed: () =>
+                                UrlLauncherUtils.openEmail(PortfolioData.email),
                           ),
                           QuietButton(
-                            label: isAr ? 'تحميل السيرة الذاتية' : 'Download CV',
+                            label: isAr
+                                ? 'تحميل السيرة الذاتية'
+                                : 'Download CV',
                             onPressed: () => UrlLauncherUtils.downloadCV(),
                           ),
                         ],
@@ -78,12 +84,16 @@ class AboutSection extends StatelessWidget {
                 );
 
                 final highlightsWidget = SizedBox(
-                  width: narrow ? constraints.maxWidth : constraints.maxWidth * 0.46,
+                  width: narrow
+                      ? constraints.maxWidth
+                      : constraints.maxWidth * 0.46,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        isAr ? 'أبرز ركائز التطوير' : 'CORE ENGINEERING PILLARS',
+                        isAr
+                            ? 'أبرز ركائز التطوير'
+                            : 'CORE ENGINEERING PILLARS',
                         style: const TextStyle(
                           color: AppColors.lime,
                           fontSize: 11,
@@ -94,21 +104,27 @@ class AboutSection extends StatelessWidget {
                       const SizedBox(height: 18),
                       _PillarItem(
                         icon: Icons.layers_outlined,
-                        title: isAr ? 'معمارية Clean Architecture' : 'Clean Architecture & Separation',
+                        title: isAr
+                            ? 'معمارية Clean Architecture'
+                            : 'Clean Architecture & Separation',
                         desc: isAr
                             ? 'تقسيم المشروع إلى ثلاث طبقات (Domain / Data / Presentation) لضمان استقلالية الكود وسهولة الاختبار.'
                             : 'Layered architecture (Data, Domain, Presentation) isolating core business logic from UI frameworks.',
                       ),
                       _PillarItem(
                         icon: Icons.autorenew_rounded,
-                        title: isAr ? 'إدارة حالة متوقعة بـ BLoC/Cubit' : 'Predictable BLoC/Cubit State',
+                        title: isAr
+                            ? 'إدارة حالة متوقعة بـ BLoC/Cubit'
+                            : 'Predictable BLoC/Cubit State',
                         desc: isAr
                             ? 'إدارة التدفقات التفاعلية وتحديثات الشاشات بدون تعقيد وبكفاءة عالية في استخدام الموارد.'
                             : 'Unidirectional data flow, reactive state handling, and efficient UI re-renders using BLoC and Cubit.',
                       ),
                       _PillarItem(
                         icon: Icons.api_rounded,
-                        title: isAr ? 'ربط الواجهات والمزامنة' : 'APIs & Backend Synchronization',
+                        title: isAr
+                            ? 'ربط الواجهات والمزامنة'
+                            : 'APIs & Backend Synchronization',
                         desc: isAr
                             ? 'معالجة الاتصال بالشبكات عبر Dio REST APIs وGraphQL وخدمات Firebase الآمنة.'
                             : 'Robust API integration using Dio HTTP client, GraphQL queries, Firebase Auth, Firestore, and FCM.',
@@ -136,10 +152,7 @@ class AboutSection extends StatelessWidget {
                 return Wrap(
                   spacing: 40,
                   runSpacing: 36,
-                  children: [
-                    bioWidget,
-                    highlightsWidget,
-                  ],
+                  children: [bioWidget, highlightsWidget],
                 );
               },
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/localization/language_controller.dart';
 import '../core/utils/url_launcher_utils.dart';
@@ -72,11 +73,15 @@ class _ProjectDetailDialogState extends State<ProjectDetailDialog> {
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: Colors.white10),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 18,
+                          horizontal: 12,
+                        ),
                         child: PageView.builder(
                           controller: _pageController,
                           itemCount: allImages.length,
-                          onPageChanged: (index) => setState(() => _page = index),
+                          onPageChanged: (index) =>
+                              setState(() => _page = index),
                           itemBuilder: (context, index) {
                             return Center(
                               child: SingleChildScrollView(
@@ -88,10 +93,12 @@ class _ProjectDetailDialogState extends State<ProjectDetailDialog> {
                                     height: compact ? 390 : 450,
                                     enableHoverEffect: false,
                                     badgeText: index == 0
-                                        ? (isAr ? 'الشاشة الرئيسية' : 'Main Screen')
+                                        ? (isAr
+                                              ? 'الشاشة الرئيسية'
+                                              : 'Main Screen')
                                         : (isAr
-                                            ? 'شاشة ${index + 1} من ${allImages.length}'
-                                            : 'Screen ${index + 1} of ${allImages.length}'),
+                                              ? 'شاشة ${index + 1} من ${allImages.length}'
+                                              : 'Screen ${index + 1} of ${allImages.length}'),
                                   ),
                                 ),
                               ),
@@ -113,7 +120,9 @@ class _ProjectDetailDialogState extends State<ProjectDetailDialog> {
                                 color: AppColors.lime,
                                 size: 28,
                               ),
-                              tooltip: isAr ? 'الشاشة السابقة' : 'Previous Screen',
+                              tooltip: isAr
+                                  ? 'الشاشة السابقة'
+                                  : 'Previous Screen',
                               onPressed: _previousPage,
                             ),
                           ),
@@ -224,7 +233,11 @@ class _ProjectDetailDialogState extends State<ProjectDetailDialog> {
                 const SizedBox(height: 6),
                 Text(
                   project.problem(isAr),
-                  style: const TextStyle(color: AppColors.paper, fontSize: 12, height: 1.7),
+                  style: const TextStyle(
+                    color: AppColors.paper,
+                    fontSize: 12,
+                    height: 1.7,
+                  ),
                 ),
                 const SizedBox(height: 18),
 
@@ -233,34 +246,58 @@ class _ProjectDetailDialogState extends State<ProjectDetailDialog> {
                 const SizedBox(height: 6),
                 Text(
                   project.solution(isAr),
-                  style: const TextStyle(color: AppColors.paper, fontSize: 12, height: 1.7),
+                  style: const TextStyle(
+                    color: AppColors.paper,
+                    fontSize: 12,
+                    height: 1.7,
+                  ),
                 ),
                 const SizedBox(height: 18),
 
                 // Architecture Section
-                _SectionTitle(isAr ? 'المعمارية وهيكلة الكود' : 'ARCHITECTURE & PATTERNS'),
+                _SectionTitle(
+                  isAr ? 'المعمارية وهيكلة الكود' : 'ARCHITECTURE & PATTERNS',
+                ),
                 const SizedBox(height: 6),
                 Text(
                   project.architecture(isAr),
-                  style: const TextStyle(color: AppColors.cyan, fontSize: 12, height: 1.6),
+                  style: const TextStyle(
+                    color: AppColors.cyan,
+                    fontSize: 12,
+                    height: 1.6,
+                  ),
                 ),
                 const SizedBox(height: 18),
 
                 // State Management & Backend Section
-                _SectionTitle(isAr ? 'إدارة الحالة والربط البرمجي' : 'STATE & BACKEND INTEGRATION'),
+                _SectionTitle(
+                  isAr
+                      ? 'إدارة الحالة والربط البرمجي'
+                      : 'STATE & BACKEND INTEGRATION',
+                ),
                 const SizedBox(height: 6),
                 Text(
                   '${project.stateManagement(isAr)}\n${project.apiBackend(isAr)}',
-                  style: const TextStyle(color: AppColors.paper, fontSize: 12, height: 1.7),
+                  style: const TextStyle(
+                    color: AppColors.paper,
+                    fontSize: 12,
+                    height: 1.7,
+                  ),
                 ),
                 const SizedBox(height: 18),
 
                 // Key Features Section
-                _SectionTitle(isAr ? 'أبرز الميزات البرمجية' : 'KEY TECHNICAL FEATURES'),
+                _SectionTitle(
+                  isAr ? 'أبرز الميزات البرمجية' : 'KEY TECHNICAL FEATURES',
+                ),
                 const SizedBox(height: 6),
                 Text(
                   project.keyFeatures(isAr),
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12, height: 1.7),
+                  style: const TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 12,
+                    height: 1.7,
+                  ),
                 ),
                 const SizedBox(height: 20),
 
@@ -283,13 +320,15 @@ class _ProjectDetailDialogState extends State<ProjectDetailDialog> {
                       PrimaryButton(
                         label: 'GitHub Repository',
                         icon: Icons.code_rounded,
-                        onPressed: () => UrlLauncherUtils.launchURL(project.githubUrl!),
+                        onPressed: () =>
+                            UrlLauncherUtils.launchURL(project.githubUrl!),
                       ),
                     if (project.liveUrl != null)
                       QuietButton(
                         label: isAr ? 'معاينة حية' : 'Live Demo',
                         icon: Icons.open_in_new_rounded,
-                        onPressed: () => UrlLauncherUtils.launchURL(project.liveUrl!),
+                        onPressed: () =>
+                            UrlLauncherUtils.launchURL(project.liveUrl!),
                       ),
                   ],
                 ),
@@ -303,7 +342,9 @@ class _ProjectDetailDialogState extends State<ProjectDetailDialog> {
                   Row(
                     children: [
                       Text(
-                        isAr ? 'دراسة حالة تقنية مفصلة' : 'ENGINEERING CASE STUDY & DEEP DIVE',
+                        isAr
+                            ? 'دراسة حالة تقنية مفصلة'
+                            : 'ENGINEERING CASE STUDY & DEEP DIVE',
                         style: const TextStyle(
                           color: AppColors.muted,
                           fontSize: 10,

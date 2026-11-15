@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/constants/app_colors.dart';
 
 /// A realistic smartphone mockup widget inspired by Goldie showcase frames.
@@ -36,14 +37,18 @@ class _GoldieDeviceMockupState extends State<GoldieDeviceMockup> {
   @override
   Widget build(BuildContext context) {
     final frameBorderRadius = BorderRadius.circular(widget.borderRadius);
-    final screenBorderRadius =
-        BorderRadius.circular(widget.borderRadius - 6.0);
+    final screenBorderRadius = BorderRadius.circular(
+      widget.borderRadius - 6.0,
+    );
 
     Widget content = AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOutCubic,
       transform: Matrix4.translationValues(
-          0, _hovered && widget.enableHoverEffect ? -8 : 0, 0),
+        0,
+        _hovered && widget.enableHoverEffect ? -8 : 0,
+        0,
+      ),
       decoration: BoxDecoration(
         color: AppColors.mockupBezelOuter,
         borderRadius: frameBorderRadius,
@@ -74,10 +79,7 @@ class _GoldieDeviceMockupState extends State<GoldieDeviceMockup> {
         decoration: BoxDecoration(
           color: AppColors.mockupBezelInner,
           borderRadius: screenBorderRadius,
-          border: Border.all(
-            color: Colors.black,
-            width: 1.5,
-          ),
+          border: Border.all(color: Colors.black, width: 1.5),
         ),
         clipBehavior: Clip.antiAlias,
         child: Stack(
@@ -89,7 +91,7 @@ class _GoldieDeviceMockupState extends State<GoldieDeviceMockup> {
               width: widget.width,
               height: widget.height,
               fit: widget.fit,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (_, _, _) => Container(
                 width: widget.width,
                 height: widget.height ?? (widget.width * 2),
                 color: AppColors.panelLight,
@@ -119,7 +121,10 @@ class _GoldieDeviceMockupState extends State<GoldieDeviceMockup> {
                 left: 12,
                 right: 12,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.withAlphaOpacity(Colors.black, 0.65),
                     borderRadius: BorderRadius.circular(8),
@@ -146,10 +151,7 @@ class _GoldieDeviceMockupState extends State<GoldieDeviceMockup> {
                 decoration: BoxDecoration(
                   color: AppColors.mockupCameraPin,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.white10,
-                    width: 0.5,
-                  ),
+                  border: Border.all(color: Colors.white10, width: 0.5),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -172,7 +174,10 @@ class _GoldieDeviceMockupState extends State<GoldieDeviceMockup> {
               Positioned(
                 bottom: 12,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.lime,
                     borderRadius: BorderRadius.circular(12),

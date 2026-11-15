@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/constants/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -53,7 +54,11 @@ class QuietButton extends StatelessWidget {
       icon: iconWidget,
       label: Text(
         label,
-        style: const TextStyle(color: AppColors.paper, fontSize: 12, fontWeight: FontWeight.w600),
+        style: const TextStyle(
+          color: AppColors.paper,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.paper,

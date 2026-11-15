@@ -74,8 +74,10 @@ class Project {
 
   String problem(bool isArabic) => isArabic ? problemAr : problemEn;
   String solution(bool isArabic) => isArabic ? solutionAr : solutionEn;
-  String architecture(bool isArabic) => isArabic ? architectureAr : architectureEn;
-  String stateManagement(bool isArabic) => isArabic ? stateManagementAr : stateManagementEn;
+  String architecture(bool isArabic) =>
+      isArabic ? architectureAr : architectureEn;
+  String stateManagement(bool isArabic) =>
+      isArabic ? stateManagementAr : stateManagementEn;
   String apiBackend(bool isArabic) => isArabic ? apiBackendAr : apiBackendEn;
   String keyFeatures(bool isArabic) => isArabic ? keyFeaturesAr : keyFeaturesEn;
 }

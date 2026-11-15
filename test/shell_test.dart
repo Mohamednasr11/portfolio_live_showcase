@@ -31,8 +31,9 @@ void main() {
     await tester.pump(const Duration(milliseconds: 50));
   }
 
-  testWidgets('notes panel tracks the beat, not the first frame',
-      (tester) async {
+  testWidgets('notes panel tracks the beat, not the first frame', (
+    tester,
+  ) async {
     final c = await boot(tester);
     final beats = c.demos.first.steps;
 
@@ -58,8 +59,9 @@ void main() {
     await halt(tester, c);
   });
 
-  testWidgets('jumping projects updates the top bar and flow list',
-      (tester) async {
+  testWidgets('jumping projects updates the top bar and flow list', (
+    tester,
+  ) async {
     final c = await boot(tester);
     final target = c.demos[2];
 
@@ -72,8 +74,9 @@ void main() {
     await halt(tester, c);
   });
 
-  testWidgets('space starts playback through the keyboard handler',
-      (tester) async {
+  testWidgets('space starts playback through the keyboard handler', (
+    tester,
+  ) async {
     final c = await boot(tester);
     expect(c.playing, isFalse);
 
@@ -88,8 +91,9 @@ void main() {
   // harness can only prove one of them: a CDP-synthesised Shift trips a
   // keysPressed assert and the hop is swallowed, so digits are what the
   // screenshots were walked with. This covers the real Shift+arrow path.
-  testWidgets('shift + arrow and the digit row both switch projects',
-      (tester) async {
+  testWidgets('shift + arrow and the digit row both switch projects', (
+    tester,
+  ) async {
     final c = await boot(tester);
 
     await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);

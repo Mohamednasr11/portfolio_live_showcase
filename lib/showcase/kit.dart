@@ -8,6 +8,7 @@ import 'theme.dart';
 
 export 'device_frame.dart'
     show DeviceScreenTone, DeviceToneScope, LiveScreenStack;
+
 class AppScreen extends StatelessWidget {
   const AppScreen({
     super.key,
@@ -34,17 +35,14 @@ class AppScreen extends StatelessWidget {
           textDirection: rtl ? TextDirection.rtl : TextDirection.ltr,
           child: Padding(
             padding: padding,
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: child,
-            ),
+            child: SafeArea(top: false, bottom: false, child: child),
           ),
         ),
       ),
     );
   }
 }
+
 class ScreenBody extends StatelessWidget {
   const ScreenBody({
     super.key,
@@ -59,19 +57,19 @@ class ScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: padding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: body,
-              ),
-            ),
+    children: [
+      Expanded(
+        child: SingleChildScrollView(
+          padding: padding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: body,
           ),
-          ?footer,
-        ],
-      );
+        ),
+      ),
+      ?footer,
+    ],
+  );
 }
 
 class Txt extends StatelessWidget {
@@ -100,20 +98,20 @@ class Txt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-        text,
-        textAlign: align,
-        maxLines: maxLines,
-        overflow: maxLines == null ? null : TextOverflow.ellipsis,
-        style: TextStyle(
-          fontFamily: fontFamily,
-          fontFamilyFallback: ShowType.arabicFallback,
-          color: color,
-          fontSize: size,
-          fontWeight: weight,
-          height: height,
-          letterSpacing: letterSpacing,
-        ),
-      );
+    text,
+    textAlign: align,
+    maxLines: maxLines,
+    overflow: maxLines == null ? null : TextOverflow.ellipsis,
+    style: TextStyle(
+      fontFamily: fontFamily,
+      fontFamilyFallback: ShowType.arabicFallback,
+      color: color,
+      fontSize: size,
+      fontWeight: weight,
+      height: height,
+      letterSpacing: letterSpacing,
+    ),
+  );
 }
 
 class Surface extends StatelessWidget {
@@ -142,18 +140,18 @@ class Surface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: width,
-        height: height,
-        alignment: alignment,
-        padding: padding,
-        decoration: BoxDecoration(
-          color: gradient == null ? color : null,
-          gradient: gradient,
-          borderRadius: BorderRadius.circular(radius),
-          border: border == null ? null : Border.all(color: border!),
-        ),
-        child: child,
-      );
+    width: width,
+    height: height,
+    alignment: alignment,
+    padding: padding,
+    decoration: BoxDecoration(
+      color: gradient == null ? color : null,
+      gradient: gradient,
+      borderRadius: BorderRadius.circular(radius),
+      border: border == null ? null : Border.all(color: border!),
+    ),
+    child: child,
+  );
 }
 
 class Pill extends StatelessWidget {
@@ -176,26 +174,26 @@ class Pill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 260),
-          curve: Curves.easeOut,
-          padding: EdgeInsets.symmetric(
-              horizontal: dense ? 12 : 16, vertical: dense ? 7 : 9),
-          decoration: BoxDecoration(
-            color: selected ? accent : const Color(0xFF1A1A21),
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Txt(
-            text,
-            size: dense ? 11.5 : 12.5,
-            weight: FontWeight.w700,
-            color: selected
-                ? (textColor ?? Colors.white)
-                : const Color(0xFF9A9AA5),
-          ),
-        ),
-      );
+    onTap: onTap,
+    child: AnimatedContainer(
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOut,
+      padding: EdgeInsets.symmetric(
+        horizontal: dense ? 12 : 16,
+        vertical: dense ? 7 : 9,
+      ),
+      decoration: BoxDecoration(
+        color: selected ? accent : const Color(0xFF1A1A21),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Txt(
+        text,
+        size: dense ? 11.5 : 12.5,
+        weight: FontWeight.w700,
+        color: selected ? (textColor ?? Colors.white) : const Color(0xFF9A9AA5),
+      ),
+    ),
+  );
 }
 
 /// Types characters in when it first appears, then holds.
@@ -262,9 +260,9 @@ class _TypeOnState extends State<TypeOn> {
 
   @override
   Widget build(BuildContext context) => Text(
-        widget.text.substring(0, math.min(_shown, widget.text.length)),
-        style: widget.style,
-      );
+    widget.text.substring(0, math.min(_shown, widget.text.length)),
+    style: widget.style,
+  );
 }
 
 /// Animates 0 → [value] whenever [playKey] changes.
@@ -292,14 +290,15 @@ class CountUp extends StatefulWidget {
   State<CountUp> createState() => _CountUpState();
 }
 
-class _CountUpState extends State<CountUp>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: widget.duration);
-  late Animation<double> _anim =
-      Tween<double>(begin: 0, end: widget.value).animate(
-    CurvedAnimation(parent: _c, curve: Curves.easeOutCubic),
+class _CountUpState extends State<CountUp> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: widget.duration,
   );
+  late Animation<double> _anim = Tween<double>(
+    begin: 0,
+    end: widget.value,
+  ).animate(CurvedAnimation(parent: _c, curve: Curves.easeOutCubic));
 
   @override
   void initState() {
@@ -312,8 +311,10 @@ class _CountUpState extends State<CountUp>
     super.didUpdateWidget(old);
     if (old.playKey != widget.playKey || old.value != widget.value) {
       _c.reset();
-      _anim = Tween<double>(begin: 0, end: widget.value)
-          .animate(CurvedAnimation(parent: _c, curve: Curves.easeOutCubic));
+      _anim = Tween<double>(
+        begin: 0,
+        end: widget.value,
+      ).animate(CurvedAnimation(parent: _c, curve: Curves.easeOutCubic));
       _c.forward();
     }
   }
@@ -326,17 +327,17 @@ class _CountUpState extends State<CountUp>
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
-        animation: _c,
-        builder: (context, _) => Text(
-          '${widget.prefix}${_anim.value.toStringAsFixed(widget.decimals)}'
-          '${widget.suffix}',
-          style: widget.style,
-          // The animated value is a single number; without this the widest
-          // frame ("$19.99") wraps inside a narrow Flexible and the price
-          // reads as "$19.9" over "9".
-          maxLines: 1,
-        ),
-      );
+    animation: _c,
+    builder: (context, _) => Text(
+      '${widget.prefix}${_anim.value.toStringAsFixed(widget.decimals)}'
+      '${widget.suffix}',
+      style: widget.style,
+      // The animated value is a single number; without this the widest
+      // frame ("$19.99") wraps inside a narrow Flexible and the price
+      // reads as "$19.9" over "9".
+      maxLines: 1,
+    ),
+  );
 }
 
 class RingProgress extends StatelessWidget {
@@ -359,25 +360,29 @@ class RingProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0, end: value.clamp(0.0, 1.0)),
-        duration: const Duration(milliseconds: 900),
-        curve: Curves.easeOutCubic,
-        builder: (context, v, _) => SizedBox(
-          width: size,
-          height: size,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              CustomPaint(
-                size: Size.square(size),
-                painter: _RingPainter(value: v, stroke: stroke,
-                    color: color, track: track),
-              ),
-              if (child != null) ?child,
-            ],
+    tween: Tween(begin: 0, end: value.clamp(0.0, 1.0)),
+    duration: const Duration(milliseconds: 900),
+    curve: Curves.easeOutCubic,
+    builder: (context, v, _) => SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+            size: Size.square(size),
+            painter: _RingPainter(
+              value: v,
+              stroke: stroke,
+              color: color,
+              track: track,
+            ),
           ),
-        ),
-      );
+          if (child != null) ?child,
+        ],
+      ),
+    ),
+  );
 }
 
 class _RingPainter extends CustomPainter {
@@ -395,7 +400,8 @@ class _RingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Offset(stroke / 2, stroke / 2) &
+    final rect =
+        Offset(stroke / 2, stroke / 2) &
         Size(size.width - stroke, size.height - stroke);
     canvas.drawArc(
       rect,
@@ -437,24 +443,23 @@ class CheckStamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0, end: 1),
-        duration: const Duration(milliseconds: 700),
-        curve: Curves.easeOutBack,
-        builder: (context, v, _) => Transform.scale(
-          scale: v,
-          child: Container(
-            width: size,
-            height: size,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.16),
-              shape: BoxShape.circle,
-              border: Border.all(color: color, width: 2.4),
-            ),
-            child: Icon(Icons.check_rounded,
-                size: size * 0.55, color: color),
-          ),
+    tween: Tween(begin: 0, end: 1),
+    duration: const Duration(milliseconds: 700),
+    curve: Curves.easeOutBack,
+    builder: (context, v, _) => Transform.scale(
+      scale: v,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.16),
+          shape: BoxShape.circle,
+          border: Border.all(color: color, width: 2.4),
         ),
-      );
+        child: Icon(Icons.check_rounded, size: size * 0.55, color: color),
+      ),
+    ),
+  );
 }
 
 /// A dot that arcs from a product tile up to the cart tab — the classic
@@ -504,36 +509,37 @@ class _FlyToCartState extends State<FlyToCart>
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
-        animation: _c,
-        builder: (context, _) {
-          final t = Curves.easeInCubic.transform(_c.value);
-          final x = widget.from.dx + (widget.to.dx - widget.from.dx) * t;
-          final y = widget.from.dy +
-              (widget.to.dy - widget.from.dy) * t -
-              math.sin(t * math.pi) * 70;
-          return Positioned(
-            left: x - 9,
-            top: y - 9,
-            child: Opacity(
-              opacity: _c.value < 0.9 ? 1 : 0,
-              child: Container(
-                width: 18,
-                height: 18,
-                decoration: BoxDecoration(
-                  color: widget.color,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: widget.color.withValues(alpha: 0.5),
-                      blurRadius: 12,
-                    ),
-                  ],
+    animation: _c,
+    builder: (context, _) {
+      final t = Curves.easeInCubic.transform(_c.value);
+      final x = widget.from.dx + (widget.to.dx - widget.from.dx) * t;
+      final y =
+          widget.from.dy +
+          (widget.to.dy - widget.from.dy) * t -
+          math.sin(t * math.pi) * 70;
+      return Positioned(
+        left: x - 9,
+        top: y - 9,
+        child: Opacity(
+          opacity: _c.value < 0.9 ? 1 : 0,
+          child: Container(
+            width: 18,
+            height: 18,
+            decoration: BoxDecoration(
+              color: widget.color,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: widget.color.withValues(alpha: 0.5),
+                  blurRadius: 12,
                 ),
-              ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       );
+    },
+  );
 }
 
 class BottomTabs extends StatelessWidget {
@@ -568,7 +574,9 @@ class BottomTabs extends StatelessWidget {
             AnimatedContainer(
               duration: const Duration(milliseconds: 320),
               padding: EdgeInsets.symmetric(
-                  horizontal: i == active ? 14 : 9, vertical: 8),
+                horizontal: i == active ? 14 : 9,
+                vertical: 8,
+              ),
               decoration: BoxDecoration(
                 color: i == active
                     ? accent.withValues(alpha: 0.18)
@@ -607,26 +615,25 @@ class FakeImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, box) {
-          // [size] may be infinite ("fill me"), so measure the icon from the
-          // space actually granted, not from the requested size.
-          final side = math.min(box.maxWidth, box.maxHeight);
-          return Container(
-            width: size.width,
-            height: size.height,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(radius),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [from, to],
-              ),
-            ),
-            child: icon == null || !side.isFinite
-                ? null
-                : Icon(icon,
-                    color: iconColor, size: (side * 0.42).clamp(0, 96)),
-          );
-        },
+    builder: (context, box) {
+      // [size] may be infinite ("fill me"), so measure the icon from the
+      // space actually granted, not from the requested size.
+      final side = math.min(box.maxWidth, box.maxHeight);
+      return Container(
+        width: size.width,
+        height: size.height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [from, to],
+          ),
+        ),
+        child: icon == null || !side.isFinite
+            ? null
+            : Icon(icon, color: iconColor, size: (side * 0.42).clamp(0, 96)),
       );
+    },
+  );
 }
