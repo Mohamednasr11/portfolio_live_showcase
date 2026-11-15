@@ -141,14 +141,22 @@
 
   <script src="flutter.js" defer></script>
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('flutter-first-frame', function () {
-        var loader = document.getElementById('loading');
-        if (loader) {
-          loader.classList.add('fade-out');
-          setTimeout(function() { loader.remove(); }, 500);
-        }
-      });
+    // Fail-safe: guarantee loading overlay fades out after at most 3.5s
+    var fallbackTimer = setTimeout(function() {
+      var loader = document.getElementById('loading');
+      if (loader) {
+        loader.classList.add('fade-out');
+        setTimeout(function() { if (loader && loader.parentNode) loader.remove(); }, 500);
+      }
+    }, 3500);
+
+    function removeLoader() {
+      clearTimeout(fallbackTimer);
+      var loader = document.getElementById('loading');
+      if (loader) {
+        loader.classList.add('fade-out');
+        setTimeout(function() { if (loader && loader.parentNode) loader.remove(); }, 500);
+      }
     }
 
     _flutter.loader.load({
@@ -158,16 +166,11 @@
     }).then(function(engineInitializer) {
       return engineInitializer.initializeEngine();
     }).then(function(appRunner) {
-      var loader = document.getElementById('loading');
-      if (loader) {
-        loader.classList.add('fade-out');
-        setTimeout(function() { loader.remove(); }, 500);
-      }
+      removeLoader();
       return appRunner.runApp();
     }).catch(function(error) {
       console.error('Flutter engine initialization failed:', error);
-      var loader = document.getElementById('loading');
-      if (loader) loader.remove();
+      removeLoader();
     });
   </script>
 </body>
