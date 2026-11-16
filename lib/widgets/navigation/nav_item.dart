@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/localization/language_controller.dart';
 
 class NavItem extends StatefulWidget {
   final String name;
@@ -24,6 +25,7 @@ class _NavItemState extends State<NavItem> {
   @override
   Widget build(BuildContext context) {
     final highlighted = widget.isActive || _hovered;
+    final isAr = LanguageController.instance.isArabic;
 
     return Semantics(
       label: 'Navigate to ${widget.name}',
@@ -41,6 +43,7 @@ class _NavItemState extends State<NavItem> {
               AnimatedDefaultTextStyle(
                 duration: const Duration(milliseconds: 180),
                 style: TextStyle(
+                  fontFamily: isAr ? 'Cairo' : 'DM Sans',
                   color: highlighted ? AppColors.accent : AppColors.muted,
                   fontSize: 12,
                   fontWeight: highlighted ? FontWeight.w700 : FontWeight.w500,

@@ -18,7 +18,7 @@ class AppTheme {
         onSurface: AppColors.textPrimary,
       ),
       fontFamily: 'DM Sans',
-      fontFamilyFallback: const ['Cairo', 'sans-serif'],
+      fontFamilyFallback: const ['Graphic', 'Cairo', 'sans-serif'],
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: AppColors.accent,
         selectionColor: Color(0x5522D3EE),

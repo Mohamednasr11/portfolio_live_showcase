@@ -697,7 +697,7 @@ class _Hero extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontFamily: isArabic ? 'Cairo' : Show.body,
+                        fontFamily: isArabic ? 'Graphic' : Show.body,
                         color: Show.getMuted(isDark),
                         fontSize: 12.5,
                         fontWeight: FontWeight.w500,
@@ -810,7 +810,7 @@ class _Hero extends StatelessWidget {
               : 'Live Flutter widgets. Tap to play case study.',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontFamily: isArabic ? 'Cairo' : Show.body,
+            fontFamily: isArabic ? 'Graphic' : Show.body,
             color: Show.getMuted(isDark),
             fontSize: 13,
           ),
@@ -989,7 +989,7 @@ class _CaseStudyCard extends StatelessWidget {
         Text(
           isArabic ? info.sourceAr : info.source,
           style: TextStyle(
-            fontFamily: isArabic ? 'Cairo' : Show.body,
+            fontFamily: isArabic ? 'Graphic' : Show.body,
             color: Show.getMuted(isDark),
             fontSize: 13,
             fontStyle: FontStyle.italic,
@@ -1089,7 +1089,7 @@ class _CodeProjects extends StatelessWidget {
                           ? Profile.codeProjects[i].summaryAr
                           : Profile.codeProjects[i].summary,
                       style: TextStyle(
-                        fontFamily: isArabic ? 'Cairo' : Show.body,
+                        fontFamily: isArabic ? 'Graphic' : Show.body,
                         color: Show.getText(isDark),
                         fontSize: 13.5,
                       ),
@@ -1206,7 +1206,7 @@ class _Skills extends StatelessWidget {
                           ? 'مستخدمة في: ${Profile.skills[i].evidenceAr}'
                           : 'Used in: ${Profile.skills[i].evidence}',
                       style: TextStyle(
-                        fontFamily: isArabic ? 'Cairo' : Show.body,
+                        fontFamily: isArabic ? 'Graphic' : Show.body,
                         color: Show.getMuted(isDark),
                         fontSize: 13,
                         fontStyle: FontStyle.italic,
@@ -1347,7 +1347,7 @@ class _Journey extends StatelessWidget {
                     Text(
                       isArabic ? e.placeAr : e.place,
                       style: TextStyle(
-                        fontFamily: isArabic ? 'Cairo' : Show.body,
+                        fontFamily: isArabic ? 'Graphic' : Show.body,
                         color: Show.getText(isDark),
                         fontWeight: FontWeight.w600,
                         fontSize: 13.5,
@@ -1488,7 +1488,7 @@ class _Footer extends StatelessWidget {
               ? '© ${DateTime.now().year} ${Profile.name} · تم البناء باستخدام Flutter Web'
               : '© ${DateTime.now().year} ${Profile.name} · Built with Flutter Web',
           style: TextStyle(
-            fontFamily: isArabic ? 'Cairo' : Show.body,
+            fontFamily: isArabic ? 'Graphic' : Show.body,
             color: Show.getMuted(isDark),
             fontSize: 13.5,
           ),

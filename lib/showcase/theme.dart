@@ -59,7 +59,7 @@ class ShowType {
   const ShowType._();
 
   /// Arabic resolves through this face; Latin stays on the brand font.
-  static const List<String> arabicFallback = ['Cairo'];
+  static const List<String> arabicFallback = ['Graphic', 'Cairo'];
 
   /// .hero-name — Syne 800, line-height 1.05, letter-spacing -2px.
   static const TextStyle display = TextStyle(
