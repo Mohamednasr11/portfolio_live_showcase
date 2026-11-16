@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlLauncherUtils {
@@ -19,6 +20,7 @@ class UrlLauncherUtils {
   }
 
   static Future<void> downloadCV() async {
+    debugPrint('Cv is downloaded');
     await launchURL('Mohamed_NasrEldeen_CV.pdf');
   }
 }

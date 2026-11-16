@@ -13,7 +13,7 @@ class PortfolioData {
       'جامعة المنصورة — كلية الحاسبات والمعلومات';
 
   static const String email = 'mohamed.nasr.flutter@gmail.com';
-  static const String phone = '201096074334';
+  static const String phone = '2010960743334';
   static const String githubUrl = 'https://github.com/Mohamednasr11';
   static const String linkedinUrl =
       'https://www.linkedin.com/in/mohamed-nasr-eldeen-3057b8240/';

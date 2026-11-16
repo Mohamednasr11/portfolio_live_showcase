@@ -59,7 +59,7 @@ class FooterNavBar extends StatelessWidget {
                           ),
                         ),
                         _FooterLink(
-                          isAr ? 'تحميل السيرة الذاتية' : 'Download CV',
+                          'MY CV',
                           () => UrlLauncherUtils.downloadCV(),
                         ),
                       ],

@@ -268,18 +268,23 @@ class _NavBar extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 2),
-            // Download CV Button
-            IconButton(
-              tooltip: isArabic ? 'تحميل السيرة الذاتية' : 'Download CV',
+            const SizedBox(width: 4),
+            // MY CV Button (Text-only, no icon)
+            OutlinedButton(
               onPressed: () => UrlLauncherUtils.downloadCV(),
-              icon: const Icon(
-                Icons.download_rounded,
-                color: Show.accent,
-                size: 18,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Show.accent,
+                side: const BorderSide(color: Show.accent),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                minimumSize: const Size(36, 32),
               ),
-              constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
-              padding: EdgeInsets.zero,
+              child: const Text(
+                'MY CV',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 11,
+                ),
+              ),
             ),
             const SizedBox(width: 2),
             // Live Showcase Button
