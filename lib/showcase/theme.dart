@@ -31,7 +31,8 @@ class Show {
   // Dynamic theme getters
   static Color getBg(bool isDark) => isDark ? bg : lightBg;
   static Color getSurface(bool isDark) => isDark ? surface : lightSurface;
-  static Color getSurfaceAlt(bool isDark) => isDark ? surfaceAlt : lightSurfaceAlt;
+  static Color getSurfaceAlt(bool isDark) =>
+      isDark ? surfaceAlt : lightSurfaceAlt;
   static Color getText(bool isDark) => isDark ? text : lightText;
   static Color getMuted(bool isDark) => isDark ? muted : lightMuted;
   static Color getBorder(bool isDark) => isDark ? border : lightBorder;

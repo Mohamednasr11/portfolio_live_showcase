@@ -7,22 +7,25 @@ import 'package:portfolio_live_showcase/showcase/shell.dart';
 void main() {
   for (final demo in buildDemos()) {
     for (var i = 0; i < demo.steps.length; i++) {
-      testWidgets('${demo.name} beat $i (${demo.steps[i].screen})',
-          (tester) async {
+      testWidgets('${demo.name} beat $i (${demo.steps[i].screen})', (
+        tester,
+      ) async {
         tester.view.physicalSize = const Size(320, 640);
         tester.view.devicePixelRatio = 1.0;
         addTearDown(tester.view.reset);
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: SizedBox(
-                width: 262,
-                height: 518,
-                child: Builder(builder: (ctx) => demo.builder(ctx, i)),
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 262,
+                  height: 518,
+                  child: Builder(builder: (ctx) => demo.builder(ctx, i)),
+                ),
               ),
             ),
           ),
-        ));
+        );
         await tester.pump(const Duration(milliseconds: 900));
         final error = tester.takeException();
         await tester.pumpWidget(const SizedBox());
@@ -64,10 +67,13 @@ void main() {
             if (e.widget is Text &&
                 DefaultTextStyle.of(e).style.decorationStyle ==
                     TextDecorationStyle.double)
-              (e.widget as Text).data ?? '<rich>'
+              (e.widget as Text).data ?? '<rich>',
         ];
-        expect(ugly, isEmpty,
-            reason: '${demo.name} beat $i: Text without a Material ancestor');
+        expect(
+          ugly,
+          isEmpty,
+          reason: '${demo.name} beat $i: Text without a Material ancestor',
+        );
       }
     }
     controller.pause();

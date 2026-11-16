@@ -54,8 +54,6 @@ class DemoSpec {
   final List<DemoStep> steps;
   final DemoBuilder builder;
 
-  Duration get totalHold => steps.fold(
-        Duration.zero,
-        (Duration sum, DemoStep s) => sum + s.hold,
-      );
+  Duration get totalHold =>
+      steps.fold(Duration.zero, (Duration sum, DemoStep s) => sum + s.hold);
 }
