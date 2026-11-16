@@ -17,9 +17,9 @@ class HeroSection extends StatelessWidget {
   const HeroSection({super.key, required this.onNavigate});
 
   static const _heroScreens = [
-    'assets/buildguard/Home.png',
-    'assets/matjarkom/dark_home.png',
-    'assets/brewbloom/High-Fidelity ( Home ).png',
+    'assets/buildguard/shield_house.png',
+    'assets/matjarkom/hero_watch.png',
+    'assets/brewbloom/onboarding_cup.png',
   ];
 
   @override
