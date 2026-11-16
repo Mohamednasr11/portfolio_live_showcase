@@ -579,40 +579,26 @@ class LivePhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> images;
+    String imagePath;
     switch (demo.id) {
       case 'matjarkom':
-        images = const [
-          'assets/matjarkom/logo.png',
-          'assets/matjarkom/hero_watch.png',
-          'assets/matjarkom/cat_beauty.png',
-        ];
+        imagePath = 'assets/matjarkom/hero_watch.png';
         break;
       case 'build_guard':
-        images = const [
-          'assets/buildguard/shield_house.png',
-          'assets/buildguard/scan_crack.png',
-        ];
+        imagePath = 'assets/buildguard/shield_house.png';
         break;
       case 'brew_and_bloom':
-        images = const [
-          'assets/brewbloom/onboarding_cup.png',
-          'assets/brewbloom/prod_flat.png',
-          'assets/brewbloom/prod_mocha.png',
-        ];
+        imagePath = 'assets/brewbloom/prod_mocha_home.png';
         break;
       case 'trustsafe':
-        images = const [
-          'assets/brewbloom/promo_cups.png',
-          'assets/brewbloom/courier.png',
-        ];
+        imagePath = 'assets/brewbloom/promo_cups.png';
         break;
       default:
-        images = const ['assets/matjarkom/hero_watch.png'];
+        imagePath = 'assets/matjarkom/hero_watch.png';
     }
 
     return FloatingPhone(
-      screenImages: images,
+      screenImages: [imagePath],
       width: width,
       height: width * _frameHeight / _frameWidth,
     );
