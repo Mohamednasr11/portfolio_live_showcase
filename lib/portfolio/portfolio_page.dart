@@ -52,6 +52,12 @@ class _PortfolioPageState extends State<PortfolioPage> {
   bool _isDark = true;
 
   @override
+  void initState() {
+    super.initState();
+    debugPrint('[PortfolioLog] PortfolioPage initState() executed.');
+  }
+
+  @override
   void dispose() {
     _scroll.dispose();
     super.dispose();
@@ -70,6 +76,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
+    debugPrint('[PortfolioLog] PortfolioPage build() called (width: $width).');
     final narrow = width < 720;
     return Directionality(
       textDirection: _isArabic ? TextDirection.rtl : TextDirection.ltr,
