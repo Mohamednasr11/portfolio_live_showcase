@@ -219,12 +219,16 @@ class _HoverSkillChipState extends State<_HoverSkillChip> {
               ),
             ),
             const SizedBox(width: 8),
-            Text(
-              widget.skill,
-              style: TextStyle(
-                color: _hovered ? AppColors.accent : AppColors.textPrimary,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+            Flexible(
+              child: Text(
+                widget.skill,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: _hovered ? AppColors.accent : AppColors.textPrimary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],

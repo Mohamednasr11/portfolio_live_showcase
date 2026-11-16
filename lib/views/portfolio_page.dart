@@ -54,17 +54,19 @@ class _PortfolioPageState extends State<PortfolioPage> {
       });
     }
 
-    // Scroll-Spy section tracking
+    // Scroll-Spy section tracking safely
     String current = 'Hero';
     for (final entry in _sectionKeys.entries) {
       final keyContext = entry.value.currentContext;
       if (keyContext != null) {
         final box = keyContext.findRenderObject() as RenderBox?;
-        if (box != null) {
-          final position = box.localToGlobal(Offset.zero);
-          if (position.dy <= 180) {
-            current = entry.key;
-          }
+        if (box != null && box.hasSize && box.attached) {
+          try {
+            final position = box.localToGlobal(Offset.zero);
+            if (position.dy <= 180) {
+              current = entry.key;
+            }
+          } catch (_) {}
         }
       }
     }
