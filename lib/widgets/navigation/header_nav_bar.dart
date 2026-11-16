@@ -46,165 +46,200 @@ class HeaderNavBar extends StatelessWidget {
           curve: Curves.easeOutCubic,
           decoration: BoxDecoration(
             color: isScrolled
-                ? AppColors.withAlphaOpacity(AppColors.background, 0.94)
+                ? AppColors.withAlphaOpacity(AppColors.background, 0.92)
                 : AppColors.withAlphaOpacity(AppColors.background, 0.4),
             border: Border(
               bottom: BorderSide(
                 color: isScrolled
-                    ? AppColors.withAlphaOpacity(AppColors.border, 0.9)
-                    : AppColors.withAlphaOpacity(AppColors.border, 0.3),
+                    ? AppColors.withAlphaOpacity(AppColors.border, 0.8)
+                    : AppColors.withAlphaOpacity(AppColors.border, 0.2),
                 width: 1.0,
               ),
             ),
             boxShadow: isScrolled
                 ? const [
                     BoxShadow(
-                      color: Colors.black45,
-                      blurRadius: 20,
-                      offset: Offset(0, 6),
+                      color: Colors.black38,
+                      blurRadius: 18,
+                      offset: Offset(0, 4),
                     ),
                   ]
                 : [],
           ),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1240),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final isCompact = constraints.maxWidth < 980;
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 1240),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final isCompact = constraints.maxWidth < 980;
 
-                    return Row(
-                      children: [
-                        Semantics(
-                          label: 'Home logo button',
-                          button: true,
-                          child: InkWell(
-                            onTap: () => onNavigate('Hero'),
-                            borderRadius: BorderRadius.circular(8),
-                            child: const BrandLogo(),
+                      return Row(
+                        children: [
+                          // Left: Brand Logo
+                          Semantics(
+                            label: 'Home logo button',
+                            button: true,
+                            child: InkWell(
+                              onTap: () => onNavigate('Hero'),
+                              borderRadius: BorderRadius.circular(8),
+                              child: const BrandLogo(),
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        if (!isCompact) ...[
-                          ..._navKeys.map((key) {
-                            final isActive = activeSection == key;
-                            return Padding(
+                          const Spacer(),
+
+                          // Center: Nav Items
+                          if (!isCompact) ...[
+                            Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                              ),
-                              child: NavItem(
-                                name: labels[key] ?? key,
-                                isActive: isActive,
-                                onTap: () => onNavigate(key),
-                              ),
-                            );
-                          }),
-                          const SizedBox(width: 12),
-                        ],
-
-                        // Download CV Button (Always visible)
-                        AppButton(
-                          label: isAr ? 'السيرة الذاتية' : 'Download CV',
-                          icon: Icons.download_rounded,
-                          style: AppButtonStyle.secondary,
-                          onPressed: () => UrlLauncherUtils.downloadCV(),
-                          tooltip: 'Download PDF CV',
-                        ),
-                        const SizedBox(width: 8),
-
-                        // Live Showcase Button (Always visible)
-                        AppButton(
-                          label: isAr ? 'العرض الحي' : 'Live showcase',
-                          icon: Icons.play_circle_outline_rounded,
-                          style: AppButtonStyle.primary,
-                          onPressed: () => onNavigate('Projects'),
-                          tooltip: 'Explore live interactive case studies',
-                        ),
-                        const SizedBox(width: 8),
-
-                        // Language Toggle Button
-                        Semantics(
-                          label: isAr
-                              ? 'تغيير اللغة إلى الإنجليزية'
-                              : 'Switch language to Arabic',
-                          button: true,
-                          child: OutlinedButton.icon(
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
+                                horizontal: 16,
                                 vertical: 6,
                               ),
-                              side: const BorderSide(
-                                color: AppColors.accent,
-                                width: 1.0,
+                              decoration: BoxDecoration(
+                                color: AppColors.withAlphaOpacity(
+                                  AppColors.panel,
+                                  0.6,
+                                ),
+                                borderRadius: BorderRadius.circular(999),
+                                border: Border.all(
+                                  color: AppColors.withAlphaOpacity(
+                                    AppColors.border,
+                                    0.5,
+                                  ),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              backgroundColor: AppColors.panel,
-                            ),
-                            onPressed: () =>
-                                LanguageController.instance.toggleLanguage(),
-                            icon: const Icon(
-                              Icons.language_rounded,
-                              color: AppColors.accent,
-                              size: 14,
-                            ),
-                            label: Text(
-                              isAr ? 'EN' : 'عربي',
-                              style: const TextStyle(
-                                color: AppColors.accent,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: _navKeys.map((key) {
+                                  final isActive = activeSection == key;
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                    ),
+                                    child: NavItem(
+                                      name: labels[key] ?? key,
+                                      isActive: isActive,
+                                      onTap: () => onNavigate(key),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                             ),
-                          ),
-                        ),
+                            const SizedBox(width: 16),
+                          ],
 
-                        if (isCompact) ...[
-                          const SizedBox(width: 6),
-                          Semantics(
-                            label: isAr
-                                ? 'فتح القائمة الرئيسية'
-                                : 'Open navigation drawer menu',
-                            button: true,
-                            child: PopupMenuButton<String>(
-                              tooltip: isAr ? 'القائمة' : 'Menu',
-                              icon: const Icon(
-                                Icons.menu_rounded,
-                                color: AppColors.accent,
+                          // Right Actions: Language Toggle, CV Button, Live Showcase Button
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Language Toggle Button
+                              Semantics(
+                                label: isAr
+                                    ? 'تغيير اللغة إلى الإنجليزية'
+                                    : 'Switch language to Arabic',
+                                button: true,
+                                child: OutlinedButton.icon(
+                                  style: OutlinedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 8,
+                                    ),
+                                    side: const BorderSide(
+                                      color: AppColors.accent,
+                                      width: 1.0,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    backgroundColor: AppColors.panel,
+                                  ),
+                                  onPressed: () =>
+                                      LanguageController.instance.toggleLanguage(),
+                                  icon: const Icon(
+                                    Icons.language_rounded,
+                                    color: AppColors.accent,
+                                    size: 14,
+                                  ),
+                                  label: Text(
+                                    isAr ? 'EN' : 'عربي',
+                                    style: const TextStyle(
+                                      color: AppColors.accent,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              color: AppColors.panelLight,
-                              onSelected: onNavigate,
-                              itemBuilder: (context) => _navKeys
-                                  .map(
-                                    (key) => PopupMenuItem(
-                                      value: key,
-                                      child: Text(
-                                        labels[key] ?? key,
-                                        style: TextStyle(
-                                          color: activeSection == key
-                                              ? AppColors.accent
-                                              : AppColors.textPrimary,
-                                          fontWeight: activeSection == key
-                                              ? FontWeight.w700
-                                              : FontWeight.w400,
+                              const SizedBox(width: 8),
+
+                              // Download CV Button
+                              if (!constraints.maxWidth.isNegative)
+                                AppButton(
+                                  label: isAr ? 'السيرة الذاتية' : 'CV',
+                                  icon: Icons.download_rounded,
+                                  style: AppButtonStyle.secondary,
+                                  onPressed: () => UrlLauncherUtils.downloadCV(),
+                                  tooltip: 'Download PDF CV',
+                                ),
+                              const SizedBox(width: 8),
+
+                              // Live Showcase Button
+                              AppButton(
+                                label: isAr ? 'العرض الحي' : 'Live showcase',
+                                icon: Icons.play_circle_outline_rounded,
+                                style: AppButtonStyle.primary,
+                                onPressed: () => onNavigate('Projects'),
+                                tooltip: 'Explore live interactive case studies',
+                              ),
+                            ],
+                          ),
+
+                          if (isCompact) ...[
+                            const SizedBox(width: 8),
+                            Semantics(
+                              label: isAr
+                                  ? 'فتح القائمة الرئيسية'
+                                  : 'Open navigation drawer menu',
+                              button: true,
+                              child: PopupMenuButton<String>(
+                                tooltip: isAr ? 'القائمة' : 'Menu',
+                                icon: const Icon(
+                                  Icons.menu_rounded,
+                                  color: AppColors.accent,
+                                ),
+                                color: AppColors.panelLight,
+                                onSelected: onNavigate,
+                                itemBuilder: (context) => _navKeys
+                                    .map(
+                                      (key) => PopupMenuItem(
+                                        value: key,
+                                        child: Text(
+                                          labels[key] ?? key,
+                                          style: TextStyle(
+                                            color: activeSection == key
+                                                ? AppColors.accent
+                                                : AppColors.textPrimary,
+                                            fontWeight: activeSection == key
+                                                ? FontWeight.w700
+                                                : FontWeight.w400,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                  .toList(),
+                                    )
+                                    .toList(),
+                              ),
                             ),
-                          ),
+                          ],
                         ],
-                      ],
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
