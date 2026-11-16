@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/constants/app_colors.dart';
 import 'goldie_device_mockup.dart';
 
 class FloatingPhone extends StatefulWidget {
@@ -23,7 +22,6 @@ class _FloatingPhoneState extends State<FloatingPhone>
     with SingleTickerProviderStateMixin {
   late final AnimationController _floatController;
   late final Animation<double> _floatAnimation;
-  int _currentScreen = 0;
 
   @override
   void initState() {
@@ -46,88 +44,19 @@ class _FloatingPhoneState extends State<FloatingPhone>
     super.dispose();
   }
 
-  void _cycleScreen() {
-    if (widget.screenImages.isNotEmpty) {
-      setState(() {
-        _currentScreen = (_currentScreen + 1) % widget.screenImages.length;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final disableAnimations =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     final currentImage = widget.screenImages.isNotEmpty
-        ? widget.screenImages[_currentScreen]
+        ? widget.screenImages.first
         : 'assets/buildguard/shield_house.png';
 
-    Widget phoneMockup = GestureDetector(
-      onTap: _cycleScreen,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 350),
-              switchInCurve: Curves.easeOutCubic,
-              switchOutCurve: Curves.easeInCubic,
-              transitionBuilder: (child, animation) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: ScaleTransition(
-                    scale: Tween<double>(
-                      begin: 0.95,
-                      end: 1.0,
-                    ).animate(animation),
-                    child: child,
-                  ),
-                );
-              },
-              child: KeyedSubtree(
-                key: ValueKey<int>(_currentScreen),
-                child: GoldieDeviceMockup(
-                  imagePath: currentImage,
-                  width: widget.width,
-                  height: widget.height,
-                  enableHoverEffect: false,
-                  badgeText:
-                      'Screen ${_currentScreen + 1}/${widget.screenImages.length}',
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                color: AppColors.panel,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.touch_app_rounded,
-                    size: 14,
-                    color: AppColors.accent,
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    'Tap phone to cycle screens',
-                    style: TextStyle(
-                      color: AppColors.muted,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    Widget phoneMockup = GoldieDeviceMockup(
+      imagePath: currentImage,
+      width: widget.width,
+      height: widget.height,
+      enableHoverEffect: false,
     );
 
     if (disableAnimations) {
