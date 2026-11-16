@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/link.dart';
 
+import '../core/utils/url_launcher_utils.dart';
+
 import '../showcase/demos.dart';
 import '../showcase/model.dart';
 import '../showcase/shell.dart' show SiteBackdrop;
@@ -267,6 +269,20 @@ class _NavBar extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 2),
+            // Download CV Button
+            IconButton(
+              tooltip: isArabic ? 'تحميل السيرة الذاتية' : 'Download CV',
+              onPressed: () => UrlLauncherUtils.downloadCV(),
+              icon: const Icon(
+                Icons.download_rounded,
+                color: Show.accent,
+                size: 18,
+              ),
+              constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+              padding: EdgeInsets.zero,
+            ),
+            const SizedBox(width: 2),
+            // Live Showcase Button
             FilledButton(
               onPressed: () => openShowcase(context),
               style: FilledButton.styleFrom(
