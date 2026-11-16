@@ -158,7 +158,7 @@
       }
     }
 
-    window.addEventListener('load', function() {
+    function loadFlutter() {
       if (typeof _flutter !== 'undefined' && _flutter.loader) {
         _flutter.loader.load({
           serviceWorker: {
@@ -177,7 +177,13 @@
       } else {
         removeLoader();
       }
-    });
+    }
+
+    if (document.readyState === 'complete') {
+      loadFlutter();
+    } else {
+      window.addEventListener('load', loadFlutter);
+    }
   </script>
 </body>
 </html>
