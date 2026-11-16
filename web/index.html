@@ -141,14 +141,13 @@
 
   <script src="flutter.js" defer></script>
   <script>
-    // Fail-safe: guarantee loading overlay fades out after at most 3.5s
     var fallbackTimer = setTimeout(function() {
       var loader = document.getElementById('loading');
       if (loader) {
         loader.classList.add('fade-out');
         setTimeout(function() { if (loader && loader.parentNode) loader.remove(); }, 500);
       }
-    }, 3500);
+    }, 4000);
 
     function removeLoader() {
       clearTimeout(fallbackTimer);
@@ -159,18 +158,26 @@
       }
     }
 
-    _flutter.loader.load({
-      serviceWorker: {
-        serviceWorkerVersion: null,
+    window.addEventListener('load', function() {
+      if (typeof _flutter !== 'undefined' && _flutter.loader) {
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: null,
+          },
+          onEntrypointLoaded: async function(engineInitializer) {
+            try {
+              let appRunner = await engineInitializer.initializeEngine();
+              removeLoader();
+              await appRunner.runApp();
+            } catch (err) {
+              console.error('Engine run error:', err);
+              removeLoader();
+            }
+          }
+        });
+      } else {
+        removeLoader();
       }
-    }).then(function(engineInitializer) {
-      return engineInitializer.initializeEngine();
-    }).then(function(appRunner) {
-      removeLoader();
-      return appRunner.runApp();
-    }).catch(function(error) {
-      console.error('Flutter engine initialization failed:', error);
-      removeLoader();
     });
   </script>
 </body>
