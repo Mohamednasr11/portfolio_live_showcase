@@ -139,51 +139,24 @@
     </div>
   </noscript>
 
-  <script src="flutter.js" defer></script>
   <script>
-    var fallbackTimer = setTimeout(function() {
+    window.addEventListener('flutter-first-frame', function () {
       var loader = document.getElementById('loading');
       if (loader) {
         loader.classList.add('fade-out');
-        setTimeout(function() { if (loader && loader.parentNode) loader.remove(); }, 500);
+        setTimeout(function() { loader.remove(); }, 400);
+      }
+    });
+
+    // Fail-safe fallback timer in case first-frame event takes too long
+    setTimeout(function() {
+      var loader = document.getElementById('loading');
+      if (loader) {
+        loader.classList.add('fade-out');
+        setTimeout(function() { if (loader && loader.parentNode) loader.remove(); }, 400);
       }
     }, 4000);
-
-    function removeLoader() {
-      clearTimeout(fallbackTimer);
-      var loader = document.getElementById('loading');
-      if (loader) {
-        loader.classList.add('fade-out');
-        setTimeout(function() { if (loader && loader.parentNode) loader.remove(); }, 500);
-      }
-    }
-
-    function loadFlutter() {
-      if (typeof _flutter !== 'undefined' && _flutter.loader) {
-        _flutter.loader.load({
-          serviceWorker: {
-            serviceWorkerVersion: null,
-          },
-          onEntrypointLoaded: function(engineInitializer) {
-            engineInitializer.initializeEngine().then(function(appRunner) {
-              removeLoader();
-              appRunner.runApp();
-            }).catch(function(err) {
-              console.error('Engine init error:', err);
-              removeLoader();
-            });
-          }
-        });
-      } else {
-        removeLoader();
-      }
-    }
-
-    if (document.readyState === 'complete') {
-      loadFlutter();
-    } else {
-      window.addEventListener('load', loadFlutter);
-    }
   </script>
+  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
