@@ -22,13 +22,13 @@ class HeaderNavBar extends StatelessWidget {
   static const _navKeys = ['Projects', 'Skills', 'Contact'];
 
   static final Map<String, String> _navLabelsAr = {
-    'Projects': 'مشاريع فلاتر',
+    'Projects': 'مشاريع',
     'Skills': 'المهارات',
-    'Contact': 'تواصل معي',
+    'Contact': 'تواصل',
   };
 
   static final Map<String, String> _navLabelsEn = {
-    'Projects': 'Case studies',
+    'Projects': 'Projects',
     'Skills': 'Skills',
     'Contact': 'Contact',
   };
@@ -46,29 +46,29 @@ class HeaderNavBar extends StatelessWidget {
           curve: Curves.easeOutCubic,
           decoration: BoxDecoration(
             color: isScrolled
-                ? AppColors.withAlphaOpacity(AppColors.background, 0.92)
-                : Colors.transparent,
+                ? AppColors.withAlphaOpacity(AppColors.background, 0.94)
+                : AppColors.withAlphaOpacity(AppColors.background, 0.4),
             border: Border(
               bottom: BorderSide(
                 color: isScrolled
-                    ? AppColors.withAlphaOpacity(AppColors.border, 0.8)
-                    : Colors.transparent,
+                    ? AppColors.withAlphaOpacity(AppColors.border, 0.9)
+                    : AppColors.withAlphaOpacity(AppColors.border, 0.3),
                 width: 1.0,
               ),
             ),
             boxShadow: isScrolled
                 ? const [
                     BoxShadow(
-                      color: Colors.black38,
-                      blurRadius: 16,
-                      offset: Offset(0, 4),
+                      color: Colors.black45,
+                      blurRadius: 20,
+                      offset: Offset(0, 6),
                     ),
                   ]
                 : [],
           ),
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1200),
+              constraints: const BoxConstraints(maxWidth: 1240),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -76,8 +76,8 @@ class HeaderNavBar extends StatelessWidget {
                 ),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    final isCompact = constraints.maxWidth < 820;
-                    final isVeryCompact = constraints.maxWidth < 480;
+                    final isCompact = constraints.maxWidth < 950;
+                    final isVeryCompact = constraints.maxWidth < 520;
 
                     return Row(
                       children: [
@@ -96,7 +96,7 @@ class HeaderNavBar extends StatelessWidget {
                             final isActive = activeSection == key;
                             return Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
+                                horizontal: 8,
                               ),
                               child: NavItem(
                                 name: labels[key] ?? key,
@@ -108,14 +108,25 @@ class HeaderNavBar extends StatelessWidget {
                           const SizedBox(width: 12),
                         ],
 
-                        // Live Showcase / Download CV Button
+                        // Download CV Button
                         if (!isVeryCompact)
                           AppButton(
-                            label: isAr ? 'تحميل CV' : 'Live showcase',
+                            label: isAr ? 'CV' : 'CV',
+                            icon: Icons.download_rounded,
+                            style: AppButtonStyle.secondary,
+                            onPressed: () => UrlLauncherUtils.downloadCV(),
+                            tooltip: 'Download PDF CV',
+                          ),
+                        if (!isVeryCompact) const SizedBox(width: 6),
+
+                        // Live Showcase Button
+                        if (!isVeryCompact)
+                          AppButton(
+                            label: isAr ? 'العرض الحي' : 'Live showcase',
                             icon: Icons.play_circle_outline_rounded,
                             style: AppButtonStyle.primary,
-                            onPressed: () => UrlLauncherUtils.downloadCV(),
-                            tooltip: 'Download PDF CV / Live Showcase',
+                            onPressed: () => onNavigate('Projects'),
+                            tooltip: 'Explore live interactive case studies',
                           ),
                         if (!isVeryCompact) const SizedBox(width: 8),
 
@@ -148,7 +159,7 @@ class HeaderNavBar extends StatelessWidget {
                               size: 14,
                             ),
                             label: Text(
-                              isAr ? 'EN' : 'العربية',
+                              isAr ? 'EN' : 'عربي',
                               style: const TextStyle(
                                 color: AppColors.accent,
                                 fontSize: 11,
