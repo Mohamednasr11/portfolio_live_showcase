@@ -221,9 +221,7 @@ class PortfolioData {
       descriptionEn: 'A web application built for online store management, showcasing full-stack web development skills, responsive web design, and RESTful web API consumption.',
       descriptionAr: 'مشروع متجر ويب تم تطويره لإدارة المبيعات، يستعرض مهارات تطوير الويب المتكامل، التصميم المتجاوب، والتعامل مع واجهات الويب البرمجية.',
       tags: ['Web Development', 'JavaScript', 'HTML/CSS', 'REST APIs', 'Git'],
-      gallery: [
-        'assets/matjarkom/cat_furniture.png',
-      ],
+      gallery: ['assets/matjarkom/cat_furniture.png'],
       githubUrl: 'https://github.com/Mohamednasr11/manara',
       isFeatured: false,
       isWebProject: true,

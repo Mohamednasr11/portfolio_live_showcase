@@ -608,9 +608,7 @@ class LivePhone extends StatelessWidget {
         ];
         break;
       default:
-        images = const [
-          'assets/matjarkom/hero_watch.png',
-        ];
+        images = const ['assets/matjarkom/hero_watch.png'];
     }
 
     return FloatingPhone(
