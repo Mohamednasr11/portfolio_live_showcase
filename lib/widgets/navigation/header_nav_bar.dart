@@ -76,8 +76,8 @@ class HeaderNavBar extends StatelessWidget {
                 ),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    final isCompact = constraints.maxWidth < 950;
-                    final isVeryCompact = constraints.maxWidth < 520;
+                    final isCompact = constraints.maxWidth < 980;
+                    final isVeryCompact = constraints.maxWidth < 600;
 
                     return Row(
                       children: [
@@ -111,13 +111,13 @@ class HeaderNavBar extends StatelessWidget {
                         // Download CV Button
                         if (!isVeryCompact)
                           AppButton(
-                            label: isAr ? 'CV' : 'CV',
+                            label: isAr ? 'السيرة الذاتية' : 'Download CV',
                             icon: Icons.download_rounded,
                             style: AppButtonStyle.secondary,
                             onPressed: () => UrlLauncherUtils.downloadCV(),
                             tooltip: 'Download PDF CV',
                           ),
-                        if (!isVeryCompact) const SizedBox(width: 6),
+                        if (!isVeryCompact) const SizedBox(width: 8),
 
                         // Live Showcase Button
                         if (!isVeryCompact)
