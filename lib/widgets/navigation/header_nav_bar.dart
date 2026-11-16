@@ -46,22 +46,22 @@ class HeaderNavBar extends StatelessWidget {
           curve: Curves.easeOutCubic,
           decoration: BoxDecoration(
             color: isScrolled
-                ? AppColors.withAlphaOpacity(AppColors.background, 0.92)
+                ? AppColors.withAlphaOpacity(AppColors.background, 0.94)
                 : AppColors.withAlphaOpacity(AppColors.background, 0.4),
             border: Border(
               bottom: BorderSide(
                 color: isScrolled
-                    ? AppColors.withAlphaOpacity(AppColors.border, 0.8)
-                    : AppColors.withAlphaOpacity(AppColors.border, 0.2),
+                    ? AppColors.withAlphaOpacity(AppColors.border, 0.9)
+                    : AppColors.withAlphaOpacity(AppColors.border, 0.3),
                 width: 1.0,
               ),
             ),
             boxShadow: isScrolled
                 ? const [
                     BoxShadow(
-                      color: Colors.black38,
-                      blurRadius: 18,
-                      offset: Offset(0, 4),
+                      color: Colors.black45,
+                      blurRadius: 20,
+                      offset: Offset(0, 6),
                     ),
                   ]
                 : [],
@@ -73,12 +73,12 @@ class HeaderNavBar extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 1240),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
+                    horizontal: 16,
                     vertical: 12,
                   ),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      final isCompact = constraints.maxWidth < 980;
+                      final isCompact = constraints.maxWidth < 1020;
 
                       return Row(
                         children: [
@@ -134,7 +134,7 @@ class HeaderNavBar extends StatelessWidget {
                             const SizedBox(width: 16),
                           ],
 
-                          // Right Actions: Language Toggle, CV Button, Live Showcase Button
+                          // Right Actions: Language Toggle, Download CV Button, Live Showcase Button
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -147,8 +147,8 @@ class HeaderNavBar extends StatelessWidget {
                                 child: OutlinedButton.icon(
                                   style: OutlinedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 8,
+                                      horizontal: 8,
+                                      vertical: 6,
                                     ),
                                     side: const BorderSide(
                                       color: AppColors.accent,
@@ -179,14 +179,13 @@ class HeaderNavBar extends StatelessWidget {
                               const SizedBox(width: 8),
 
                               // Download CV Button
-                              if (!constraints.maxWidth.isNegative)
-                                AppButton(
-                                  label: isAr ? 'السيرة الذاتية' : 'CV',
-                                  icon: Icons.download_rounded,
-                                  style: AppButtonStyle.secondary,
-                                  onPressed: () => UrlLauncherUtils.downloadCV(),
-                                  tooltip: 'Download PDF CV',
-                                ),
+                              AppButton(
+                                label: isAr ? 'تحميل CV' : 'Download CV',
+                                icon: Icons.download_rounded,
+                                style: AppButtonStyle.secondary,
+                                onPressed: () => UrlLauncherUtils.downloadCV(),
+                                tooltip: 'Download PDF CV',
+                              ),
                               const SizedBox(width: 8),
 
                               // Live Showcase Button
