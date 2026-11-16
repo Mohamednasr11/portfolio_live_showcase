@@ -56,7 +56,7 @@
       text-align: center;
       background: #070A12;
       z-index: 99999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
     }
     #loading.fade-out {
       opacity: 0;
@@ -160,19 +160,18 @@
 
     window.addEventListener('load', function() {
       if (typeof _flutter !== 'undefined' && _flutter.loader) {
-        _flutter.loader.loadEntrypoint({
+        _flutter.loader.load({
           serviceWorker: {
             serviceWorkerVersion: null,
           },
-          onEntrypointLoaded: async function(engineInitializer) {
-            try {
-              let appRunner = await engineInitializer.initializeEngine();
+          onEntrypointLoaded: function(engineInitializer) {
+            engineInitializer.initializeEngine().then(function(appRunner) {
               removeLoader();
-              await appRunner.runApp();
-            } catch (err) {
-              console.error('Engine run error:', err);
+              appRunner.runApp();
+            }).catch(function(err) {
+              console.error('Engine init error:', err);
               removeLoader();
-            }
+            });
           }
         });
       } else {
