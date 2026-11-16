@@ -581,9 +581,9 @@ class LivePhone extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingPhone(
       screenImages: const [
-        'assets/buildguard/Home.png',
-        'assets/matjarkom/dark_home.png',
-        'assets/brewbloom/High-Fidelity ( Home ).png',
+        'assets/buildguard/shield_house.png',
+        'assets/matjarkom/hero_watch.png',
+        'assets/brewbloom/onboarding_cup.png',
       ],
       width: width,
       height: width * _frameHeight / _frameWidth,

@@ -60,7 +60,7 @@ class _FloatingPhoneState extends State<FloatingPhone>
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     final currentImage = widget.screenImages.isNotEmpty
         ? widget.screenImages[_currentScreen]
-        : 'assets/buildguard/Home.png';
+        : 'assets/buildguard/shield_house.png';
 
     Widget phoneMockup = GestureDetector(
       onTap: _cycleScreen,
