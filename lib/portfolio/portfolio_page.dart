@@ -585,10 +585,10 @@ class LivePhone extends StatelessWidget {
         imagePath = 'assets/matjarkom/hero_watch.png';
         break;
       case 'build_guard':
-        imagePath = 'assets/buildguard/shield_house.png';
+        imagePath = 'assets/buildguard/scan_crack.png';
         break;
       case 'brew_and_bloom':
-        imagePath = 'assets/brewbloom/prod_mocha_home.png';
+        imagePath = 'assets/brewbloom/onboarding_cup.png';
         break;
       case 'trustsafe':
         imagePath = 'assets/brewbloom/promo_cups.png';
