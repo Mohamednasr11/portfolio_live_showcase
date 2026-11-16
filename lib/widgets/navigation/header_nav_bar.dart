@@ -159,8 +159,8 @@ class HeaderNavBar extends StatelessWidget {
                                     ),
                                     backgroundColor: AppColors.panel,
                                   ),
-                                  onPressed: () =>
-                                      LanguageController.instance.toggleLanguage(),
+                                  onPressed: () => LanguageController.instance
+                                      .toggleLanguage(),
                                   icon: const Icon(
                                     Icons.language_rounded,
                                     color: AppColors.accent,
@@ -193,7 +193,8 @@ class HeaderNavBar extends StatelessWidget {
                                 icon: Icons.play_circle_outline_rounded,
                                 style: AppButtonStyle.primary,
                                 onPressed: () => onNavigate('Projects'),
-                                tooltip: 'Explore live interactive case studies',
+                                tooltip:
+                                    'Explore live interactive case studies',
                               ),
                             ],
                           ),

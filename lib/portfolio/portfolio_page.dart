@@ -280,10 +280,7 @@ class _NavBar extends StatelessWidget {
               ),
               child: const Text(
                 'MY CV',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 11,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 11),
               ),
             ),
             const SizedBox(width: 2),

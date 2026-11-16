@@ -15,27 +15,25 @@ void main() {
       log.clear();
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
-        const MethodChannel('plugins.flutter.io/url_launcher'),
-        (MethodCall methodCall) async {
-          log.add(methodCall);
-          if (methodCall.method == 'canLaunch') {
-            return true;
-          }
-          if (methodCall.method == 'launch') {
-            return true;
-          }
-          return null;
-        },
-      );
+            const MethodChannel('plugins.flutter.io/url_launcher'),
+            (MethodCall methodCall) async {
+              log.add(methodCall);
+              if (methodCall.method == 'canLaunch') {
+                return true;
+              }
+              if (methodCall.method == 'launch') {
+                return true;
+              }
+              return null;
+            },
+          );
     });
 
     test('PortfolioData phone matches user phone number 2010960743334', () {
       expect(PortfolioData.phone, equals('2010960743334'));
     });
 
-    testWidgets('HeaderNavBar renders MY CV text-only button', (
-      tester,
-    ) async {
+    testWidgets('HeaderNavBar renders MY CV text-only button', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -59,10 +57,7 @@ void main() {
 
       expect(log, isNotEmpty);
       final launchCall = log.firstWhere((c) => c.method == 'launch');
-      expect(
-        launchCall.arguments['url'],
-        equals('Mohamed_NasrEldeen_CV.pdf'),
-      );
+      expect(launchCall.arguments['url'], equals('Mohamed_NasrEldeen_CV.pdf'));
     });
 
     test('openWhatsApp launches correct WhatsApp URL with phone number 2010960743334', () async {
