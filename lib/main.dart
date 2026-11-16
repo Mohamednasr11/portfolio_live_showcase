@@ -15,7 +15,9 @@ Route<void> _route(RouteSettings settings) {
   final uri = Uri.parse(name);
 
   if (uri.path == '/showcase') {
-    debugPrint('[PortfolioLog] Routing to ShowcasePage with demoId: ${uri.queryParameters['demo']}');
+    debugPrint(
+      '[PortfolioLog] Routing to ShowcasePage with demoId: ${uri.queryParameters['demo']}',
+    );
     return MaterialPageRoute(
       settings: settings,
       builder: (_) => ShowcasePage(demoId: uri.queryParameters['demo']),
@@ -41,7 +43,9 @@ class LiveShowcaseApp extends StatelessWidget {
       theme: AppTheme.darkTheme,
       onGenerateRoute: _route,
       onGenerateInitialRoutes: (initial) {
-        debugPrint('[PortfolioLog] onGenerateInitialRoutes called with initial: "$initial"');
+        debugPrint(
+          '[PortfolioLog] onGenerateInitialRoutes called with initial: "$initial"',
+        );
         return [
           _route(const RouteSettings(name: '/')),
           if (Uri.parse(initial).path == '/showcase')

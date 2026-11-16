@@ -23,15 +23,18 @@ class ProjectsSection extends StatelessWidget {
       listenable: LanguageController.instance,
       builder: (context, _) {
         final isAr = LanguageController.instance.isArabic;
-        final featured =
-            PortfolioData.flutterProjects.where((p) => p.isFeatured).toList();
-        final secondary =
-            PortfolioData.flutterProjects.where((p) => !p.isFeatured).toList();
+        final featured = PortfolioData.flutterProjects
+            .where((p) => p.isFeatured)
+            .toList();
+        final secondary = PortfolioData.flutterProjects
+            .where((p) => !p.isFeatured)
+            .toList();
 
         return SectionWrapper(
           number: '01',
-          eyebrow:
-              isAr ? 'معرض الأعمال والخبرات' : 'CASE STUDIES & PRODUCTION WORK',
+          eyebrow: isAr
+              ? 'معرض الأعمال والخبرات'
+              : 'CASE STUDIES & PRODUCTION WORK',
           title: isAr ? 'دراسات الحالة' : 'Case Studies',
           accent: isAr ? 'تطبيقات جوال حقيقية.' : '& Mobile Apps.',
           description: isAr
@@ -41,23 +44,21 @@ class ProjectsSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 1. Featured Spotlight Projects (BuildGuard & TMDB Movie Application)
-              ...featured.asMap().entries.map(
-                (entry) {
-                  final index = entry.key;
-                  final project = entry.value;
+              ...featured.asMap().entries.map((entry) {
+                final index = entry.key;
+                final project = entry.value;
 
-                  return RevealOnScroll(
-                    delay: Duration(milliseconds: index * 120),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 32),
-                      child: _FeaturedProjectCard(
-                        project: project,
-                        onOpen: () => onOpenProject(project),
-                      ),
+                return RevealOnScroll(
+                  delay: Duration(milliseconds: index * 120),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 32),
+                    child: _FeaturedProjectCard(
+                      project: project,
+                      onOpen: () => onOpenProject(project),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              }),
 
               const SizedBox(height: 12),
               if (secondary.isNotEmpty) ...[
@@ -86,23 +87,21 @@ class ProjectsSection extends StatelessWidget {
                     return Wrap(
                       spacing: gap,
                       runSpacing: gap,
-                      children: secondary.asMap().entries.map(
-                        (entry) {
-                          final index = entry.key;
-                          final project = entry.value;
+                      children: secondary.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final project = entry.value;
 
-                          return RevealOnScroll(
-                            delay: Duration(milliseconds: 100 * index),
-                            child: SizedBox(
-                              width: cardWidth,
-                              child: _StandardProjectCard(
-                                project: project,
-                                onTap: () => onOpenProject(project),
-                              ),
+                        return RevealOnScroll(
+                          delay: Duration(milliseconds: 100 * index),
+                          child: SizedBox(
+                            width: cardWidth,
+                            child: _StandardProjectCard(
+                              project: project,
+                              onTap: () => onOpenProject(project),
                             ),
-                          );
-                        },
-                      ).toList(),
+                          ),
+                        );
+                      }).toList(),
                     );
                   },
                 ),
@@ -119,10 +118,7 @@ class _FeaturedProjectCard extends StatelessWidget {
   final Project project;
   final VoidCallback onOpen;
 
-  const _FeaturedProjectCard({
-    required this.project,
-    required this.onOpen,
-  });
+  const _FeaturedProjectCard({required this.project, required this.onOpen});
 
   @override
   Widget build(BuildContext context) {
@@ -141,10 +137,7 @@ class _FeaturedProjectCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF0F172A),
-                  Color(0xFF070A12),
-                ],
+                colors: [Color(0xFF0F172A), Color(0xFF070A12)],
               ),
             ),
             child: Center(
@@ -273,12 +266,7 @@ class _FeaturedProjectCard extends StatelessWidget {
           );
 
           if (compact) {
-            return Column(
-              children: [
-                imageMockup,
-                details,
-              ],
-            );
+            return Column(children: [imageMockup, details]);
           }
 
           return Row(
@@ -297,10 +285,7 @@ class _StandardProjectCard extends StatelessWidget {
   final Project project;
   final VoidCallback onTap;
 
-  const _StandardProjectCard({
-    required this.project,
-    required this.onTap,
-  });
+  const _StandardProjectCard({required this.project, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
