@@ -77,7 +77,6 @@ class HeaderNavBar extends StatelessWidget {
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     final isCompact = constraints.maxWidth < 980;
-                    final isVeryCompact = constraints.maxWidth < 600;
 
                     return Row(
                       children: [
@@ -108,27 +107,25 @@ class HeaderNavBar extends StatelessWidget {
                           const SizedBox(width: 12),
                         ],
 
-                        // Download CV Button
-                        if (!isVeryCompact)
-                          AppButton(
-                            label: isAr ? 'السيرة الذاتية' : 'Download CV',
-                            icon: Icons.download_rounded,
-                            style: AppButtonStyle.secondary,
-                            onPressed: () => UrlLauncherUtils.downloadCV(),
-                            tooltip: 'Download PDF CV',
-                          ),
-                        if (!isVeryCompact) const SizedBox(width: 8),
+                        // Download CV Button (Always visible)
+                        AppButton(
+                          label: isAr ? 'السيرة الذاتية' : 'Download CV',
+                          icon: Icons.download_rounded,
+                          style: AppButtonStyle.secondary,
+                          onPressed: () => UrlLauncherUtils.downloadCV(),
+                          tooltip: 'Download PDF CV',
+                        ),
+                        const SizedBox(width: 8),
 
-                        // Live Showcase Button
-                        if (!isVeryCompact)
-                          AppButton(
-                            label: isAr ? 'العرض الحي' : 'Live showcase',
-                            icon: Icons.play_circle_outline_rounded,
-                            style: AppButtonStyle.primary,
-                            onPressed: () => onNavigate('Projects'),
-                            tooltip: 'Explore live interactive case studies',
-                          ),
-                        if (!isVeryCompact) const SizedBox(width: 8),
+                        // Live Showcase Button (Always visible)
+                        AppButton(
+                          label: isAr ? 'العرض الحي' : 'Live showcase',
+                          icon: Icons.play_circle_outline_rounded,
+                          style: AppButtonStyle.primary,
+                          onPressed: () => onNavigate('Projects'),
+                          tooltip: 'Explore live interactive case studies',
+                        ),
+                        const SizedBox(width: 8),
 
                         // Language Toggle Button
                         Semantics(
