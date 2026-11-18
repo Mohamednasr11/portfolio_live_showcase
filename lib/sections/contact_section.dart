@@ -106,10 +106,6 @@ class ContactSection extends StatelessWidget {
                         onPressed: () =>
                             UrlLauncherUtils.openWhatsApp(PortfolioData.phone),
                       ),
-                      QuietButton(
-                        label: 'MY CV',
-                        onPressed: () => UrlLauncherUtils.downloadCV(),
-                      ),
                     ],
                   ),
                 ],

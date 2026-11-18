@@ -178,15 +178,6 @@ class HeaderNavBar extends StatelessWidget {
                               ),
                               const SizedBox(width: 8),
 
-                              // Download CV Button (Text-only)
-                              AppButton(
-                                label: 'MY CV',
-                                style: AppButtonStyle.secondary,
-                                onPressed: () => UrlLauncherUtils.downloadCV(),
-                                tooltip: 'Open PDF CV',
-                              ),
-                              const SizedBox(width: 8),
-
                               // Live Showcase Button
                               AppButton(
                                 label: isAr ? 'العرض الحي' : 'Live showcase',

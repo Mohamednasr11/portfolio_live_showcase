@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:portfolio_live_showcase/portfolio/widgets/navigations/portfolio_nav_bar_widget.dart';
 import 'package:url_launcher/link.dart';
-
-import '../core/utils/url_launcher_utils.dart';
 
 import '../showcase/demos.dart';
 import '../showcase/model.dart';
@@ -20,19 +19,6 @@ abstract final class P {
   static const maxWidth = 1120.0;
 }
 
-enum _Section { work, projects, skills, build, journey, contact }
-
-extension on _Section {
-  String title(bool ar) => switch (this) {
-    _Section.work => ar ? 'دراسات الحالة' : 'Case studies',
-    _Section.projects => ar ? 'المشاريع' : 'Projects',
-    _Section.skills => ar ? 'المهارات' : 'Skills',
-    _Section.build => ar ? 'هندسة الموقع' : 'Architecture',
-    _Section.journey => ar ? 'الخبرة والتعليم' : 'Experience',
-    _Section.contact => ar ? 'التواصل' : 'Contact',
-  };
-}
-
 void openShowcase(BuildContext context, [String? demoId]) {
   Navigator.of(context)
       .pushNamed(demoId == null ? '/showcase' : '/showcase?demo=$demoId');
@@ -47,7 +33,11 @@ class PortfolioPage extends StatefulWidget {
 
 class _PortfolioPageState extends State<PortfolioPage> {
   final _scroll = ScrollController();
-  final _keys = {for (final s in _Section.values) s: GlobalKey()};
+
+  final Map<PortfolioSection, GlobalKey> _keys = {
+    for (final section in PortfolioSection.values) section: GlobalKey(),
+  };
+
   late final List<DemoSpec> _demos = buildDemos();
 
   bool _isArabic = false;
@@ -65,35 +55,46 @@ class _PortfolioPageState extends State<PortfolioPage> {
     super.dispose();
   }
 
-  void _jump(_Section s) {
-    final ctx = _keys[s]!.currentContext;
+  void _jump(PortfolioSection section) {
+    final ctx = _keys[section]?.currentContext;
+
     if (ctx == null) return;
+
     Scrollable.ensureVisible(
       ctx,
       duration: const Duration(milliseconds: 520),
       curve: Curves.easeInOutCubic,
+      alignment: 0.08,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
+
     debugPrint('[PortfolioLog] PortfolioPage build() called (width: $width).');
+
     final narrow = width < 720;
+
     return Directionality(
       textDirection: _isArabic ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         backgroundColor: Show.getBg(_isDark),
         body: Column(
           children: [
-            _NavBar(
+            PortfolioNavBar(
               onJump: _jump,
-              compact: width < 980,
               width: width,
               isArabic: _isArabic,
               isDark: _isDark,
-              onToggleLang: () => setState(() => _isArabic = !_isArabic),
-              onToggleTheme: () => setState(() => _isDark = !_isDark),
+              name: Profile.name,
+              onToggleLang: () {
+                setState(() => _isArabic = !_isArabic);
+              },
+              onToggleTheme: () {
+                setState(() => _isDark = !_isDark);
+              },
+              onOpenShowcase: () => openShowcase(context),
             ),
             Expanded(
               child: Scrollbar(
@@ -110,38 +111,38 @@ class _PortfolioPageState extends State<PortfolioPage> {
                         isDark: _isDark,
                       ),
                       _CaseStudies(
-                        key: _keys[_Section.work],
+                        key: _keys[PortfolioSection.work],
                         demos: _demos,
                         width: width,
                         isArabic: _isArabic,
                         isDark: _isDark,
                       ),
                       _CodeProjects(
-                        key: _keys[_Section.projects],
+                        key: _keys[PortfolioSection.projects],
                         width: width,
                         isArabic: _isArabic,
                         isDark: _isDark,
                       ),
                       _Skills(
-                        key: _keys[_Section.skills],
+                        key: _keys[PortfolioSection.skills],
                         width: width,
                         isArabic: _isArabic,
                         isDark: _isDark,
                       ),
                       _BuildNotes(
-                        key: _keys[_Section.build],
+                        key: _keys[PortfolioSection.build],
                         width: width,
                         isArabic: _isArabic,
                         isDark: _isDark,
                       ),
                       _Journey(
-                        key: _keys[_Section.journey],
+                        key: _keys[PortfolioSection.journey],
                         width: width,
                         isArabic: _isArabic,
                         isDark: _isDark,
                       ),
                       _Contact(
-                        key: _keys[_Section.contact],
+                        key: _keys[PortfolioSection.contact],
                         narrow: narrow,
                         isArabic: _isArabic,
                         isDark: _isDark,
@@ -161,170 +162,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
 // ───────────────────────────── chrome ─────────────────────────────
 
-class _NavBar extends StatelessWidget {
-  const _NavBar({
-    required this.onJump,
-    required this.compact,
-    required this.width,
-    required this.isArabic,
-    required this.isDark,
-    required this.onToggleLang,
-    required this.onToggleTheme,
-  });
-
-  final ValueChanged<_Section> onJump;
-  final bool compact;
-  final double width;
-  final bool isArabic;
-  final bool isDark;
-  final VoidCallback onToggleLang;
-  final VoidCallback onToggleTheme;
-
-  @override
-  Widget build(BuildContext context) {
-    final veryNarrow = width < 450;
-    return Container(
-      height: 70,
-      decoration: BoxDecoration(
-        color: Show.getSurface(isDark).withValues(alpha: 0.92),
-        border: Border(bottom: BorderSide(color: Show.getBorder(isDark))),
-      ),
-      child: _Width(
-        child: Row(
-          children: [
-            Container(
-              width: 34,
-              height: 34,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Show.accent, width: 2),
-                image: const DecorationImage(
-                  image: AssetImage('assets/ME/me.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            if (!veryNarrow) ...[
-              Expanded(
-                child: Text(
-                  Profile.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: Show.display,
-                    color: Show.getText(isDark),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            ] else ...[
-              const Spacer(),
-            ],
-            if (!compact)
-              for (final s in const [
-                _Section.work,
-                _Section.projects,
-                _Section.skills,
-                _Section.contact,
-              ])
-                TextButton(
-                  onPressed: () => onJump(s),
-                  style: TextButton.styleFrom(
-                    foregroundColor: Show.getMuted(isDark),
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    minimumSize: const Size(0, 44),
-                    textStyle: const TextStyle(fontSize: 13),
-                  ),
-                  child: Text(s.title(isArabic)),
-                ),
-            const SizedBox(width: 2),
-            IconButton(
-              tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-              onPressed: onToggleTheme,
-              icon: Icon(
-                isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                color: Show.accent,
-                size: 18,
-              ),
-              constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
-              padding: EdgeInsets.zero,
-            ),
-            const SizedBox(width: 2),
-            OutlinedButton(
-              onPressed: onToggleLang,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Show.accent,
-                side: const BorderSide(color: Show.accent),
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                minimumSize: const Size(30, 28),
-              ),
-              child: Text(
-                isArabic ? 'EN' : 'AR',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 10,
-                ),
-              ),
-            ),
-            const SizedBox(width: 4),
-            // MY CV Button (Text-only, no icon)
-            OutlinedButton(
-              onPressed: () => UrlLauncherUtils.downloadCV(),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Show.accent,
-                side: const BorderSide(color: Show.accent),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                minimumSize: const Size(36, 32),
-              ),
-              child: const Text(
-                'MY CV',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 11),
-              ),
-            ),
-            const SizedBox(width: 2),
-            // Live Showcase Button
-            FilledButton(
-              onPressed: () => openShowcase(context),
-              style: FilledButton.styleFrom(
-                backgroundColor: Show.accent,
-                foregroundColor: Show.bg,
-                visualDensity: VisualDensity.compact,
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-              ),
-              child: Text(
-                isArabic ? 'المعرض' : (veryNarrow ? 'App' : 'Live showcase'),
-                style: const TextStyle(fontSize: 11),
-              ),
-            ),
-            PopupMenuButton<_Section>(
-              tooltip: isArabic ? 'الأقسام' : 'Sections',
-              icon: Icon(
-                Icons.menu_rounded,
-                color: Show.getText(isDark),
-                size: 22,
-              ),
-              color: Show.getSurfaceAlt(isDark),
-              onSelected: onJump,
-              itemBuilder: (_) => [
-                for (final s in _Section.values)
-                  PopupMenuItem(
-                    value: s,
-                    child: Text(
-                      s.title(isArabic),
-                      style: TextStyle(color: Show.getText(isDark)),
-                    ),
-                  ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _Width extends StatelessWidget {
   const _Width({required this.child});
 
@@ -333,6 +170,7 @@ class _Width extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final narrow = MediaQuery.sizeOf(context).width < 720;
+
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: P.maxWidth),
@@ -363,6 +201,7 @@ class _SectionFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final narrow = MediaQuery.sizeOf(context).width < 720;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: narrow ? 48 : 80),
       child: _Width(
@@ -447,13 +286,17 @@ class _Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const gap = 24.0;
+
     return LayoutBuilder(
       builder: (context, box) {
         final w = (box.maxWidth - gap * (columns - 1)) / columns;
+
         return Wrap(
           spacing: gap,
           runSpacing: gap,
-          children: [for (final c in children) SizedBox(width: w, child: c)],
+          children: [
+            for (final child in children) SizedBox(width: w, child: child),
+          ],
         );
       },
     );
@@ -516,17 +359,19 @@ class _Chips extends StatelessWidget {
   final bool isDark;
 
   @override
-  Widget build(BuildContext context) => Wrap(
-    spacing: 8,
-    runSpacing: 8,
-    children: [
-      for (var i = 0; i < items.length; i++)
-        RevealOnScroll(
-          delay: Duration(milliseconds: 40 * i),
-          child: _Chip(items[i], isDark: isDark),
-        ),
-    ],
-  );
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        for (var i = 0; i < items.length; i++)
+          RevealOnScroll(
+            delay: Duration(milliseconds: 40 * i),
+            child: _Chip(items[i], isDark: isDark),
+          ),
+      ],
+    );
+  }
 }
 
 class LinkButton extends StatelessWidget {
@@ -546,36 +391,39 @@ class LinkButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uri = Uri.parse(url);
+
     return Link(
       uri: uri,
       target: uri.scheme == 'mailto' ? LinkTarget.self : LinkTarget.blank,
-      builder: (context, follow) => primary
-          ? FilledButton.icon(
-              onPressed: follow,
-              icon: Icon(icon, size: 18),
-              label: Text(label),
-              style: FilledButton.styleFrom(
-                backgroundColor: Show.accent,
-                foregroundColor: Show.bg,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 12,
+      builder: (context, follow) {
+        return primary
+            ? FilledButton.icon(
+                onPressed: follow,
+                icon: Icon(icon, size: 18),
+                label: Text(label),
+                style: FilledButton.styleFrom(
+                  backgroundColor: Show.accent,
+                  foregroundColor: Show.bg,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 12,
+                  ),
                 ),
-              ),
-            )
-          : OutlinedButton.icon(
-              onPressed: follow,
-              icon: Icon(icon, size: 16),
-              label: Text(label),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Show.accent,
-                side: const BorderSide(color: Show.accent),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
+              )
+            : OutlinedButton.icon(
+                onPressed: follow,
+                icon: Icon(icon, size: 16),
+                label: Text(label),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Show.accent,
+                  side: const BorderSide(color: Show.accent),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                 ),
-              ),
-            ),
+              );
+      },
     );
   }
 }
@@ -597,7 +445,8 @@ class LivePhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imagePath;
+    final String imagePath;
+
     switch (demo.id) {
       case 'matjarkom':
         imagePath = 'assets/matjarkom/hero_watch.png';
@@ -643,9 +492,11 @@ class _Hero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final side = width >= 980;
+
     final isTest = WidgetsBinding.instance.runtimeType.toString().contains(
       'TestWidgetsFlutterBinding',
     );
+
     final disableAnimations =
         (MediaQuery.maybeOf(context)?.disableAnimations ?? false) || isTest;
 
@@ -916,6 +767,7 @@ class _CaseStudies extends StatelessWidget {
   Widget build(BuildContext context) {
     final columns = width >= 1080 ? 2 : 1;
     final previews = width >= 720;
+
     return _SectionFrame(
       label: isArabic ? 'دراسات الحالة التفاعلية' : 'Interactive case studies',
       title: isArabic
@@ -1027,11 +879,13 @@ class _CaseStudyCard extends StatelessWidget {
                 foregroundColor: Show.bg,
               ),
             ),
-            for (final l in info.links) LinkButton(label: l.label, url: l.url),
+            for (final link in info.links)
+              LinkButton(label: link.label, url: link.url),
           ],
         ),
       ],
     );
+
     return HoverCard(
       onTap: () => openShowcase(context, demo.id),
       semanticsLabel: 'Play case study for ${demo.name}',
@@ -1074,6 +928,7 @@ class _CodeProjects extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final columns = width >= 1080 ? 3 : (width >= 720 ? 2 : 1);
+
     return _SectionFrame(
       label: isArabic ? 'مشاريع برمجية مفتوحة المصدر' : 'Open-source code',
       title: isArabic
@@ -1158,8 +1013,8 @@ class _CodeProjects extends StatelessWidget {
                       spacing: 10,
                       runSpacing: 10,
                       children: [
-                        for (final l in Profile.codeProjects[i].links)
-                          LinkButton(label: l.label, url: l.url),
+                        for (final link in Profile.codeProjects[i].links)
+                          LinkButton(label: link.label, url: link.url),
                       ],
                     ),
                   ],
@@ -1187,6 +1042,7 @@ class _Skills extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final columns = width >= 1080 ? 3 : (width >= 720 ? 2 : 1);
+
     return _SectionFrame(
       label: isArabic ? 'المهارات التقنية' : 'Skills & expertise',
       title: isArabic
@@ -1332,68 +1188,72 @@ class _Journey extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget column(String heading, List<TimelineEntry> entries) => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          heading,
-          style: ShowType.heading.copyWith(color: Show.accent, fontSize: 20),
-        ),
-        const SizedBox(height: 16),
-        for (final e in entries)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: RevealOnScroll(
-              child: _Card(
-                isDark: isDark,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      isArabic ? e.periodAr : e.period,
-                      style: ShowType.label,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      isArabic ? e.titleAr : e.title,
-                      style: ShowType.heading.copyWith(
-                        color: Show.getText(isDark),
-                        fontSize: 18,
+    Widget column(String heading, List<TimelineEntry> entries) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            heading,
+            style: ShowType.heading.copyWith(color: Show.accent, fontSize: 20),
+          ),
+          const SizedBox(height: 16),
+          for (final entry in entries)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: RevealOnScroll(
+                child: _Card(
+                  isDark: isDark,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        isArabic ? entry.periodAr : entry.period,
+                        style: ShowType.label,
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      isArabic ? e.placeAr : e.place,
-                      style: TextStyle(
-                        fontFamily: isArabic ? 'Graphic' : Show.body,
-                        color: Show.getText(isDark),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13.5,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    for (final p in (isArabic ? e.pointsAr : e.points))
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6),
-                        child: Text(
-                          p,
-                          style: ShowType.body.copyWith(
-                            color: Show.getMuted(isDark),
-                          ),
+                      const SizedBox(height: 8),
+                      Text(
+                        isArabic ? entry.titleAr : entry.title,
+                        style: ShowType.heading.copyWith(
+                          color: Show.getText(isDark),
+                          fontSize: 18,
                         ),
                       ),
-                  ],
+                      const SizedBox(height: 4),
+                      Text(
+                        isArabic ? entry.placeAr : entry.place,
+                        style: TextStyle(
+                          fontFamily: isArabic ? 'Graphic' : Show.body,
+                          color: Show.getText(isDark),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13.5,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      for (final point
+                          in (isArabic ? entry.pointsAr : entry.points))
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Text(
+                            point,
+                            style: ShowType.body.copyWith(
+                              color: Show.getMuted(isDark),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-      ],
-    );
+        ],
+      );
+    }
 
     final experience = column(
       isArabic ? 'الخبرة المهنية' : 'Experience',
       Profile.experience,
     );
+
     final education = column(
       isArabic ? 'التعليم والتدريب' : 'Education & training',
       Profile.education,
@@ -1458,7 +1318,9 @@ class _Contact extends StatelessWidget {
             tooltip: isArabic ? 'نسخ البريد الإلكتروني' : 'Copy email address',
             onPressed: () async {
               await Clipboard.setData(const ClipboardData(text: Profile.email));
+
               if (!context.mounted) return;
+
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(

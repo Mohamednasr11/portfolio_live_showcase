@@ -71,12 +71,6 @@ class AboutSection extends StatelessWidget {
                             onPressed: () =>
                                 UrlLauncherUtils.openEmail(PortfolioData.email),
                           ),
-                          QuietButton(
-                            label: isAr
-                                ? 'تحميل السيرة الذاتية'
-                                : 'Download CV',
-                            onPressed: () => UrlLauncherUtils.downloadCV(),
-                          ),
                         ],
                       ),
                     ],

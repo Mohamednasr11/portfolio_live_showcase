@@ -52,14 +52,6 @@ void main() {
       expect(find.text('MY CV'), findsOneWidget);
     });
 
-    test('downloadCV launches Mohamed_NasrEldeen_CV.pdf', () async {
-      await UrlLauncherUtils.downloadCV();
-
-      expect(log, isNotEmpty);
-      final launchCall = log.firstWhere((c) => c.method == 'launch');
-      expect(launchCall.arguments['url'], equals('Mohamed_NasrEldeen_CV.pdf'));
-    });
-
     test('openWhatsApp launches correct WhatsApp URL with phone number 2010960743334', () async {
       await UrlLauncherUtils.openWhatsApp(PortfolioData.phone);
 

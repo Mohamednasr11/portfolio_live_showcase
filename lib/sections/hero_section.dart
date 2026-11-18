@@ -130,12 +130,6 @@ class HeroSection extends StatelessWidget {
                           onPressed: () => onNavigate('Projects'),
                         ),
                         AppButton(
-                          label: isAr ? 'تحميل السيرة الذاتية' : 'Download CV',
-                          icon: Icons.download_rounded,
-                          style: AppButtonStyle.secondary,
-                          onPressed: () => UrlLauncherUtils.downloadCV(),
-                        ),
-                        AppButton(
                           label: isAr ? 'تواصل معي' : 'Contact Me',
                           icon: Icons.mail_outline_rounded,
                           style: AppButtonStyle.quiet,
