@@ -86,77 +86,79 @@ class _PortfolioPageState extends State<PortfolioPage> {
       textDirection: _isArabic ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         backgroundColor: Show.getBg(_isDark),
-        body: Column(
-          children: [
-            PortfolioNavBar(
-              onJump: _jump,
-              width: width,
-              isArabic: _isArabic,
-              isDark: _isDark,
-              name: Profile.name,
-              scrollProgress: _scrollProgress,
-              onToggleLang: () => setState(() => _isArabic = !_isArabic),
-              onToggleTheme: () => setState(() => _isDark = !_isDark),
-              onOpenShowcase: () => openShowcase(context),
-            ),
-            Expanded(
-              child: Scrollbar(
-                controller: _scroll,
-                child: SingleChildScrollView(
-                  controller: _scroll,
-                  child: Column(
-                    children: [
-                      HeroSectionWidget(
-                        demo: _demos.first,
-                        narrow: narrow,
-                        width: width,
-                        isArabic: _isArabic,
-                        isDark: _isDark,
-                      ),
-                      CaseStudiesSectionWidget(
-                        key: _keys[PortfolioSection.work],
-                        demos: _demos,
-                        width: width,
-                        isArabic: _isArabic,
-                        isDark: _isDark,
-                      ),
-                      CodeProjectsSectionWidget(
-                        key: _keys[PortfolioSection.projects],
-                        width: width,
-                        isArabic: _isArabic,
-                        isDark: _isDark,
-                      ),
-                      SkillsSectionWidget(
-                        key: _keys[PortfolioSection.skills],
-                        width: width,
-                        isArabic: _isArabic,
-                        isDark: _isDark,
-                      ),
-                      BuildNotesSectionWidget(
-                        key: _keys[PortfolioSection.build],
-                        width: width,
-                        isArabic: _isArabic,
-                        isDark: _isDark,
-                      ),
-                      JourneySectionWidget(
-                        key: _keys[PortfolioSection.journey],
-                        width: width,
-                        isArabic: _isArabic,
-                        isDark: _isDark,
-                      ),
-                      ContactSectionWidget(
-                        key: _keys[PortfolioSection.contact],
-                        narrow: narrow,
-                        isArabic: _isArabic,
-                        isDark: _isDark,
-                      ),
-                      FooterSectionWidget(isArabic: _isArabic, isDark: _isDark),
-                    ],
+        body: Scrollbar(
+          controller: _scroll,
+          child: SingleChildScrollView(
+            controller: _scroll,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    narrow ? 12 : 24,
+                    16,
+                    narrow ? 12 : 24,
+                    0,
+                  ),
+                  child: PortfolioNavBar(
+                    onJump: _jump,
+                    width: width,
+                    isArabic: _isArabic,
+                    isDark: _isDark,
+                    name: Profile.name,
+                    scrollProgress: _scrollProgress,
+                    onToggleLang: () => setState(() => _isArabic = !_isArabic),
+                    onToggleTheme: () => setState(() => _isDark = !_isDark),
+                    onOpenShowcase: () => openShowcase(context),
                   ),
                 ),
-              ),
+                HeroSectionWidget(
+                  demo: _demos.first,
+                  narrow: narrow,
+                  width: width,
+                  isArabic: _isArabic,
+                  isDark: _isDark,
+                ),
+                CaseStudiesSectionWidget(
+                  key: _keys[PortfolioSection.work],
+                  demos: _demos,
+                  width: width,
+                  isArabic: _isArabic,
+                  isDark: _isDark,
+                ),
+                CodeProjectsSectionWidget(
+                  key: _keys[PortfolioSection.projects],
+                  width: width,
+                  isArabic: _isArabic,
+                  isDark: _isDark,
+                ),
+                SkillsSectionWidget(
+                  key: _keys[PortfolioSection.skills],
+                  width: width,
+                  isArabic: _isArabic,
+                  isDark: _isDark,
+                ),
+                BuildNotesSectionWidget(
+                  key: _keys[PortfolioSection.build],
+                  width: width,
+                  isArabic: _isArabic,
+                  isDark: _isDark,
+                ),
+                JourneySectionWidget(
+                  key: _keys[PortfolioSection.journey],
+                  width: width,
+                  isArabic: _isArabic,
+                  isDark: _isDark,
+                ),
+                ContactSectionWidget(
+                  key: _keys[PortfolioSection.contact],
+                  narrow: narrow,
+                  isArabic: _isArabic,
+                  isDark: _isDark,
+                ),
+                FooterSectionWidget(isArabic: _isArabic, isDark: _isDark),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

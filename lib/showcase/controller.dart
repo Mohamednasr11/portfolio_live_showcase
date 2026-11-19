@@ -21,6 +21,7 @@ class PresentationController extends ChangeNotifier {
   final TimerFactory _timerFactory;
 
   Timer? _timer;
+  bool _disposed = false;
   int _demoIndex = 0;
   int _stepIndex = 0;
   bool _playing = false;
@@ -148,8 +149,14 @@ class PresentationController extends ChangeNotifier {
     _timer = _timerFactory(ms, _onTick);
   }
 
+  @override
+  void notifyListeners() {
+    if (_disposed) return;
+    super.notifyListeners();
+  }
+
   void _onTick() {
-    if (!_playing) return;
+    if (_disposed || !_playing) return;
     next();
   }
 
@@ -160,6 +167,7 @@ class PresentationController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     _cancel();
     super.dispose();
   }

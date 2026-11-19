@@ -387,7 +387,7 @@ abstract final class Profile {
       ],
     ),
     TimelineEntry(
-      title: 'Professional Flutter Training Track',
+      title: 'Professional Flutter Training Track (120 Hours)',
       titleAr: 'منحة تطوير تطبيقات فلاتر الاحترافية',
       place: 'ITI (Information Technology Institute)',
       placeAr: 'معهد تكنولوجيا المعلومات (ITI)',

@@ -56,34 +56,36 @@ class PortfolioNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final compact = width < 980;
 
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-        child: Container(
-          height: 76,
-          decoration: BoxDecoration(
-            color: Show.getSurface(isDark).withValues(alpha: 0.75),
-            border: Border(
-              bottom: BorderSide(
-                color: Show.getBorder(isDark).withValues(alpha: 0.5),
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1120),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+            child: Container(
+              height: 68,
+              decoration: BoxDecoration(
+                color: Show.getSurface(isDark)
+                    .withValues(alpha: isDark ? 0.72 : 0.85),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: Show.getBorder(isDark).withValues(alpha: 0.6),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.22 : 0.06),
+                    blurRadius: 24,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: isDark ? 0.18 : 0.04),
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1120),
-                  child: Padding(
+              child: Stack(
+                children: [
+                  Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: width < 720 ? 16 : 32,
+                      horizontal: width < 720 ? 16 : 24,
                     ),
                     child: Row(
                       children: [
@@ -132,40 +134,44 @@ class PortfolioNavBar extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-              ),
 
-              // Liquid Glass Animated Scroll Progress Bar Slider
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.easeOutCubic,
-                    height: 2.5,
-                    width:
-                        MediaQuery.sizeOf(context).width *
-                        scrollProgress.clamp(0.0, 1.0),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Show.accent, Color(0xFF38BDF8), Show.accent2],
-                      ),
-                      borderRadius: BorderRadius.circular(999),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Show.accent.withValues(alpha: 0.6),
-                          blurRadius: 6,
-                          spreadRadius: 1,
+                  // Liquid Glass Animated Scroll Progress Bar Slider
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.easeOutCubic,
+                        height: 2.5,
+                        width:
+                            MediaQuery.sizeOf(context).width *
+                            scrollProgress.clamp(0.0, 1.0),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Show.accent,
+                              Color(0xFF38BDF8),
+                              Show.accent2,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(999),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Show.accent.withValues(alpha: 0.6),
+                              blurRadius: 6,
+                              spreadRadius: 1,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
