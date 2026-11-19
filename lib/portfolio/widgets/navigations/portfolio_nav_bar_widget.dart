@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../../../showcase/theme.dart';
@@ -29,6 +31,7 @@ class PortfolioNavBar extends StatelessWidget {
     required this.onToggleTheme,
     required this.onOpenShowcase,
     required this.name,
+    this.scrollProgress = 0.0,
   });
 
   final ValueChanged<PortfolioSection> onJump;
@@ -39,6 +42,7 @@ class PortfolioNavBar extends StatelessWidget {
   final VoidCallback onToggleTheme;
   final VoidCallback onOpenShowcase;
   final String name;
+  final double scrollProgress;
 
   static const List<PortfolioSection> _sections = [
     PortfolioSection.work,
@@ -52,70 +56,116 @@ class PortfolioNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final compact = width < 980;
 
-    return Container(
-      height: 76,
-      decoration: BoxDecoration(
-        color: Show.getSurface(isDark).withValues(alpha: 0.96),
-        border: Border(bottom: BorderSide(color: Show.getBorder(isDark))),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.12 : 0.035),
-            blurRadius: 18,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1120),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width < 720 ? 16 : 32),
-            child: Row(
-              children: [
-                NavBrand(
-                  name: name,
-                  isDark: isDark,
-                  isArabic: isArabic,
-                  compact: width < 520,
-                ),
-
-                if (!compact) ...[
-                  const Spacer(),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      for (final section in _sections)
-                        _DesktopNavItem(
-                          title: section.title(isArabic),
-                          isDark: isDark,
-                          onTap: () => onJump(section),
-                        ),
-                    ],
-                  ),
-                  const Spacer(),
-                ] else
-                  const Spacer(),
-
-                NavActions(
-                  isArabic: isArabic,
-                  isDark: isDark,
-                  compact: width < 520,
-                  onToggleLang: onToggleLang,
-                  onToggleTheme: onToggleTheme,
-                ),
-
-                if (compact) ...[
-                  const SizedBox(width: 6),
-                  MobileNavMenu(
-                    sections: PortfolioSection.values,
-                    isArabic: isArabic,
-                    isDark: isDark,
-                    onJump: onJump,
-                    onOpenShowcase: onOpenShowcase,
-                  ),
-                ],
-              ],
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+        child: Container(
+          height: 76,
+          decoration: BoxDecoration(
+            color: Show.getSurface(isDark).withValues(alpha: 0.75),
+            border: Border(
+              bottom: BorderSide(
+                color: Show.getBorder(isDark).withValues(alpha: 0.5),
+              ),
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.18 : 0.04),
+                blurRadius: 20,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 1120),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: width < 720 ? 16 : 32,
+                    ),
+                    child: Row(
+                      children: [
+                        NavBrand(
+                          name: name,
+                          isDark: isDark,
+                          isArabic: isArabic,
+                          compact: width < 520,
+                        ),
+
+                        if (!compact) ...[
+                          const Spacer(),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              for (final section in _sections)
+                                _DesktopNavItem(
+                                  title: section.title(isArabic),
+                                  isDark: isDark,
+                                  onTap: () => onJump(section),
+                                ),
+                            ],
+                          ),
+                          const Spacer(),
+                        ] else
+                          const Spacer(),
+
+                        NavActions(
+                          isArabic: isArabic,
+                          isDark: isDark,
+                          compact: width < 520,
+                          onToggleLang: onToggleLang,
+                          onToggleTheme: onToggleTheme,
+                        ),
+
+                        if (compact) ...[
+                          const SizedBox(width: 6),
+                          MobileNavMenu(
+                            sections: PortfolioSection.values,
+                            isArabic: isArabic,
+                            isDark: isDark,
+                            onJump: onJump,
+                            onOpenShowcase: onOpenShowcase,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Liquid Glass Animated Scroll Progress Bar Slider
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 100),
+                    curve: Curves.easeOutCubic,
+                    height: 2.5,
+                    width:
+                        MediaQuery.sizeOf(context).width *
+                        scrollProgress.clamp(0.0, 1.0),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Show.accent, Color(0xFF38BDF8), Show.accent2],
+                      ),
+                      borderRadius: BorderRadius.circular(999),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Show.accent.withValues(alpha: 0.6),
+                          blurRadius: 6,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
