@@ -58,10 +58,6 @@ class FooterNavBar extends StatelessWidget {
                             PortfolioData.linkedinUrl,
                           ),
                         ),
-                        _FooterLink(
-                          isAr ? 'تحميل السيرة الذاتية' : 'Download CV',
-                          () => UrlLauncherUtils.downloadCV(),
-                        ),
                       ],
                     ),
                     Text(

@@ -17,8 +17,4 @@ class UrlLauncherUtils {
   static Future<void> openWhatsApp(String phone) async {
     await launchURL('https://wa.me/$phone');
   }
-
-  static Future<void> downloadCV() async {
-    await launchURL('Mohamed_NasrEldeen_CV.pdf');
-  }
 }

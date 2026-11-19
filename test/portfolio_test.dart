@@ -23,6 +23,7 @@ const verifiedUrls = {
   'https://github.com/Mo-Nasr-Eldeen/ITI-Final-Project',
   'https://iti-final-project-w77f.vercel.app/',
   'mailto:mohamed.nasr.flutter@gmail.com',
+  'https://wa.me/2010960743334',
 };
 
 void main() {
@@ -195,7 +196,7 @@ void main() {
     );
     expect(html, contains('property="og:image"'));
     expect(html, contains('name="twitter:card"'));
-    expect(html, contains('_flutter.loader.load'));
+    expect(html, contains('flutter_bootstrap.js'));
     expect(html, isNot(contains('A new Flutter project.')));
     final image = File('web/social-preview.png').readAsBytesSync();
     expect(image.take(8).toList(), [137, 80, 78, 71, 13, 10, 26, 10]);

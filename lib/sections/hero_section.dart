@@ -17,9 +17,9 @@ class HeroSection extends StatelessWidget {
   const HeroSection({super.key, required this.onNavigate});
 
   static const _heroScreens = [
-    'assets/buildguard/Home.png',
-    'assets/matjarkom/dark_home.png',
-    'assets/brewbloom/High-Fidelity ( Home ).png',
+    'assets/buildguard/shield_house.png',
+    'assets/matjarkom/hero_watch.png',
+    'assets/brewbloom/onboarding_cup.png',
   ];
 
   @override
@@ -128,12 +128,6 @@ class HeroSection extends StatelessWidget {
                           icon: Icons.arrow_downward_rounded,
                           style: AppButtonStyle.primary,
                           onPressed: () => onNavigate('Projects'),
-                        ),
-                        AppButton(
-                          label: isAr ? 'تحميل السيرة الذاتية' : 'Download CV',
-                          icon: Icons.download_rounded,
-                          style: AppButtonStyle.secondary,
-                          onPressed: () => UrlLauncherUtils.downloadCV(),
                         ),
                         AppButton(
                           label: isAr ? 'تواصل معي' : 'Contact Me',

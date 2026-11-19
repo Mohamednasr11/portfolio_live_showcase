@@ -106,11 +106,6 @@ class ContactSection extends StatelessWidget {
                         onPressed: () =>
                             UrlLauncherUtils.openWhatsApp(PortfolioData.phone),
                       ),
-                      QuietButton(
-                        label: isAr ? 'تحميل السيرة الذاتية' : 'Download CV',
-                        icon: Icons.download_rounded,
-                        onPressed: () => UrlLauncherUtils.downloadCV(),
-                      ),
                     ],
                   ),
                 ],
