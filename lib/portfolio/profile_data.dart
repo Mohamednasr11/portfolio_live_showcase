@@ -353,22 +353,28 @@ abstract final class Profile {
   ];
 
   static const experience = [
+
+
     TimelineEntry(
-      title: 'Data Annotation & Customer Support Specialist',
-      titleAr: 'أخصائي تعليق بيانات ودعم عملاء',
-      place: 'Soualy Company · Remote',
-      placeAr: 'شركة سوايلي · عن بعد',
-      period: 'Jul 2024 – Aug 2024',
-      periodAr: 'يوليو 2024 – أغسطس 2024',
+      title: 'Data Annotation & Data Preparation Specialist',
+      titleAr: 'أخصائي تجهيز وتعليق البيانات',
+      place: 'Soualy Company · Project-Based',
+      placeAr: 'شركة سؤالي · بنظام المشاريع',
+      period: '2024 · One-Month Project',
+      periodAr: '2024 · مشروع لمدة شهر',
       points: [
-        'Evaluated and categorized structured machine-learning dataset samples against strict quality guidelines.',
-        'Managed responsive remote client communications and service follow-ups.',
+        'Cleaned and organized datasets using Excel and AI-assisted workflows.',
+        'Performed data annotation, labeling, and classification using Markdown-based formats.',
+        'Prepared structured datasets to support machine learning workflows.',
       ],
       pointsAr: [
-        'تقييم وتصنيف عينات بيانات مهيكلة لتعلم الآلة وفق معايير الجودة.',
-        'إدارة التواصل الفعال مع العملاء ومتابعة الخدمات عن بعد.',
+        'تنظيف وتنظيم مجموعات البيانات باستخدام Excel وأدوات الذكاء الاصطناعي.',
+        'تنفيذ مهام تعليق البيانات وإضافة التصنيفات والوسوم باستخدام تنسيقات Markdown.',
+        'تجهيز مجموعات بيانات منظمة لدعم عمليات تعلم الآلة.',
       ],
     ),
+
+
   ];
 
   static const education = [
@@ -386,33 +392,45 @@ abstract final class Profile {
         'المقررات الأساسية: هندسة البرمجيات، تطوير تطبيقات الموبايل، وتصميم قواعد البيانات.',
       ],
     ),
+
+
     TimelineEntry(
-      title: 'Professional Flutter Training Track (120 Hours)',
-      titleAr: 'منحة تطوير تطبيقات فلاتر الاحترافية',
+      title: 'Flutter Development Training (60 Hours)',
+      titleAr: 'تدريب تطوير تطبيقات Flutter (60 ساعة)',
       place: 'ITI (Information Technology Institute)',
       placeAr: 'معهد تكنولوجيا المعلومات (ITI)',
-      period: 'Final Project: Matjarkom',
-      periodAr: 'المشروع النهائي: متجرك',
+      period: 'Winter Training – 2024',
+      periodAr: 'التدريب الشتوي – 2024',
       points: [
-        'Successfully architected and developed the Matjarkom e-commerce platform.',
+        'Completed 60 hours of practical training, including 12 hours of Dart and 48 hours of Flutter.',
+        'Applied learned concepts through hands-on exercises and a practical project.',
       ],
       pointsAr: [
-        'تصميم وتطوير منصة التجارة الإلكترونية "متجرك" كمشروع تخرج احترافي.',
+        'إتمام 60 ساعة تدريب عملي، شملت 12 ساعة في Dart و48 ساعة في Flutter.',
+        'تطبيق المفاهيم المكتسبة من خلال تدريبات عملية ومشروع تطبيقي.',
       ],
     ),
+
+
     TimelineEntry(
-      title: 'Digital Marketing Summer Training',
-      titleAr: 'تدريب صيفي في التسويق الرقمي',
-      place: 'ITIDA / NTI',
-      placeAr: 'هيئة تنمية صناعة تكنولوجيا المعلومات / المعهد القومي للاتصالات',
-      period: 'Jun – Jul 2025',
-      periodAr: 'يونيو – يوليو 2025',
+      title: 'Professional Flutter Development Training (120 Hours)',
+      titleAr: 'التدريب الاحترافي لتطوير تطبيقات Flutter (120 ساعة)',
+      place: 'ITI (Information Technology Institute)',
+      placeAr: 'معهد تكنولوجيا المعلومات (ITI)',
+      period: 'Summer Training – 2026',
+      periodAr: 'التدريب الصيفي – 2026',
       points: [
-        'Completed 120 intensive hours covering technical marketing and freelance fundamentals.',
+        'Completed 120 hours of intensive, hands-on Flutter development training.',
+        'Independently developed Matjarkom, a full-featured e-commerce platform with an integrated AI chatbot.',
+        'Implemented Firebase integration, BLoC state management, and API-driven functionality.',
       ],
       pointsAr: [
-        'إتمام 120 ساعة تدريبية مكثفة تشمل التسويق التقني وأساسيات العمل الحر.',
+        'إتمام 120 ساعة تدريبية مكثفة وعملية في تطوير تطبيقات Flutter.',
+        'تطوير منصة متجرك للتجارة الإلكترونية بشكل مستقل، مع دمج مساعد محادثة ذكي للمستخدمين.',
+        'تنفيذ التكامل مع Firebase وإدارة الحالة باستخدام BLoC والتعامل مع APIs.',
       ],
     ),
+
+
   ];
 }
