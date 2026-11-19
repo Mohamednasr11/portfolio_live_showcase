@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../data/portfolio_data.dart';
 import '../../../showcase/theme.dart';
 import '../../profile_data.dart';
 import '../common/link_button_widget.dart';
@@ -56,6 +57,11 @@ class ContactSectionWidget extends StatelessWidget {
               );
             },
             icon: const Icon(Icons.copy_rounded, color: Show.accent),
+          ),
+          LinkButton(
+            label: 'WhatsApp',
+            url: 'https://wa.me/${PortfolioData.phone}',
+            icon: Icons.chat_bubble_outline_rounded,
           ),
           LinkButton(
             label: 'GitHub',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+import '../../../data/portfolio_data.dart';
 import '../../../showcase/model.dart';
 import '../../../showcase/shell.dart' show SiteBackdrop;
 import '../../../showcase/theme.dart';
@@ -170,6 +171,11 @@ class HeroSectionWidget extends StatelessWidget {
                   fontSize: 15,
                 ),
               ),
+            ),
+            LinkButton(
+              label: 'WhatsApp',
+              url: 'https://wa.me/${PortfolioData.phone}',
+              icon: Icons.chat_bubble_outline_rounded,
             ),
             LinkButton(
               label: 'GitHub',

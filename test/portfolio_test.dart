@@ -23,6 +23,7 @@ const verifiedUrls = {
   'https://github.com/Mo-Nasr-Eldeen/ITI-Final-Project',
   'https://iti-final-project-w77f.vercel.app/',
   'mailto:mohamed.nasr.flutter@gmail.com',
+  'https://wa.me/2010960743334',
 };
 
 void main() {

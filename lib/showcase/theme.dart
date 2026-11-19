@@ -10,7 +10,8 @@ class Show {
   static const Color surface = AppColors.panel;
   static const Color surfaceAlt = AppColors.panelLight;
   static const Color accent = AppColors.accent;
-  static const Color accent2 = AppColors.projectMatjarkom; // indigo, for gradients only
+  static const Color accent2 =
+      AppColors.projectMatjarkom; // indigo, for gradients only
   static const Color accent3 = Color(0xFF34D399); // success / positive
   static const Color text = AppColors.textPrimary;
   static const Color bodyText = AppColors.bodyText;

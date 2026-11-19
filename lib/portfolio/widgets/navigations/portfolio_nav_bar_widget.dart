@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:portfolio_live_showcase/portfolio/widgets/navigations/desktop_nav_item_widget.dart';
 
 import '../../../showcase/theme.dart';
 import 'mobile_nav_menu_widget.dart';
@@ -102,7 +103,7 @@ class PortfolioNavBar extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               for (final section in _sections)
-                                _DesktopNavItem(
+                                DesktopNavItemWidget(
                                   title: section.title(isArabic),
                                   isDark: isDark,
                                   onTap: () => onJump(section),
@@ -171,57 +172,6 @@ class PortfolioNavBar extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _DesktopNavItem extends StatefulWidget {
-  const _DesktopNavItem({
-    required this.title,
-    required this.isDark,
-    required this.onTap,
-  });
-
-  final String title;
-  final bool isDark;
-  final VoidCallback onTap;
-
-  @override
-  State<_DesktopNavItem> createState() => _DesktopNavItemState();
-}
-
-class _DesktopNavItemState extends State<_DesktopNavItem> {
-  bool _hovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        behavior: HitTestBehavior.opaque,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          margin: const EdgeInsets.symmetric(horizontal: 1),
-          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 8),
-          decoration: BoxDecoration(
-            color: _hovered
-                ? Show.accent.withValues(alpha: 0.10)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(9),
-          ),
-          child: Text(
-            widget.title,
-            style: TextStyle(
-              color: _hovered ? Show.accent : Show.getMuted(widget.isDark),
-              fontSize: 12.5,
-              fontWeight: _hovered ? FontWeight.w700 : FontWeight.w500,
             ),
           ),
         ),
