@@ -516,7 +516,7 @@ class _Hero extends StatelessWidget {
               ),
             ],
             image: const DecorationImage(
-              image: AssetImage('assets/ME/me.jpg'),
+              image: AssetImage('assets/ME/me.png'),
               fit: BoxFit.cover,
             ),
           ),

@@ -29,7 +29,7 @@ class NavBrand extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: Show.accent, width: 2),
             image: const DecorationImage(
-              image: AssetImage('assets/ME/me.jpg'),
+              image: AssetImage('assets/ME/me.png'),
               fit: BoxFit.cover,
             ),
           ),
