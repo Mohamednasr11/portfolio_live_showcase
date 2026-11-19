@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// The owner's own portfolio design language, transcribed from
-/// D:\MyPortfolio-main\index.html (`:root` tokens, `.phone-frame`, `.hero-tag`,
-/// `.section-title`, `.tag`, `.btn-primary`). Nothing here is invented.
+import '../core/constants/app_colors.dart';
+
 class Show {
   const Show._();
 
-  // :root (Original Dark theme tokens - kept static for backward compatibility)
-  static const Color bg = Color(0xFF060810);
-  static const Color surface = Color(0xFF0D1120);
-  static const Color surfaceAlt = Color(0xFF111827);
-  static const Color accent = Color(0xFF00D4FF);
-  static const Color accent2 = Color(0xFF7B61FF);
-  static const Color accent3 = Color(0xFF00FF88);
-  static const Color text = Color(0xFFF0F4FF);
-  static const Color muted = Color(0xFF6B7A9F);
-  static const Color border = Color(0x1F00D4FF); // rgba(0,212,255,0.12)
+  // Dark theme tokens (all values come from AppColors, single source of truth)
+  static const Color bg = AppColors.background;
+  static const Color surface = AppColors.panel;
+  static const Color surfaceAlt = AppColors.panelLight;
+  static const Color accent = AppColors.accent;
+  static const Color accent2 = AppColors.projectMatjarkom; // indigo, for gradients only
+  static const Color accent3 = Color(0xFF34D399); // success / positive
+  static const Color text = AppColors.textPrimary;
+  static const Color bodyText = AppColors.bodyText;
+  static const Color muted = AppColors.muted;
+  static const Color border = AppColors.border;
 
   // .btn-primary:hover
-  static const Color accentHot = Color(0xFF00E8FF);
+  static const Color accentHot = AppColors.accentHot;
 
-  // Light mode color equivalents
-  static const Color lightBg = Color(0xFFF8FAFC);
-  static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightSurfaceAlt = Color(0xFFF1F5F9);
-  static const Color lightText = Color(0xFF0F172A);
-  static const Color lightMuted = Color(0xFF475569);
-  static const Color lightBorder = Color(0x260066CC);
+  // Light mode equivalents
+  static const Color lightBg = AppColors.lightBackground;
+  static const Color lightSurface = AppColors.lightPanel;
+  static const Color lightSurfaceAlt = AppColors.lightPanelAlt;
+  static const Color lightText = AppColors.lightTextPrimary;
+  static const Color lightBodyText = AppColors.lightBodyText;
+  static const Color lightMuted = AppColors.lightMuted;
+  static const Color lightBorder = AppColors.lightBorder;
+  static const Color lightAccent = AppColors.lightAccent;
 
   // Dynamic theme getters
   static Color getBg(bool isDark) => isDark ? bg : lightBg;
@@ -34,16 +36,18 @@ class Show {
   static Color getSurfaceAlt(bool isDark) =>
       isDark ? surfaceAlt : lightSurfaceAlt;
   static Color getText(bool isDark) => isDark ? text : lightText;
+  static Color getBodyText(bool isDark) => isDark ? bodyText : lightBodyText;
   static Color getMuted(bool isDark) => isDark ? muted : lightMuted;
   static Color getBorder(bool isDark) => isDark ? border : lightBorder;
+  static Color getAccent(bool isDark) => isDark ? accent : lightAccent;
 
   // .phone-frame
   static const Color frameShell = Color(0xFF080808);
-  static const Color frameRing = Color(0xFF222222); // 0 0 0 2px
-  static const Color frameRingOuter = Color(0xFF0F0F0F); // 0 0 0 5px
-  static const Color frameEdge = Color(0x0DFFFFFF); // 1px rgba(255,255,255,.05)
-  static const Color screenEdge = Color(0x14FFFFFF); // .phone-screen border
-  static const Color buttonStub = Color(0xFF1A1A1A); // side keys + notch pill
+  static const Color frameRing = Color(0xFF222222);
+  static const Color frameRingOuter = Color(0xFF0F0F0F);
+  static const Color frameEdge = Color(0x0DFFFFFF);
+  static const Color screenEdge = Color(0x14FFFFFF);
+  static const Color buttonStub = Color(0xFF1A1A1A);
   static const Color screenBlack = Color(0xFF000000);
 
   // Fonts the site loads from Google.
@@ -103,13 +107,22 @@ class ShowType {
     letterSpacing: 1.2,
   );
 
-  /// body — DM Sans 16/1.6.
+  /// body — DM Sans 14/1.6, lighter than before for readability.
   static const TextStyle body = TextStyle(
     fontFamily: Show.body,
     fontFamilyFallback: ShowType.arabicFallback,
-    color: Show.muted,
+    color: Show.bodyText,
     fontSize: 14,
     height: 1.6,
+  );
+
+  /// Captions and small notes (the dimmest text level).
+  static const TextStyle caption = TextStyle(
+    fontFamily: Show.body,
+    fontFamilyFallback: ShowType.arabicFallback,
+    color: Show.muted,
+    fontSize: 12,
+    height: 1.5,
   );
 
   /// Mono style for meta lines.
