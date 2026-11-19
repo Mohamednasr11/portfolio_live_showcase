@@ -27,7 +27,6 @@ flutter:
     - assets/buildguard/
     - assets/brewbloom/
     - assets/ME/
-    - assets/Mohamed_NasrEldeen_CV.pdf
 
   fonts:
     - family: Syne
