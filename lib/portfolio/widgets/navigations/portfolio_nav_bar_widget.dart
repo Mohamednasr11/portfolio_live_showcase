@@ -50,7 +50,7 @@ class PortfolioNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final compact = width < 1180;
+    final compact = width < 980;
 
     return Container(
       height: 76,
@@ -152,8 +152,8 @@ class _DesktopNavItemState extends State<_DesktopNavItem> {
         behavior: HitTestBehavior.opaque,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
-          margin: const EdgeInsets.symmetric(horizontal: 3),
-          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 8),
           decoration: BoxDecoration(
             color: _hovered
                 ? Show.accent.withValues(alpha: 0.10)

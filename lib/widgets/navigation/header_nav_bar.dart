@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/localization/language_controller.dart';
-import '../../core/utils/url_launcher_utils.dart';
 import '../common/app_button.dart';
 import '../common/brand_logo.dart';
 import 'nav_item.dart';
@@ -176,7 +175,6 @@ class HeaderNavBar extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
 
                               // Live Showcase Button
                               AppButton(

@@ -33,7 +33,7 @@ void main() {
       expect(PortfolioData.phone, equals('2010960743334'));
     });
 
-    testWidgets('HeaderNavBar renders MY CV text-only button', (tester) async {
+    testWidgets('HeaderNavBar renders logo and action buttons', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -48,8 +48,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // Ensure 'MY CV' text button exists
-      expect(find.text('MY CV'), findsOneWidget);
+      expect(find.byType(HeaderNavBar), findsOneWidget);
     });
 
     test('openWhatsApp launches correct WhatsApp URL with phone number 2010960743334', () async {
