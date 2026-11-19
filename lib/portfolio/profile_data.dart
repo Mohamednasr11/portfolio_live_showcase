@@ -353,8 +353,6 @@ abstract final class Profile {
   ];
 
   static const experience = [
-
-
     TimelineEntry(
       title: 'Data Annotation & Data Preparation Specialist',
       titleAr: 'أخصائي تجهيز وتعليق البيانات',
@@ -373,8 +371,6 @@ abstract final class Profile {
         'تجهيز مجموعات بيانات منظمة لدعم عمليات تعلم الآلة.',
       ],
     ),
-
-
   ];
 
   static const education = [
@@ -393,7 +389,6 @@ abstract final class Profile {
       ],
     ),
 
-
     TimelineEntry(
       title: 'Flutter Development Training (60 Hours)',
       titleAr: 'تدريب تطوير تطبيقات Flutter (60 ساعة)',
@@ -410,7 +405,6 @@ abstract final class Profile {
         'تطبيق المفاهيم المكتسبة من خلال تدريبات عملية ومشروع تطبيقي.',
       ],
     ),
-
 
     TimelineEntry(
       title: 'Professional Flutter Development Training (120 Hours)',
@@ -430,7 +424,5 @@ abstract final class Profile {
         'تنفيذ التكامل مع Firebase وإدارة الحالة باستخدام BLoC والتعامل مع APIs.',
       ],
     ),
-
-
   ];
 }
