@@ -361,7 +361,7 @@ abstract final class Profile {
       period: '2024 · One-Month Project',
       periodAr: '2024 · مشروع لمدة شهر',
       points: [
-        'Cleaned and organized datasets using Excel and AI-assisted workflows.',
+        'Cleaned and organized datasets using Ecel and AI-assisted workflows.',
         'Performed data annotation, labeling, and classification using Markdown-based formats.',
         'Prepared structured datasets to support machine learning workflows.',
       ],
