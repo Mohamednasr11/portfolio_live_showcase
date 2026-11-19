@@ -354,6 +354,24 @@ abstract final class Profile {
 
   static const experience = [
     TimelineEntry(
+      title: 'Flutter Developer',
+      titleAr: 'مطور تطبيقات Flutter',
+      place: 'iSmartDigit',
+      placeAr: 'شركة iSmartDigit',
+      period: '1 Year',
+      periodAr: 'سنة واحدة',
+      points: [
+        'Developed and maintained cross-platform mobile applications using Flutter and Dart.',
+        'Implemented responsive UI layouts, Clean Architecture, and robust state management.',
+        'Integrated RESTful APIs, local storage, and third-party services.',
+      ],
+      pointsAr: [
+        'تطوير وصيانة تطبيقات موبايل متقاطعة المنصات باستخدام Flutter و Dart.',
+        'تطبيق واجهات مستخدم متجاوبة مع هندسة النظيفة (Clean Architecture) وإدارة حالة متينة.',
+        'ربط الخدمات السحابية وواجهات البرمجة RESTful APIs والتخزين المحلي.',
+      ],
+    ),
+    TimelineEntry(
       title: 'Data Annotation & Data Preparation Specialist',
       titleAr: 'أخصائي تجهيز وتعليق البيانات',
       place: 'Soualy Company · Project-Based',
@@ -361,7 +379,7 @@ abstract final class Profile {
       period: '2024 · One-Month Project',
       periodAr: '2024 · مشروع لمدة شهر',
       points: [
-        'Cleaned and organized datasets using Ecel and AI-assisted workflows.',
+        'Cleaned and organized datasets using Excel and AI-assisted workflows.',
         'Performed data annotation, labeling, and classification using Markdown-based formats.',
         'Prepared structured datasets to support machine learning workflows.',
       ],
